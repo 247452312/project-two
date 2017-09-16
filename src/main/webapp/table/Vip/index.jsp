@@ -16,16 +16,18 @@
 <body>
 <div class="container">
     <table id="dg" style="width:100%;height:529px" title="全体供应商列表" data-options="
-                rownumbers:true,
-                singleSelect:false,
-                autoRowHeight:true,
-                pagination:false,
-                fitColumns:true,
-                striped:true,
-                checkOnSelect:false,
-                selectOnCheck:false,
-                collapsible:true,
-                toolbar:'#tb'">
+            rownumbers:true,
+            singleSelect:false,
+            autoRowHeight:true,
+            pagination:false,
+            fitColumns:true,
+            striped:true,
+            checkOnSelect:false,
+            selectOnCheck:false,
+            collapsible:true,
+            toolbar:'#tb',
+            pageSize:50
+            ">
         <thead>
         <tr>
             <th field="code" width="4%">编码</th>
@@ -50,6 +52,7 @@
     </table>
 
     <div id="tb" style="padding:0 30px;">
+        <input type="hidden" name="where">
         <form action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
             <input type="hidden" name="pageno">
             <input type="hidden" name="maxrow">
@@ -249,23 +252,27 @@
     //删除查询条件
     function removeTrem(delTrem) {
         var pardiv = delTrem.parents(".search-trem");
-        if (!pardiv.hasClass("first-trem")) {
+        if (!pardiv.hasClass("first-trem")){
             pardiv.remove();
             resetDg();
         }
     }
-
     //后台获得资料，方便以后调用
     var rows = [];
-
     //传送数据获取表格信息
     function tableData(form) {
         rows = [];
         var data = [];
-        if (form) {
-            form.find("[name=pageno]").val($(".pagination-num").val());
+        if (form) {//查询时
+            form.find("[name=pageno]").val(1);
             form.find("[name=maxrow]").val($(".pagination-page-list").val());
             data = form.serializeArray();
+        }else{//换页时
+            data={
+                "where":$("[name=where]").val(),
+                "pageno":$(".pagination-num").val(),
+                "maxrow":$(".pagination-page-list").val()
+            };
         }
         $.ajax({
             type: "POST", url: "Vip/selectByAll", dataType: "json", data: data, success: function (json) {
@@ -290,39 +297,42 @@
                         jsr: vip.jsr,
                         fexp: vip.fexp
                     });
-
                 }
                 //页数相关赋值
-                $(".rowcount").html(json.sea.rowcount);
-                $(".pagecount").html(json.sea.pagecount);
-                $(".pagination-num").val(json.sea.pageno);
-                $(".pagination-page-list").val(json.sea.maxrow);
-                $("#dg").attr("data-options", $("#dg").attr("data-options") + ",pageSize:" + json.sea.maxrow);
+                var jsea=json.sea;
+                if(form){
+                    $("[name=where]").val(jsea.where);
+                };
+                $(".rowcount").html(jsea.rowcount);
+                $(".pagecount").html(jsea.pagecount);
+                $(".pagination-num").val(jsea.pageno);
+                $(".pagination-page-list").val(jsea.maxrow);
+                //$("#dg").attr("data-options","pageSize:"+jsea.maxrow);
                 //点击事件
-                $("#page-first").attr("onclick", "{$('.pagination-num').val(" + 1 + ");tableData($('.form'));}");
-                $("#page-prev").attr("onclick", "{$('.pagination-num').val(" + json.sea.prepage + ");tableData($('.form'));}");
-                $("#page-next").attr("onclick", "{ $('.pagination-num').val(" + json.sea.nextpage + ");tableData($('.form'));}");
-                $("#page-last").attr("onclick", "{ $('.pagination-num').val(" + json.sea.pagecount + ");tableData($('.form'));}");
+                $("#page-first").attr("onclick","{$('.pagination-num').val("+1+");tableData();}");
+                $("#page-prev").attr("onclick","{$('.pagination-num').val("+json.sea.prepage+");tableData();}");
+                $("#page-next").attr("onclick","{ $('.pagination-num').val("+json.sea.nextpage+");tableData();}");
+                $("#page-last").attr("onclick","{ $('.pagination-num').val("+json.sea.pagecount+");tableData();}");
                 //换条数事件
-                $(".pagination-page-list").attr("onchange", "{$('.pagination-num').val(" + 1 + ");tableData($('.form'));}");
+                $(".pagination-page-list").attr("onchange","{$('.pagination-num').val("+1+");tableData();}");
                 //换页数事件
-                $(".pagination-num").attr("onchange", "{tableData($('.form'));}");
+                $(".pagination-num").attr("onchange","{tableData();}");
                 resetDg();
             }
         });
     }
-
     //重新添加表格数据
     function resetDg() {
-        $('#dg').find("tbody").remove();
+        $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
+        $('#dg').datagrid('reload');
     }
 
     $(function () {
         tableData();
         getSelects();
     });
-
+    //获得查询条件下拉列表
     function getSelects() {
         var divTrem = $(".first-trem");
         var trem = divTrem.find("[name=trem]");
