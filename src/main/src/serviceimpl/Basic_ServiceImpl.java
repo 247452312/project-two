@@ -1,14 +1,13 @@
 package serviceimpl;
 
 import mapper.Basic_Mapper;
-import utils.JsonData1;
-import utils.ListAndSearchInfo;
-import utils.SeachInfo;
-import utils.StatusUtils;
+import utils.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Basic_ServiceImpl<T> {
 
@@ -26,6 +25,7 @@ public class Basic_ServiceImpl<T> {
 
 
     public List<T> getAll(SeachInfo sea) {
+        sea.setRowcount(getMapper().getSize(new SeachInfo(false)));
         return getMapper().getAll(sea);
     }
 
@@ -68,37 +68,35 @@ public class Basic_ServiceImpl<T> {
         String tableName = cls.getSimpleName();
         StringBuilder sb = new StringBuilder("where ");
         sea.setTable(tableName);
+        Map<Integer, nameInput> temp = getMap(tableName);
         if (trem != null) {
             for (int i = 0; i < trem.length; i++) {
-                if (text[i] == null) continue;
-                sea.setCol(StatusUtils.VIPSelectMap.get(trem[i]));
+
+                if (text[i] == null||text[i].equals("")) continue;
+                sea.setCol(temp.get(trem[i]).getSql());
                 //in中文标点改英文标点
                 if (compare[i] == 1) {
-                    text[i].replaceAll("，", ",");
+                    text[i].replaceAll("；", ";");
+                    String[] s = text[i].split(";");
+                    for (String s1 : s) {
+                        s1 = s1.replaceAll("\"", "");
+                        sb.append(" " + temp.get(trem[i]).getSql() + " like '%" + s1 + "%' or");
+                    }
+                    if(s.length!=0)sb = new StringBuilder(sb.substring(0, sb.length() - 2));
+                    if (join[i] == 0) {
+                        sb.append(" and ");
+                    } else {
+                        sb.append(" or  ");
+                    }
                     continue;
                 }
-                sea.setMath(StatusUtils.compareMap.get(compare[i]));
+                sea.setMath(StatusUtils.compareMap.get(compare[i]).getSql());
                 sea.setValue(text[i]);
                 sb.append(sea.getNoWhere());
                 if (join[i] == 0) {
                     sb.append(" and ");
                 } else {
                     sb.append(" or  ");
-                }
-            }
-            for (int i = 0; i < compare.length; i++) {
-                if (compare[i] == 1) {
-                    String[] s = text[i].split(",");
-                    for (String s1 : s) {
-                        s1 = s1.replaceAll("\"", "");
-                        sb.append(" " + trem[i] + " like %" + s1 + "% or");
-                    }
-                    sb.substring(0, sb.length() - 2);
-                    if (join[i] == 0) {
-                        sb.append(" and ");
-                    } else {
-                        sb.append(" or  ");
-                    }
                 }
             }
 
@@ -116,6 +114,18 @@ public class Basic_ServiceImpl<T> {
             las.setList(list);
             return new ListAndSearchInfo(sea,getMapper().getAll(sea));
         }
+    }
+
+    private Map<Integer, nameInput> getMap(String tableName) {
+        String s = tableName.toLowerCase();
+        if(s.equals("vip"))return StatusUtils.VIPSelectMap;
+        if(s.equals("shop"))return StatusUtils.ShopSelectMap;
+        if(s.equals("viptype"))return StatusUtils.ViptypeSelectMap;
+        if(s.equals("product"))return StatusUtils.ProductSelectMap;
+        if(s.equals("user"))return StatusUtils.UserSelectMap;
+        if(s.equals("shop"))return StatusUtils.ShopSelectMap;
+        if(s.equals("producttype"))return StatusUtils.producttypeSelectMap;
+        return null;
     }
 
     public T getNew() {

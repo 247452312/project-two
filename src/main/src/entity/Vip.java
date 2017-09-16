@@ -29,14 +29,6 @@ public class Vip implements Comparable<Vip>  {
 	private String sexString;
 	private String statusString;
 
-	public String getSexString() {
-		return sexString;
-	}
-
-	public String getStatusString() {
-		return statusString;
-	}
-
 	public Vip(){
 	}
 
@@ -205,5 +197,13 @@ public class Vip implements Comparable<Vip>  {
 		else if(this.id>o.getId())return 1;
 		else if(this.id<o.getId())return -1;
 		else return 0;
+	}
+
+	public String getSexString() {
+		return sexString;
+	}
+
+	public String getStatusString() {
+		return statusString;
 	}
 }

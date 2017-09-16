@@ -1,104 +1,119 @@
 package utils;
 
 
+import net.sf.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class StatusUtils {
+    //通用静态变量
+    public static String[] sex = new String[]{"男","女"};
+    public static String[] VIPStatus = new String[]{"可用","禁用"};
 
-    private String[] vipSelect = new String[]{"会员编码","会员姓名","会员性别","会员状态","会员类型","家庭住址","固定电话","移动电话","身份证号","创建人","介绍人","生日","办理分店"};
-    private String[] productSelect = new String[]{"助记码","名字"};
-    private String[] clientSelect = new String[]{"编号","名字"};
-    private String[] userSelect = new String[]{"名字"};
-    private String[] viptypeSelect = new String[]{"名字","备注"};
-    private String[] shopSelect = new String[]{"编号","名字","地址"};
-    private String[] compare = new String[]{"模糊查询","多项查询(以"+'"'+","+'"'+"隔开)","等于=","大于&gt;","小于&lt;","小于等于≤","大于等于≥"};
+    public static Map<Integer,nameInput> compareMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> VIPSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> UserSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> ViptypeSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> producttypeSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> ShopSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> ProductSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer,nameInput> ClientSelectMap = new HashMap<Integer, nameInput>();
 
-    public static String[] sex = new String[]{"女","男"};
-    public static String[] VIPStatus = new String[]{"禁用","可用"};
+    //选项下拉列表
+    private Map<Integer,nameInput> compareInput;
+    private Map<Integer,nameInput> vipInput;
+    private Map<Integer,nameInput> userInput;
+    private Map<Integer,nameInput> viptypeInput;
+    private Map<Integer,nameInput> producttypeInput;
+    private Map<Integer,nameInput> shopInput;
+    private Map<Integer,nameInput> productInput;
+    private Map<Integer,nameInput> clientInput;
 
-    public static Map<Integer,String> VIPSelectMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> compareMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> UserSelectMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> ViptypeSelectMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> producttypeSelectMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> ShopSelectMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> ProductSelectMap = new HashMap<Integer, String>();
-    public static Map<Integer,String> ClientSelectMap = new HashMap<Integer, String>();
-
+    //静态常用固定量
     static {
-        VIPSelectMap.put(0,"code");
-        VIPSelectMap.put(1,"name");
-        VIPSelectMap.put(2,"sex");
-        VIPSelectMap.put(3,"status");
-        VIPSelectMap.put(4,"viptypeid");
-        VIPSelectMap.put(5,"addr");
-        VIPSelectMap.put(6,"tel");
-        VIPSelectMap.put(7,"telmov");
-        VIPSelectMap.put(8,"ccode");
-        VIPSelectMap.put(9,"userid");
-        VIPSelectMap.put(10,"jsr");
-        VIPSelectMap.put(11,"birthdate");
-        VIPSelectMap.put(12,"shopid");
+        //VIP
+        VIPSelectMap.put(0,new nameInput("code","会员编码",null));
+        VIPSelectMap.put(1,new nameInput("name","会员姓名",null));
+        VIPSelectMap.put(2,new nameInput("sex","会员性别",null));
+        VIPSelectMap.put(3,new nameInput("status","会员状态",null));
+        VIPSelectMap.put(4,new nameInput("viptypeid","会员类型",null));
+        VIPSelectMap.put(5,new nameInput("addr","家庭住址",null));
+        VIPSelectMap.put(6,new nameInput("tel","固定电话",null));
+        VIPSelectMap.put(7,new nameInput("telmov","移动电话",null));
+        VIPSelectMap.put(8,new nameInput("ccode","身份证号",null));
+        VIPSelectMap.put(9,new nameInput("userid","创建人",null));
+        VIPSelectMap.put(10,new nameInput("jsr","介绍人",null));
+        VIPSelectMap.put(11,new nameInput("shopid","办理分店",null));
+        //User
+        UserSelectMap.put(0,new nameInput("name","名字",null));
+        //Viptype
+        ViptypeSelectMap.put(0,new nameInput("name","名字",null));
+        ViptypeSelectMap.put(1,new nameInput("fexp","备注",null));
+        //producttype
+        producttypeSelectMap.put(0,new nameInput("name","名字",null));
+        producttypeSelectMap.put(1,new nameInput("fexp","备注",null));
 
+        ShopSelectMap.put(0,new nameInput("code","编号",null));
+        ShopSelectMap.put(1,new nameInput("name","名称",null));
+        ShopSelectMap.put(2,new nameInput("addr","地址",null));
 
-        UserSelectMap.put(0,"name");
+        ProductSelectMap.put(0,new nameInput("zjm","助记码",null));
+        ProductSelectMap.put(1,new nameInput("name","名称",null));
 
+        ClientSelectMap.put(0,new nameInput("code","编号",null));
+        ClientSelectMap.put(1,new nameInput("name","名字",null));
 
-        ViptypeSelectMap.put(0,"name");
-        ViptypeSelectMap.put(1,"fexp");
-
-
-        producttypeSelectMap.put(0,"name");
-        producttypeSelectMap.put(1,"fexp");
-
-        ShopSelectMap.put(0,"code");
-        ShopSelectMap.put(1,"name");
-        ShopSelectMap.put(2,"addr");
-
-        ProductSelectMap.put(0,"zjm");
-        ProductSelectMap.put(1,"name");
-
-        ClientSelectMap.put(0,"code");
-        ClientSelectMap.put(1,"name");
-
-
-
-
-
-        compareMap.put(0,"like");
-        compareMap.put(1,"in");
-        compareMap.put(2,"=");
-        compareMap.put(3,"!=");
-        compareMap.put(4,"<");
-        compareMap.put(5,">");
-        compareMap.put(6,"<=");
-        compareMap.put(7,">=");
+        compareMap.put(0,new nameInput("like","模糊查询",null));
+        compareMap.put(1,new nameInput("in","多项查询(以"+'"'+";"+'"'+"隔开)",null));
+        compareMap.put(2,new nameInput("=","＝",null));
+        compareMap.put(3,new nameInput("!=","≠",null));
+        compareMap.put(4,new nameInput("<","＜",null));
+        compareMap.put(5,new nameInput(">","＞",null));
+        compareMap.put(6,new nameInput("<=","≤",null));
+        compareMap.put(7,new nameInput(">=","≥",null));
+    }
+    //动态块，每次传输getStatus时使用
+    {
+        compareInput=compareMap;
+        vipInput=VIPSelectMap;
+        userInput=UserSelectMap;
+        viptypeInput=ViptypeSelectMap;
+        producttypeInput=producttypeSelectMap;
+        shopInput=ShopSelectMap;
+        productInput=ProductSelectMap;
+        clientInput=ClientSelectMap;
     }
 
-    public String[] getVipSelect() { return vipSelect; }
-
-    public String[] getProductSelect() {
-        return productSelect;
+    public Map<Integer, nameInput> getVipInput() {
+        return vipInput;
     }
 
-    public String[] getClientSelect() {
-        return clientSelect;
+    public Map<Integer, nameInput> getUserInput() {
+        return userInput;
     }
 
-    public String[] getUserSelect() {
-        return userSelect;
+    public Map<Integer, nameInput> getViptypeInput() {
+        return viptypeInput;
     }
 
-    public String[] getViptypeSelect() {
-        return viptypeSelect;
+    public Map<Integer, nameInput> getProducttypeInput() {
+        return producttypeInput;
     }
 
-    public String[] getShopSelect() {
-        return shopSelect;
+    public Map<Integer, nameInput> getShopInput() {
+        return shopInput;
     }
 
-    public String[] getCompare() {
-        return compare;
+    public Map<Integer, nameInput> getProductInput() {
+        return productInput;
+    }
+
+    public Map<Integer, nameInput> getClientInput() {
+        return clientInput;
+    }
+
+    public Map<Integer, nameInput> getCompareInput() {
+        return compareInput;
     }
 }

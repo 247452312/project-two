@@ -1,8 +1,10 @@
 package controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.Basic_Service;
 import utils.*;
@@ -69,13 +71,13 @@ public class Basic_Controller<T> {
 	}
 
 	@RequestMapping("edit")
-	public @ResponseBody ListAndSearchInfo edit(SeachInfo sea,String cmd, T s,HttpSession session) {
+	public @ResponseBody ListAndSearchInfo edit(String cmd, T s, ModelMap m,HttpSession session) {
 		if (cmd.equals("update")){
 			getService().update(s);
 		}
 		else
 			getService().insert(s);
-		return select(sea);
+		return select(new SeachInfo());
 	}
 
 	@RequestMapping("change")
@@ -106,15 +108,16 @@ public class Basic_Controller<T> {
 		return "{\"status\":1}";
 	}
 
-	@RequestMapping("selectByAll")
+	@RequestMapping(value = "selectByAll")
 	public @ResponseBody
 	ListAndSearchInfo<T> selectByAll(SeachInfo searchInfo, int[] trem, int[] compare, String[] text, int[] join){
 		if(text==null||text.length==0){
-			ListAndSearchInfo list = select(searchInfo);
-			return list;
+			return select(searchInfo);
 		}
-		ListAndSearchInfo<T> las = getService().selectByAll(searchInfo,trem,compare,text,join);
-		return las;
+		if(searchInfo.getWhere()==null || searchInfo.getWhere().length()==0) {
+			return getService().selectByAll(searchInfo,trem,compare,text,join);
+		}
+		return select(searchInfo);
 	}
 
 }

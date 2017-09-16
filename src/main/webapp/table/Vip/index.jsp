@@ -57,9 +57,10 @@
             <input type="hidden" name="pageno">
             <input type="hidden" name="maxrow">
             <div class="conditions search-trem first-trem">
-                <select style="height:35px;width:166px;" name="trem"></select>
+                <select style="height:35px;width:166px;" name="trem" onchange="changeInput($(this));"></select>
                 <select style="height:35px;width:166px;" name="compare"></select>
-                <input type="text" name="text" style="width:166px;height:35px;line-height:35px;"></input>
+                <input class="trem-input" type="text" name="text" style="width:166px;height:35px;line-height:35px;"/>
+                <select class="trem-select" style="height:35px;width:166px;display: none;"></select>
                 <select style="height:35px;width:166px;" name="join">
                     <option value="0">并且</option>
                     <option value="1">或者</option>
@@ -339,22 +340,27 @@
         var compare = divTrem.find("[name=compare]");
         $.getJSON("Vip/getStatus", function (json) {
             //获得vip查询变量
-            var tremOpt = json.vipSelect;
-            for (var i = 0; i < tremOpt.length; i++) {
+            var tremOpt = json.vipInput;
+            for(var name in tremOpt){
                 var opt = $("<option></option>");
-                opt.val(i);
-                opt.html(tremOpt[i]);
+                opt.val(name);
+                opt.html(tremOpt[name].option);
                 trem.append(opt);
             }
             //获得比较方法
-            var compareOpt = json.compare;
-            for (var i = 0; i < compareOpt.length; i++) {
+            var compareOpt = json.compareInput;
+            for(var name in compareOpt){
                 var opt = $("<option></option>");
-                opt.val(i);
-                opt.html(compareOpt[i]);
+                opt.val(name);
+                opt.html(compareOpt[name].option);
                 compare.append(opt);
             }
         });
+    }
+    //变化填写条件
+    function changeInput(select) {
+        var inp=select.siblings(".trem-input");
+        var sel=select.siblings(".trem-select");
     }
 </script>
 </body>

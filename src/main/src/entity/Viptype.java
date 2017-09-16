@@ -48,7 +48,6 @@ public class Viptype implements Comparable<Viptype>  {
 		this.name=name;
 	}
 
-	@Override
 	public int compareTo(Viptype o) {
 		if(o.getId()==null||this.id==o.getId())return 0;
 		else if(this.id>o.getId())return 1;

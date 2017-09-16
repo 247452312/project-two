@@ -30,10 +30,10 @@ public class Vip_Controller extends Basic_Controller<Vip> {
 
     @Override
     public @ResponseBody
-    ListAndSearchInfo edit(SeachInfo sea , String cmd, Vip s, HttpSession session) {
+    ListAndSearchInfo edit(String cmd, Vip s, ModelMap m, HttpSession session) {
         if (cmd.equals("add"))
             s.setUserid((User) session.getAttribute("user"));
-        return super.edit(sea,cmd, s, session);
+        return super.edit(cmd, s, m, session);
     }
 
 
