@@ -12,7 +12,7 @@ public class StatusUtils {
     private String[] userSelect = new String[]{"名字"};
     private String[] viptypeSelect = new String[]{"名字","备注"};
     private String[] shopSelect = new String[]{"编号","名字","地址"};
-    private String[] compare = new String[]{"模糊查询","多项查询(以"+'"'+","+'"'+"隔开)","等于=","小于&gt;","大于&lt;","小于等于≤","大于等于≥"};
+    private String[] compare = new String[]{"模糊查询","多项查询(以"+'"'+","+'"'+"隔开)","等于=","大于&gt;","小于&lt;","小于等于≤","大于等于≥"};
 
     public static String[] sex = new String[]{"女","男"};
     public static String[] VIPStatus = new String[]{"禁用","可用"};

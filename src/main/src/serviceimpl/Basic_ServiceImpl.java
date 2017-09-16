@@ -26,7 +26,6 @@ public class Basic_ServiceImpl<T> {
 
 
     public List<T> getAll(SeachInfo sea) {
-        sea.setRowcount(getMapper().getSize(new SeachInfo(false)));
         return getMapper().getAll(sea);
     }
 

@@ -1,5 +1,7 @@
 package entity;
 
+import utils.StatusUtils;
+
 public class Vip implements Comparable<Vip>  {
 
 	private Integer sex;
@@ -24,6 +26,16 @@ public class Vip implements Comparable<Vip>  {
 	private Viptype viptypeid;
 	private String telmov;
 
+	private String sexString;
+	private String statusString;
+
+	public String getSexString() {
+		return sexString;
+	}
+
+	public String getStatusString() {
+		return statusString;
+	}
 
 	public Vip(){
 	}
@@ -133,12 +145,14 @@ public class Vip implements Comparable<Vip>  {
 	}
 	public void setSex(Integer sex){
 		this.sex=sex;
+		this.sexString= StatusUtils.sex[sex];
 	}
 	public void setCcode(String ccode){
 		this.ccode=ccode;
 	}
 	public void setStatus(Integer status){
 		this.status=status;
+		this.statusString= StatusUtils.VIPStatus[status];
 	}
 	public void setTel(String tel){
 		this.tel=tel;
@@ -186,7 +200,6 @@ public class Vip implements Comparable<Vip>  {
 		this.telmov=telmov;
 	}
 
-	@Override
 	public int compareTo(Vip o) {
 		if(o.getId()==null||this.id==o.getId())return 0;
 		else if(this.id>o.getId())return 1;
