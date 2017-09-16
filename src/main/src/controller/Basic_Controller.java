@@ -1,5 +1,6 @@
 package controller;
 
+import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.ui.ModelMap;
@@ -30,7 +31,7 @@ public class Basic_Controller<T> {
 	@RequestMapping("getStatus")
 	public @ResponseBody
 	StatusUtils getStatus(){
-		return new StatusUtils();
+		return StatusUtils.getSingle();
 	}
 
 
@@ -46,8 +47,10 @@ public class Basic_Controller<T> {
 	@RequestMapping("select")
 	public @ResponseBody ListAndSearchInfo select(SeachInfo sea) {
 		sea.setRowcount(getService().getSize(sea));
-		if(sea.getPageno()>sea.getPagecount())sea.setPageno(sea.getPagecount());
+		if(sea.getPageno()>sea.getPagecount())
+			sea.setPageno(sea.getPagecount());
 		List<T> list = getService().getAll(sea);
+		System.out.println(JSONObject.fromObject(sea).toString());
 		return new ListAndSearchInfo(sea,list);
 	}
 

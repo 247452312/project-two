@@ -6,9 +6,9 @@ import java.util.Map;
 public class nameInput {
     String sql;
     String option;
-    HashMap<Integer,String> input;
+    Map<Integer,String> input;
 
-    public nameInput(String sql, String option, HashMap<Integer,String> input) {
+    public nameInput(String sql, String option, Map<Integer,String> input) {
         this.sql = sql;
         this.option = option;
         this.input = input;
@@ -33,11 +33,11 @@ public class nameInput {
         this.option = option;
     }
 
-    public HashMap<Integer,String> getInput() {
+    public Map<Integer,String> getInput() {
         return input;
     }
 
-    public void setInput(HashMap<Integer,String> input) {
+    public void setInput(Map<Integer,String> input) {
         this.input = input;
     }
 }

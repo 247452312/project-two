@@ -26,10 +26,10 @@
         <property name="basePackage" value="mapper"/>
     </bean>
 
-
     <context:component-scan base-package="controller"/>
     <context:component-scan base-package="serviceimpl"/>
     <context:component-scan base-package="mapper"/>
+
 
 
     <bean id="multipartResolver"

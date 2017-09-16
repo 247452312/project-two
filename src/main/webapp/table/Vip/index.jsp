@@ -12,6 +12,17 @@
     <link rel="stylesheet" href="custom/uimaker/easyui.css">
     <link rel="stylesheet" type="text/css" href="custom/uimaker/icon.css">
     <link rel="stylesheet" href="css/providers1.css">
+    <style type="text/css">
+        .none{
+            display: none;
+        }
+        .block{
+            display: block;
+        }
+        .in-line{
+            display: inline;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -59,8 +70,8 @@
             <div class="conditions search-trem first-trem">
                 <select style="height:35px;width:166px;" name="trem" onchange="changeInput($(this));"></select>
                 <select style="height:35px;width:166px;" name="compare"></select>
-                <input class="trem-input" type="text" name="text" style="width:166px;height:35px;line-height:35px;"/>
-                <select class="trem-select" style="height:35px;width:166px;display: none;"></select>
+                <input class="trem-input in-line" type="text" name="text" style="width:166px;height:35px;line-height:35px;"/>
+                <select class="trem-select none" style="height:35px;width:166px;"></select>
                 <select style="height:35px;width:166px;" name="join">
                     <option value="0">并且</option>
                     <option value="1">或者</option>
@@ -135,7 +146,7 @@
 <script type="text/javascript" src="../custom/jquery.min.js"></script>
 <script type="text/javascript" src="../custom/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="../custom/easyui-lang-zh_CN.js"></script>
-
+<script type="text/javascript" src="../js/selfFunction.js"></script>
 
 <script type="text/javascript">
     (function ($) {
@@ -267,7 +278,13 @@
         if (form) {//查询时
             form.find("[name=pageno]").val(1);
             form.find("[name=maxrow]").val($(".pagination-page-list").val());
+            var selable=false;
+            if($("[name=compare]")[0].hasAttribute("disabled")){
+                selable=true;
+                $("[name=compare]").removeAttr("disabled");
+            }
             data = form.serializeArray();
+            if(selable) $("[name=compare]").attr("disabled","disabled");
         }else{//换页时
             data={
                 "where":$("[name=where]").val(),
@@ -301,6 +318,7 @@
                 }
                 //页数相关赋值
                 var jsea=json.sea;
+                //alert(JSON.stringify(jsea));
                 if(form){
                     $("[name=where]").val(jsea.where);
                 };
@@ -359,8 +377,33 @@
     }
     //变化填写条件
     function changeInput(select) {
-        var inp=select.siblings(".trem-input");
-        var sel=select.siblings(".trem-select");
+        var inp = select.siblings(".trem-input");
+        inp.html("");
+        var sel = select.siblings(".trem-select");
+        sel.empty();
+        var selval = select.val();
+        $.getJSON("Vip/getStatus", function (json) {
+            //获得vip查询变量
+            var textOpt = json.vipInput[selval].input;//下拉框集合
+            //如果是空的，则是输入框
+            if (isEmptyObject(textOpt)) {
+                sel.removeAttr("name").addClass("none").removeClass("in-line");
+                inp.attr("name", "text").addClass("in-line").removeClass("none");
+                $("[name=compare]").removeAttr("disabled");
+            }
+            //否则是下拉列表
+            else {
+                inp.removeAttr("name").addClass("none").removeClass("in-line");
+                sel.attr("name", "text").addClass("in-line").removeClass("none");
+                $("[name=compare]").attr("disabled","disabled").val(2);
+                for (var name in textOpt) {
+                    var opt = $("<option></option>");
+                    opt.val(name);
+                    opt.html(textOpt[name]);
+                    sel.append(opt);
+                }
+            }
+        });
     }
 </script>
 </body>

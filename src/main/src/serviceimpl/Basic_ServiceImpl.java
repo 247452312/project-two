@@ -25,7 +25,7 @@ public class Basic_ServiceImpl<T> {
 
 
     public List<T> getAll(SeachInfo sea) {
-        sea.setRowcount(getMapper().getSize(new SeachInfo(false)));
+        sea.setRowcount(getMapper().getSize(sea));
         return getMapper().getAll(sea);
     }
 
@@ -62,8 +62,7 @@ public class Basic_ServiceImpl<T> {
     }
 
     public ListAndSearchInfo selectByAll(SeachInfo sea, int[] trem, int[] compare, String[] text, int[] join) {
-        ParameterizedType type = (ParameterizedType) this.getClass()
-                .getGenericSuperclass();
+        ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
         Class cls = (Class) type.getActualTypeArguments()[0];
         String tableName = cls.getSimpleName();
         StringBuilder sb = new StringBuilder("where ");
@@ -100,13 +99,13 @@ public class Basic_ServiceImpl<T> {
                 }
             }
 
-        String where = null;
-        if (trem.length == 0) where = "";
-        else where = sb.toString().substring(0, sb.length() - 4);
-        sea.setWhere(where);
-        sea.setRowcount(getMapper().getSize(sea));
-        List<T> list = getMapper().getAll(sea);
-        return new ListAndSearchInfo(sea, list);
+            String where = null;
+            if (trem.length == 0) where = "";
+            else where = sb.toString().substring(0, sb.length() - 4);
+            sea.setWhere(where);
+            sea.setRowcount(getMapper().getSize(sea));
+            List<T> list = getMapper().getAll(sea);
+            return new ListAndSearchInfo(sea, list);
         }else{
             ListAndSearchInfo<T> las = new ListAndSearchInfo();
             las.setSea(sea);

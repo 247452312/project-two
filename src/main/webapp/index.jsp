@@ -181,13 +181,13 @@
                             <i class="iconfont">&#xe642;</i>
                         </a>
                         <ul class="sider-nav-s">
-                            <li src="#" class="active"><a href="javascript:;">操作员信息</a></li>
-                            <li src="other1.jsp" ><a href="javascript:;">供货商信息</a></li>
+                            <li src="hello.jsp?name=user" class="active"><a href="javascript:;">操作员信息</a></li>
+                            <li src="hello.jsp?name=client" ><a href="javascript:;">供货商信息</a></li>
                             <li src="table/Vip/index.jsp" ><a href="javascript:;">会员信息</a></li>
-                            <li src="other2.jsp" ><a href="javascript:;">分店信息</a></li>
-                            <li src="other3.jsp" ><a href="javascript:;">商品信息</a></li>
-                            <li src="other4.jsp" ><a href="javascript:;">会员类型信息</a></li>
-                            <li src="other5.jsp" ><a href="javascript:;">商品类型信息</a></li>
+                            <li src="hello.jsp?name=shop" ><a href="javascript:;">分店信息</a></li>
+                            <li src="hello.jsp?name=product" ><a href="javascript:;">商品信息</a></li>
+                            <li src="hello.jsp?name=viptype" ><a href="javascript:;">会员类型信息</a></li>
+                            <li src="hello.jsp?name=protype" ><a href="javascript:;">商品类型信息</a></li>
                         </ul>
                      </li>
                      <li>
@@ -295,7 +295,7 @@
     </div>
     <%--范例li--%>
     <div style="display: none" id="exLi">
-        <li src="main.jsp" close="false" class="active"><a href="javascript:;">首页</a></li>
+        <li src="hello.jsp?name=main" close="false" class="active"><a href="javascript:;">首页</a></li>
     </div>
 
 
