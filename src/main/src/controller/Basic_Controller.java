@@ -69,13 +69,13 @@ public class Basic_Controller<T> {
 	}
 
 	@RequestMapping("edit")
-	public @ResponseBody ListAndSearchInfo edit(String cmd, T s, ModelMap m,HttpSession session) {
+	public @ResponseBody ListAndSearchInfo edit(SeachInfo sea,String cmd, T s, ModelMap m,HttpSession session) {
 		if (cmd.equals("update")){
 			getService().update(s);
 		}
 		else
 			getService().insert(s);
-		return select(new SeachInfo());
+		return select(sea);
 	}
 
 	@RequestMapping("change")
