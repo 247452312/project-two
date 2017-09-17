@@ -6,8 +6,8 @@ package utils;
  */
 public class JsonData1 {
 
-	private String attrName;
 	private Integer id;
+	private String attrName;
 	private Object o;
 	public JsonData1() {
 	}

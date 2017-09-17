@@ -1,11 +1,13 @@
 package utils;
 
 
+import entity.Shop;
 import entity.User;
 import entity.Viptype;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import serviceimpl.Producttype_ServiceImpl;
+import serviceimpl.Shop_ServiceImpl;
 import serviceimpl.User_ServiceImpl;
 import serviceimpl.Viptype_ServiceImpl;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class StatusUtils {
     ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
     Viptype_ServiceImpl viptypeService = (Viptype_ServiceImpl)ac.getBean("Viptype_ServiceImpl");
     User_ServiceImpl userService= (User_ServiceImpl) ac.getBean("User_ServiceImpl");
+    Shop_ServiceImpl shopService= (Shop_ServiceImpl) ac.getBean("Shop_ServiceImpl");
     Producttype_ServiceImpl producttypeService = (Producttype_ServiceImpl )ac.getBean("Producttype_ServiceImpl");
 
 
@@ -129,6 +132,11 @@ public class StatusUtils {
         List<User> uslist=userService.getAll(new SeachInfo(false));
         for(User us:uslist) userMap.put(us.getId(),us.getName());
         vipInput.get(9).setInput(userMap);
+        //VIP表加入商店
+        Map<Integer,String> shopMap = new HashMap<Integer, String>();
+        List<Shop> shoplist=shopService.getAll(new SeachInfo(false));
+        for(Shop sp:shoplist) shopMap.put(sp.getId(),sp.getName());
+        vipInput.get(11).setInput(shopMap);
     }
 
     public Map<Integer, nameInput> getVipInput() {

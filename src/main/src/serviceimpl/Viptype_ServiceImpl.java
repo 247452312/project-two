@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service("Viptype_ServiceImpl")
-public class Viptype_ServiceImpl extends Basic_ServiceImpl<Viptype> implements Viptype_Service{
+public class  Viptype_ServiceImpl extends Basic_ServiceImpl<Viptype> implements Viptype_Service{
 	@Resource(name="Viptype_Mapper")
 	Viptype_Mapper mapper;
 

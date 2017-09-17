@@ -2,6 +2,7 @@ package serviceimpl;
 
 
 import entity.Product;
+import entity.User;
 import mapper.Product_Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -9,6 +10,7 @@ import service.Product_Service;
 import utils.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service("Product_ServiceImpl")
@@ -18,7 +20,6 @@ public class Product_ServiceImpl extends Basic_ServiceImpl<Product> implements P
 
 
 
-    @Override
     public void insert(Product product) {
         product.setZjm(ZJM.String2Alpha(product.getName()));
         product.setCreatedate(Info.getNow());

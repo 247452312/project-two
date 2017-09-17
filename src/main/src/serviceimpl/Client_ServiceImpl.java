@@ -2,6 +2,7 @@ package serviceimpl;
 
 
 import entity.Client;
+import entity.User;
 import entity.Vip;
 import mapper.Client_Mapper;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import utils.SeachInfo;
 import utils.StatusUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service("Client_ServiceImpl")
@@ -19,7 +21,6 @@ public class Client_ServiceImpl extends Basic_ServiceImpl<Client> implements Cli
 	@Resource(name="Client_Mapper")
     Client_Mapper mapper;
 
-    @Override
     public void insert(Client client) {
         client.setCreatedate(Info.getNow());
         super.insert(client);

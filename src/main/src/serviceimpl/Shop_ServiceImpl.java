@@ -11,6 +11,7 @@ import utils.SeachInfo;
 import utils.StatusUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service("Shop_ServiceImpl")
@@ -18,7 +19,6 @@ public class Shop_ServiceImpl extends Basic_ServiceImpl<Shop> implements Shop_Se
 	@Resource(name="Shop_Mapper")
 	Shop_Mapper mapper;
 
-    @Override
     public void insert(Shop shop) {
         shop.setCreatedate(Info.getNow());
         super.insert(shop);

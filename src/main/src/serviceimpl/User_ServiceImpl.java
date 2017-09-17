@@ -12,6 +12,7 @@ import utils.SeachInfo;
 import utils.StatusUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service("User_ServiceImpl")
@@ -19,7 +20,6 @@ public class User_ServiceImpl extends Basic_ServiceImpl<User> implements User_Se
 	@Resource(name="User_Mapper")
 	User_Mapper mapper;
 
-	@Override
 	public void insert(User user) {
 		user.setCreatedate(Info.getNow());
 		user.setPass(MD5Util.getMD5("123"));

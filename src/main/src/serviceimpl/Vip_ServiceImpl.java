@@ -1,6 +1,7 @@
 package serviceimpl;
 
 
+import entity.User;
 import entity.Vip;
 import mapper.Vip_Mapper;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import service.Vip_Service;
 import utils.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service("Vip_ServiceImpl")
@@ -15,9 +17,8 @@ public class Vip_ServiceImpl extends Basic_ServiceImpl<Vip> implements Vip_Servi
     @Resource(name = "Vip_Mapper")
     Vip_Mapper mapper;
 
-    @Override
     public void insert(Vip vip) {
-        vip.setStatus(1);
+        vip.setStatus(0);
         vip.setCreatedate(Info.getNow());
         super.insert(vip);
     }

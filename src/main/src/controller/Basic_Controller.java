@@ -74,38 +74,23 @@ public class Basic_Controller<T> {
 		return getTypeName() + "/add";
 	}
 
-	/**
-	 * 修改和删除接口
-	 * @param sea 修改后显示的条件
-	 * @param cmd update->修改 add->新增
-	 * @param s 数据
-	 * @return 显示
-	 */
-	@RequestMapping("edit")
-	public @ResponseBody ListAndSearchInfo edit( T s,SeachInfo sea,@RequestParam("cmd") String cmd,HttpSession session) {
-		if (cmd.equals("update")){
-			getService().update(s);
-		}
-		else {
-			try {
-				Method m = s.getClass().getDeclaredMethod("setUser", User.class);
-				m.invoke(s,session.getAttribute("user"));
-			} catch (Exception e) {
-			}
-			getService().insert(s);
-		}
-		return select(sea);
-	}
 
 	@RequestMapping("ajax")
 	public @ResponseBody
-	String ajax(String cmd, T t) {
+	 JsonData ajax(@RequestParam("cmd") String cmd, T t,HttpSession session) {
 		if (cmd.equals("update")) {
 			getService().update(t);
-		} else {
+		} else if(cmd.equals("add")){
+			try {
+				User u = (User) session.getAttribute("user");
+				Method m = t.getClass().getDeclaredMethod("setUserid",User.class);
+				m.invoke(t,u);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			getService().insert(t);
 		}
-		return "{\"status\":1}";
+		return new JsonData(1);
 	}
 
 	@RequestMapping("change")

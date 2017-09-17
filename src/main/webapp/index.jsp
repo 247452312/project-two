@@ -5,16 +5,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>uimaker信息管理系统</title>
+    <title>百莲达管理系统</title>
     <link href="css/base.css" rel="stylesheet">
     <link href="css/platform.css" rel="stylesheet">
     <link rel="stylesheet" href="../custom/uimaker/easyui.css">
 </head>
 <body>
     <div class="container">
-        <div id="pf-hd">
-            <div class="pf-logo">
-                <img src="images/main/main_logo.png" alt="logo">
+        <div id="pf-hd" style="background-image: none">
+            <div class="pf-logo" style="width: 190px;">
+                <img src="images/bailianda.png" alt="logo"
+                     style="vertical-align:top;margin-top: 10px;margin-left: 20px;">
             </div>
 
             <div class="pf-nav-wrap">

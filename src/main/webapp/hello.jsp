@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-    this is ${param.name}
+this is ${param.name}.
 </body>
 </html>

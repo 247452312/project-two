@@ -36,7 +36,7 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
 
     @RequestMapping("insert")
     public @ResponseBody
-    String insert(Checkmain check, List<Checkdetail> list) {
+    String insert(Checkmain check, List<Checkdetail> list,HttpSession session) {
         if (check.getCheckcode() == null || check.getCheckdate() == null || check.getCheckname() == null || check.getFexp() == null || check.getShopid() == null || check.getStatus() == null || list.size() == 0)
             return "{\"status\":0}";
         check.setCheckdate(Info.getNow());
