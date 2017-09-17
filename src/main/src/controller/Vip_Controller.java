@@ -19,6 +19,9 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * test-->中文
+ */
 @Controller
 @RequestMapping("Vip")
 public class Vip_Controller extends Basic_Controller<Vip> {
@@ -29,25 +32,26 @@ public class Vip_Controller extends Basic_Controller<Vip> {
     Ordermain_ServiceImpl oservice;
 
 
-
     @RequestMapping("updateStatus")
-    public @ResponseBody String updateStatus(int id){
+    public @ResponseBody
+    String updateStatus(int id) {
         service.updateStatus(id);
         return "{\"status\":1}";
     }
 
     @RequestMapping("getVip")
     public @ResponseBody
-    List<Vip> getVip(String name,int shopId){
+    List<Vip> getVip(String name, int shopId) {
         SeachInfo sea = new SeachInfo(false);
-        sea.setWhere("where name like %"+name+"% and shopid = "+shopId+"");
+        sea.setWhere("where name like %" + name + "% and shopid = " + shopId + "");
         List<Vip> list = service.getAll(sea);
         return list;
     }
 
     @RequestMapping("moneyDetail")
-    public @ResponseBody List<MoneyDetail> moneyDetail(int id){
-        List<Ordermain> list = oservice.getByAttr(new JsonData1("vipid",id));
+    public @ResponseBody
+    List<MoneyDetail> moneyDetail(int id) {
+        List<Ordermain> list = oservice.getByAttr(new JsonData1("vipid", id));
         List<MoneyDetail> mlist = new ArrayList<MoneyDetail>();
         for (Ordermain o : list) {
             MoneyDetail md = new MoneyDetail();
@@ -57,7 +61,7 @@ public class Vip_Controller extends Basic_Controller<Vip> {
             md.setShopid(o.getShopid());
             md.setAmount(o.getAmount());
             //充钱的
-            if(o.getOrdertype()==1||o.getOrdertype()==6){
+            if (o.getOrdertype() == 1 || o.getOrdertype() == 6) {
                 md.setPlus(o.getVipamount());
                 md.setReduce(0);
                 md.setBalance(1);
@@ -67,7 +71,7 @@ public class Vip_Controller extends Basic_Controller<Vip> {
                 md.setBalance1(1);
             }
             //花钱的
-            else if(o.getOrdertype()==2||o.getOrdertype()==5){
+            else if (o.getOrdertype() == 2 || o.getOrdertype() == 5) {
                 md.setPlus(0);
                 md.setReduce(1);
                 md.setBalance(1);
