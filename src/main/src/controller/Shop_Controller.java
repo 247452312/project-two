@@ -21,13 +21,6 @@ public class Shop_Controller extends Basic_Controller<Shop> {
 
 
 
-    @Override
-    public @ResponseBody
-    ListAndSearchInfo<Shop> edit(String cmd, Shop s, ModelMap m, HttpSession session) {
-        if (cmd.equals("add"))
-            s.setUserid(((User) session.getAttribute("user")).getId());
-        return super.edit(cmd, s, m, session);
-    }
 
 
 }

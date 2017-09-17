@@ -2,15 +2,15 @@ package entity;
 
 public class Orderdetail implements Comparable<Orderdetail>  {
 
-	private Double amount;
-	private Integer id;
-	private String fexp;
-	private Double point;
-	private Double price;
-	private Double count;
-	private Product productid;
-	private Ordermain orderid;
-	private Double cbprice;
+	private Double amount=0.0;
+	private Integer id=0;
+	private String fexp="";
+	private Double point=0.0;
+	private Double price=0.0;
+	private Double count=0.0;
+	private Product productid=new Product(0);
+	private Ordermain orderid=new Ordermain(0);
+	private Double cbprice=0.0;
 
 
 	public Orderdetail(){

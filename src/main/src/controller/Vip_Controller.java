@@ -28,13 +28,6 @@ public class Vip_Controller extends Basic_Controller<Vip> {
     @Resource(name = "Ordermain_ServiceImpl")
     Ordermain_ServiceImpl oservice;
 
-    @Override
-    public @ResponseBody
-    ListAndSearchInfo edit(String cmd, Vip s, ModelMap m, HttpSession session) {
-        if (cmd.equals("add"))
-            s.setUserid((User) session.getAttribute("user"));
-        return super.edit(cmd, s, m, session);
-    }
 
 
     @RequestMapping("updateStatus")

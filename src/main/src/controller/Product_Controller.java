@@ -22,12 +22,6 @@ public class Product_Controller extends Basic_Controller<Product> {
     Product_ServiceImpl service;
 
 
-    public @ResponseBody
-    ListAndSearchInfo edit(String cmd, Product s, ModelMap m, HttpSession session) {
-        if (cmd.equals("add"))
-            s.setUserid((User) session.getAttribute("user"));
-        return super.edit(cmd, s, m, session);
-    }
 
     @RequestMapping("updateStatus")
     public @ResponseBody

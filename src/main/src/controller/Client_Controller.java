@@ -20,12 +20,6 @@ public class Client_Controller extends Basic_Controller<Client> {
     Client_ServiceImpl service;
 
 
-    public @ResponseBody
-    ListAndSearchInfo edit(String cmd, Client s, ModelMap m, HttpSession session) {
-        if (cmd.equals("add"))
-            s.setUserid((User) session.getAttribute("user"));
-        return super.edit(cmd, s, m, session);
-    }
 
     @RequestMapping("test")
     public @ResponseBody

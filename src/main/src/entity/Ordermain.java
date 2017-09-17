@@ -2,21 +2,21 @@ package entity;
 
 public class Ordermain implements Comparable<Ordermain>  {
 
-	private Integer status;
-	private String orderdate;
-	private String createdate;
-	private User userid;
-	private Integer ordertype;
-	private Vip vipid;
-	private Shop destshopid;
-	private Integer id;
-	private Double amount;
-	private Double vipamount;
-	private Client clientid;
-	private String fexp;
-	private Double point;
-	private Shop shopid;
-	private String ordercode;
+	private Integer status=0;
+	private String orderdate="";
+	private String createdate="";
+	private User userid=new User(0);
+	private Integer ordertype=0;
+	private Vip vipid=new Vip(0);
+	private Shop destshopid=new Shop(0);
+	private Integer id=0;
+	private Double amount=0.0;
+	private Double vipamount=0.0;
+	private Client clientid=new Client(0);
+	private String fexp="";
+	private Double point=0.0;
+	private Shop shopid=new Shop(0);
+	private String ordercode="";
 
 
 	public Ordermain(){

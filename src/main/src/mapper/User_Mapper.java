@@ -98,4 +98,7 @@ public interface User_Mapper extends Basic_Mapper<User> {
 
 	@Update("update user set ${attrName}=#{o} where id = #{id}")
 	public void updateAttr(JsonData1 j);
+
+	@Select("select * from user where name = #{0} and pass = #{1}")
+    User login(String user, String pass);
 }
