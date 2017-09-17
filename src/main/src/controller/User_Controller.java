@@ -6,11 +6,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.User_ServiceImpl;
+import utils.JsonData;
 import utils.JsonData1;
 import utils.ListAndSearchInfo;
 import utils.MD5Util;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -30,24 +34,29 @@ public class User_Controller extends Basic_Controller<User> {
     /**
      * 登陆
      *
-     * @param user    用户名
-     * @param pass    密码
-     * @param code    验证码
-     * @param session session
+     * @param username 用户名
+     * @param userpass 密码
+     * @param code     验证码
+     * @param box      是否记住密码
+     * @param session  session
      * @return 0->客户端出错(未加载code) 1->成功 2->验证吗错误 3->用户名或密码不存在
      */
     @RequestMapping("login")
     public @ResponseBody
-    String login(String user, String pass, String code, HttpSession session) {
-
-
+    JsonData login(String username, String userpass, String code, int box, HttpServletResponse res, HttpSession session) {
         String str = session.getAttribute("code").toString();
-        if (str == null || str.equals("")) return "{\"status\":0}";
-        if (!str.equals(code)) return "{\"status\":2}";
-        User u = service.login(user, pass);
-        if (u == null) return "{\"status\":3}";
+        if (str == null || str.equals("")) return new JsonData(0, "客户端错误");
+        if (!str.equals(code)) return new JsonData(2, "验证码错误");
+        User u = service.login(username, userpass);
+        if (u == null) return new JsonData(3, "用户名或密码不存在");
         session.setAttribute("user", u);
-        return "{\"status\":1}";
+        if (box == 1) {
+            Cookie c1 = new Cookie("username", username);
+            Cookie c2 = new Cookie("userpass", userpass);
+            res.addCookie(c1);
+            res.addCookie(c2);
+        }
+        return new JsonData(1);
 
     }
 
@@ -62,13 +71,16 @@ public class User_Controller extends Basic_Controller<User> {
      */
     @RequestMapping("updatePass")
     public @ResponseBody
-    String updatePass(String oldPass, String newPass, String newPassAgain, HttpSession session) {
+    String updatePass(String oldPass, String newPass, String newPassAgain, HttpSession session,HttpServletRequest req) {
         User u = (User) session.getAttribute("user");
         if (u == null) return "{\"status\":0}";
         if (!u.getPass().equals(MD5Util.getMD5(oldPass))) return "{\"status\":4}";
         if (newPass.equals(oldPass)) return "{\"status\":3}";
         if (!newPass.equals(newPassAgain)) return "{\"status\":2}";
         service.updateAttr(new JsonData1("pass", u.getId(), MD5Util.getMD5(newPass)));
+        for (Cookie cookie : req.getCookies()) {
+            if(cookie.getName().equals("userpass")){cookie.setValue(newPass);}
+        }
         return "{\"status\":1}";
     }
 }
