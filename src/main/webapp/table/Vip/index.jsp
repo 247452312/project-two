@@ -6,7 +6,14 @@
     <base href="../../">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>供应商列表</title>
+    <title>会员列表</title>
+
+    <script type="text/javascript" src="custom/jquery.min.js"></script>
+    <script type="text/javascript" src="custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="custom/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/selfFunction.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="js/basic.js"></script>
 
     <link href="css/base.css" rel="stylesheet">
     <link rel="stylesheet" href="custom/uimaker/easyui.css">
@@ -76,10 +83,12 @@
                     <option value="0">并且</option>
                     <option value="1">或者</option>
                 </select>
-                <a onclick="removeTrem($(this));" class="easyui-linkbutton more" iconCls="icon-cancel">去除条件</a>
                 <a onclick="addTrem($('.form'));" class="easyui-linkbutton more" iconCls="icon-add">添加条件</a>
+                <a onclick="removeTrem($(this));" style="display: none" class="easyui-linkbutton more" iconCls="icon-cancel">去除条件</a>
                 <a onclick="tableData($('.form'));" class="easyui-linkbutton a-select" iconCls="icon-search"
                    data-options="selected:true">查询</a>
+                <a onclick="addPage();" class="easyui-linkbutton addRow" style="background: #4f9fcf;color: #ffffff"
+                   iconCls="icon-add">添加会员</a>
             </div>
         </form>
     </div>
@@ -143,10 +152,7 @@
         <div style="clear:both;"></div>
     </div>
 </div>
-<script type="text/javascript" src="../custom/jquery.min.js"></script>
-<script type="text/javascript" src="../custom/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../custom/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="../js/selfFunction.js"></script>
+
 
 <script type="text/javascript">
     (function ($) {
@@ -257,6 +263,11 @@
         newdiv.find("select").val(0);
         newdiv.removeClass("first-trem");
         newdiv.find(".a-select").remove();
+        newdiv.find(".addRow").remove();
+        newdiv.find(".trem-select").removeAttr("name").addClass("none").removeClass("in-line");
+        newdiv.find(".trem-input").attr("name", "text").addClass("in-line").removeClass("none");
+        newdiv.find("[name=compare]").removeAttr("disabled");
+        newdiv.find(".more").removeAttr("style");
         divTrems.append(newdiv);
         resetDg();
     }
@@ -297,6 +308,7 @@
                 for (var i = 0; i < json.list.length; i++) {
                     var vip = json.list[i];
                     rows.push({
+                        id: vip.id,
                         code: vip.code,
                         name: vip.name,
                         shopid: vip.shopid.name,
@@ -344,7 +356,23 @@
     function resetDg() {
         $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
+        $("#dg").datagrid({
+            onDblClickRow:function(rowIndex, rowData){
+                //alert(JSON.stringify(rowData));
+                //编辑本行资料
+                showPage("修改会员信息","Vip/updat?id="+rowData.id,1000,400,function(){
+                    tableData();
+                },true,false);
+            }
+        });
         $('#dg').datagrid('reload');
+    }
+
+    //打开新增页面
+    function addPage() {
+        showPage("新增会员信息","Vip/ad",1000,400,function(){
+            tableData();
+        },true,false);
     }
 
     $(function () {
