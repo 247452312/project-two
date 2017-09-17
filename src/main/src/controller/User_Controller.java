@@ -71,16 +71,16 @@ public class User_Controller extends Basic_Controller<User> {
      */
     @RequestMapping("updatePass")
     public @ResponseBody
-    String updatePass(String oldPass, String newPass, String newPassAgain, HttpSession session,HttpServletRequest req) {
+    JsonData updatePass(String oldPass, String newPass, String newPassAgain, HttpSession session,HttpServletRequest req) {
         User u = (User) session.getAttribute("user");
-        if (u == null) return "{\"status\":0}";
-        if (!u.getPass().equals(MD5Util.getMD5(oldPass))) return "{\"status\":4}";
-        if (newPass.equals(oldPass)) return "{\"status\":3}";
-        if (!newPass.equals(newPassAgain)) return "{\"status\":2}";
+        if (u == null) return new JsonData(0,"没有登录");
+        if (!u.getPass().equals(MD5Util.getMD5(oldPass))) return new JsonData(4,"旧密码不正确");
+        if (newPass.equals(oldPass)) return new JsonData(3,"新密码与旧密码相同");
+        if (!newPass.equals(newPassAgain)) return new JsonData(2,"新密码两次不一致");
         service.updateAttr(new JsonData1("pass", u.getId(), MD5Util.getMD5(newPass)));
         for (Cookie cookie : req.getCookies()) {
             if(cookie.getName().equals("userpass")){cookie.setValue(newPass);}
         }
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 }
