@@ -1,0 +1,131 @@
+@charset "utf-8";
+.font-red{
+	color : red;
+}
+.font-green{
+	color : green;
+}
+.font-blue{
+	color : blue;
+}
+.font-black{
+	color : black;
+}
+.font-white{
+	color : white;
+}
+.font-orange{
+	color : orange;
+}
+.font-gray{
+	color : gray;
+}
+.font-aqua{
+	color : aqua;
+}
+.font-olive{
+	color : olive;
+}
+.font-purple{
+	color : purple;
+}
+.font-pink{
+	color: pink;
+}
+.font-pinkred{
+	color: #fa1445;
+}
+/******************/
+.font-12{
+	font-size: 12px;
+}
+.font-13{
+	font-size: 13px;
+}
+.font-14{
+	font-size: 14px;
+}
+.font-15{
+	font-size: 15px;
+}
+.font-16{
+	font-size: 16px;
+}
+.font-17{
+	font-size: 17px;
+}
+.font-18{
+	font-size: 18px;
+}
+.font-19{
+	font-size: 19px;
+}
+.font-20{
+	font-size: 20px;
+}
+.font-21{
+	font-size: 21px;
+}
+.font-22{
+	font-size: 22px;
+}
+.font-23{
+	font-size: 23px;
+}
+.font-24{
+	font-size: 24px;
+}
+.font-25{
+	font-size: 25px;
+}
+.font-26{
+	font-size: 26px;
+}
+.font-27{
+	font-size: 27px;
+}
+.font-28{
+	font-size: 28px;
+}
+.font-29{
+	font-size: 29px;
+}
+.font-30{
+	font-size: 30px;
+}
+/******************/
+.font-bold{
+	font-weight: bold;
+}
+.font-normal{
+	font-weight: normal;
+}
+.font-italic{
+	font-style: italic;
+}
+/******************/
+.font-center{
+	text-align: center;
+}
+.font-left{
+	text-align: left;
+}
+.font-right{
+	text-align: right;
+}
+/******************/
+.font-mcblk{
+	font-family: "微软雅黑";
+}
+.font-a-unhover:HOVER{
+	text-decoration:none;
+}
+.font-a-unhover:AFTER{
+	text-decoration:none;
+}
+.font-a-unhover:BEFORE{
+	text-decoration:none;
+}
+.font-a-unhover{
+	text-decoration:none;
+}

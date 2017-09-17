@@ -1,0 +1,300 @@
+@charset "utf-8";
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-clear {
+    clear: both;
+}
+
+.block {
+    display: block;
+}
+
+.inline {
+    display: inline;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+}
+
+body {
+    padding: 10px;
+    min-width: 95%;
+    max-width: 95%;
+    overflow: hidden;
+}
+
+.div-part {
+    margin-top: 10px;
+    width: 90%;
+}
+
+.label {
+    margin-left: 5%;
+    font-family: "微软雅黑";
+    font-size: 15px;
+    color: #999;
+}
+
+.label-star {
+    font-size: 20px;
+    color: red;
+}
+
+.btn-count {
+    width: 30px;
+    height: 30px;
+    border: 0px;
+    background-color: #aaa;
+    color: #fff;
+}
+
+.btn-count:HOVER {
+    background-color: #bbb;
+}
+
+.input {
+    width: 75%;
+    height: 30px;
+    color: gray;
+}
+
+.count-btn-team {
+    margin-left: 4px;
+    width: 75%;
+    height: 30px;
+}
+
+.count-input {
+    width: 75%;
+}
+
+.textarea {
+    margin-left: 4px;
+    width: 75%;
+    height: 160px;
+    color: gray;
+}
+
+.picshow {
+    margin-left: 7px;
+    max-width: 75%;
+}
+
+.img {
+    width: 65px;
+    height: 65px;
+}
+
+.pic-div {
+    background-color: #aaa;
+    width: 65px;
+    height: 65px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    float: left;
+}
+
+.pic-plus {
+    font-size: 50px;
+    color: rgba(220, 220, 220, 1);
+    text-align: center;
+    font-weight: bold;
+    margin-left: 16px;
+    position: absolute;
+}
+
+.pic-sub {
+    font-size: 50px;
+    color: rgba(220, 220, 220, 0);
+    text-align: center;
+    font-weight: bold;
+    margin-left: 16px;
+    position: absolute;
+}
+
+.pic-sub:HOVER {
+    color: rgba(220, 220, 220, 1);
+}
+
+.div-button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    margin-left: 22%;
+}
+
+.reset-btn {
+    margin-right: 20%;
+    background-color: #888;
+}
+
+select {
+    display: inline;
+    width: 100px;
+    height: 30px;
+    margin-left: 5px;
+    color: gray;
+}
+
+.select {
+    margin-left: 4px;
+}
+
+.button {
+    margin-left: 5px;
+    background-color: #888;
+    border-radius: 2px;
+    height: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.button:HOVER {
+    background-color: #bbb;
+}
+
+.button:ACTIVE {
+    background-color: #555;
+}
+
+.button:AFTER {
+    background-color: #bbb;
+}
+
+.checkboxs {
+    margin-left: 5px;
+}
+
+checkbox {
+    display: inline;
+}
+
+.checkset {
+    margin-bottom: 10px;
+    border: 1px solid #aaa;
+}
+
+.check-label {
+    margin: 5px;
+}
+
+.part-check-label {
+    margin-right: 30px;
+}
+
+.div-5 {
+    width: 5%;
+}
+
+.div-10 {
+    width: 10%;
+}
+
+.div-15 {
+    width: 15%;
+}
+
+.div-20 {
+    width: 20%;
+}
+
+.div-25 {
+    width: 25%;
+}
+
+.div-30 {
+    width: 30%;
+}
+
+.div-35 {
+    width: 35%;
+}
+
+.div-40 {
+    width: 40%;
+}
+
+.div-45 {
+    width: 45%;
+}
+
+.div-50 {
+    width: 50%;
+}
+
+.div-55 {
+    width: 55%;
+}
+
+.div-60 {
+    width: 60%;
+}
+
+.div-65 {
+    width: 65%;
+}
+
+.div-70 {
+    width: 70%;
+}
+
+.div-75 {
+    width: 75%;
+}
+
+.div-80 {
+    width: 80%;
+}
+
+.div-85 {
+    width: 85%;
+}
+
+.div-90 {
+    width: 90%;
+}
+
+.div-95 {
+    width: 95%;
+}
+
+.div-100 {
+    width: 100%;
+}
+
+.editor-div {
+    width: 50%;
+    height: 400px;
+    max-height: 400px;
+}
+
+.editor-div iframe,
+.edui-editor-iframeholder {
+    max-height: 200px;
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+.editor-div iframe body {
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
