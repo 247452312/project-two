@@ -63,7 +63,6 @@ public class Vip_Controller extends Basic_Controller<Vip> {
                 md.setPlus(o.getVipamount());
                 md.setReduce(0);
                 md.setBalance(1);
-
                 md.setPlus1(1);
                 md.setReduce1(0);
                 md.setBalance1(1);

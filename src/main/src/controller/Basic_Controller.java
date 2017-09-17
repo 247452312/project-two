@@ -43,7 +43,7 @@ public class Basic_Controller<T> {
 				.getGenericSuperclass();
 		Class cls = (Class) type.getActualTypeArguments()[0];
 		String tableName = cls.getSimpleName();
-		return "table/" + StringUtils.getLittleName(tableName);
+		return "table/" + tableName;
 	}
 
 	@RequestMapping("select")
