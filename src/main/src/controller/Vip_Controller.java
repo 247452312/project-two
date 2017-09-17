@@ -19,9 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * test-->中文
- */
+
 @Controller
 @RequestMapping("Vip")
 public class Vip_Controller extends Basic_Controller<Vip> {
