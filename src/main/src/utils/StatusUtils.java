@@ -91,7 +91,7 @@ public class StatusUtils {
         ClientSelectMap.put(1,new nameInput("name","名字",null));
         //符号比较
         compareMap.put(0,new nameInput("like","模糊查询",null));
-        compareMap.put(1,new nameInput("in","多项查询(以"+'"'+","+'"'+"隔开)",null));
+        compareMap.put(1,new nameInput("in","多项查询(以"+'"'+";"+'"'+"隔开)",null));
         compareMap.put(2,new nameInput("=","＝",null));
         compareMap.put(3,new nameInput("!=","≠",null));
         compareMap.put(4,new nameInput("<","＜",null));

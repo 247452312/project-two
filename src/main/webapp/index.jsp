@@ -1,11 +1,12 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" isELIgnored="false"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
 <head>
+    <base href="/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>百莲达管理系统</title>
+    <title>百莲达</title>
     <link href="css/base.css" rel="stylesheet">
     <link href="css/platform.css" rel="stylesheet">
     <link rel="stylesheet" href="../custom/uimaker/easyui.css">
@@ -14,8 +15,7 @@
 <div class="container">
     <div id="pf-hd" style="background-image: none">
         <div class="pf-logo" style="width: 190px;">
-            <img src="images/bailianda.png" alt="logo"
-                 style="vertical-align:top;margin-top: 10px;margin-left: 20px;">
+            <img src="images/bailianda.png" style="margin: 10px;">
         </div>
 
         <div class="pf-nav-wrap">
@@ -132,12 +132,11 @@
         </div>
 
 
-
         <div class="pf-user">
             <div class="pf-user-photo">
                 <img src="images/main/user.png" alt="">
             </div>
-            <h4 class="pf-user-name ellipsis">${sessionScope.user.name}</h4>
+            <h4 class="pf-user-name ellipsis">uimaker</h4>
             <i class="iconfont xiala">&#xe607;</i>
 
             <div class="pf-user-panel">
@@ -149,13 +148,13 @@
                         </a>
                     </li>
                     <li class="pf-modify-pwd">
-                        <a href="#">
+                        <a href="http://www.uimaker.com">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
                     </li>
                     <li class="pf-logout">
-                        <a href="/User/cancel">
+                        <a href="login.html">
                             <i class="iconfont">&#xe60e;</i>
                             <span class="pf-opt-name">退出</span>
                         </a>
@@ -183,12 +182,12 @@
                     </a>
                     <ul class="sider-nav-s">
                         <li src="hello.jsp?name=user" class="active"><a href="javascript:;">操作员信息</a></li>
-                        <li src="hello.jsp?name=client" ><a href="javascript:;">供货商信息</a></li>
-                        <li src="table/Vip/index.jsp" ><a href="javascript:;">会员信息</a></li>
-                        <li src="hello.jsp?name=shop" ><a href="javascript:;">分店信息</a></li>
-                        <li src="hello.jsp?name=product" ><a href="javascript:;">商品信息</a></li>
-                        <li src="table/Viptype/index.jsp" ><a href="javascript:;">会员类型信息</a></li>
-                        <li src="hello.jsp?name=protype" ><a href="javascript:;">商品类型信息</a></li>
+                        <li src="hello.jsp?name=client"><a href="javascript:;">供货商信息</a></li>
+                        <li src="table/Vip/index.jsp"><a href="javascript:;">会员信息</a></li>
+                        <li src="hello.jsp?name=shop"><a href="javascript:;">分店信息</a></li>
+                        <li src="hello.jsp?name=product"><a href="javascript:;">商品信息</a></li>
+                        <li src="hello.jsp?name=viptype"><a href="javascript:;">会员类型信息</a></li>
+                        <li src="hello.jsp?name=protype"><a href="javascript:;">商品类型信息</a></li>
                     </ul>
                 </li>
                 <li>
@@ -199,9 +198,9 @@
                     </a>
                     <ul class="sider-nav-s">
                         <li src="#" class="active"><a href="javascript:;">修改密码</a></li>
-                        <li src="#" ><a href="javascript:;">库存初始</a></li>
-                        <li src="#" ><a href="javascript:;">库存盘点</a></li>
-                        <li src="#" ><a href="javascript:;">盘点记录</a></li>
+                        <li src="#"><a href="javascript:;">库存初始</a></li>
+                        <li src="#"><a href="javascript:;">库存盘点</a></li>
+                        <li src="#"><a href="javascript:;">盘点记录</a></li>
                     </ul>
                 </li>
                 <li>
@@ -212,17 +211,17 @@
                     </a>
                     <ul class="sider-nav-s">
                         <li src="#" class="active"><a href="javascript:;">充值单</a></li>
-                        <li src="#" ><a href="javascript:;">退款单</a></li>
-                        <li src="#" ><a href="javascript:;">项目充值单</a></li>
-                        <li src="#" ><a href="javascript:;">项目退款单</a></li>
-                        <li src="#" ><a href="javascript:;">采购单</a></li>
-                        <li src="#" ><a href="javascript:;">采购退货单</a></li>
-                        <li src="#" ><a href="javascript:;">销售单</a></li>
-                        <li src="#" ><a href="javascript:;">销售退货单</a></li>
-                        <li src="#" ><a href="javascript:;">移库单</a></li>
-                        <li src="#" ><a href="javascript:;">库损单</a></li>
-                        <li src="#" ><a href="javascript:;">库溢单</a></li>
-                        <li src="#" ><a href="javascript:;">单据列表</a></li>
+                        <li src="#"><a href="javascript:;">退款单</a></li>
+                        <li src="#"><a href="javascript:;">项目充值单</a></li>
+                        <li src="#"><a href="javascript:;">项目退款单</a></li>
+                        <li src="#"><a href="javascript:;">采购单</a></li>
+                        <li src="#"><a href="javascript:;">采购退货单</a></li>
+                        <li src="#"><a href="javascript:;">销售单</a></li>
+                        <li src="#"><a href="javascript:;">销售退货单</a></li>
+                        <li src="#"><a href="javascript:;">移库单</a></li>
+                        <li src="#"><a href="javascript:;">库损单</a></li>
+                        <li src="#"><a href="javascript:;">库溢单</a></li>
+                        <li src="#"><a href="javascript:;">单据列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -233,11 +232,11 @@
                     </a>
                     <ul class="sider-nav-s">
                         <li src="#" class="active"><a href="javascript:;">会员明细余额统计表</a></li>
-                        <li src="#" ><a href="javascript:;">会员统计表</a></li>
-                        <li src="#" ><a href="javascript:;">操作员统计表</a></li>
-                        <li src="#" ><a href="javascript:;">分店统计表</a></li>
-                        <li src="#" ><a href="javascript:;">商品统计表</a></li>
-                        <li src="#" ><a href="javascript:;">综合统计表</a></li>
+                        <li src="#"><a href="javascript:;">会员统计表</a></li>
+                        <li src="#"><a href="javascript:;">操作员统计表</a></li>
+                        <li src="#"><a href="javascript:;">分店统计表</a></li>
+                        <li src="#"><a href="javascript:;">商品统计表</a></li>
+                        <li src="#"><a href="javascript:;">综合统计表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -269,7 +268,7 @@
         </div>
         <div class="copyright-name">
             <span>CopyRight&nbsp;2016&nbsp;&nbsp;uimaker.com&nbsp;版权所有</span>
-            <i class="iconfont" >&#xe6ff;</i>
+            <i class="iconfont">&#xe6ff;</i>
         </div>
     </div>
 </div>
@@ -305,8 +304,8 @@
 <script type="text/javascript" src="js/main.js"></script>
 <!--[if IE 7]>
 <script type="text/javascript">
-    $(window).resize(function(){
-        $('#pf-bd').height($(window).height()-76);
+    $(window).resize(function () {
+        $('#pf-bd').height($(window).height() - 76);
     }).resize();
 
 </script>
@@ -316,45 +315,45 @@
 <script type="text/javascript">
     $('.easyui-tabs1').tabs({
         tabHeight: 44,
-        onSelect:function(title,index){
+        onSelect: function (title, index) {
             var currentTab = $('.easyui-tabs1').tabs("getSelected");
-            if(currentTab.find("iframe") && currentTab.find("iframe").size()){
-                currentTab.find("iframe").attr("src",currentTab.find("iframe").attr("src"));
+            if (currentTab.find("iframe") && currentTab.find("iframe").size()) {
+                currentTab.find("iframe").attr("src", currentTab.find("iframe").attr("src"));
             }
         }
     })
-    $(window).resize(function(){
-        $('.tabs-panels').height($("#pf-page").height()-46);
-        $('.panel-body').height($("#pf-page").height()-76)
+    $(window).resize(function () {
+        $('.tabs-panels').height($("#pf-page").height() - 46);
+        $('.panel-body').height($("#pf-page").height() - 76)
     }).resize();
 
     var page = 0,
         pages = ($('.pf-nav').height() / 70) - 1;
 
-    if(pages === 0){
+    if (pages === 0) {
         $('.pf-nav-prev,.pf-nav-next').hide();
     }
-    $(document).on('click', '.pf-nav-prev,.pf-nav-next', function(){
+    $(document).on('click', '.pf-nav-prev,.pf-nav-next', function () {
 
 
-        if($(this).hasClass('disabled')) return;
-        if($(this).hasClass('pf-nav-next')){
+        if ($(this).hasClass('disabled')) return;
+        if ($(this).hasClass('pf-nav-next')) {
             page++;
-            $('.pf-nav').stop().animate({'margin-top': -70*page}, 200);
-            if(page == pages){
+            $('.pf-nav').stop().animate({'margin-top': -70 * page}, 200);
+            if (page == pages) {
                 $(this).addClass('disabled');
                 $('.pf-nav-prev').removeClass('disabled');
-            }else{
+            } else {
                 $('.pf-nav-prev').removeClass('disabled');
             }
 
-        }else{
+        } else {
             page--;
-            $('.pf-nav').stop().animate({'margin-top': -70*page}, 200);
-            if(page == 0){
+            $('.pf-nav').stop().animate({'margin-top': -70 * page}, 200);
+            if (page == 0) {
                 $(this).addClass('disabled');
                 $('.pf-nav-next').removeClass('disabled');
-            }else{
+            } else {
                 $('.pf-nav-next').removeClass('disabled');
             }
 

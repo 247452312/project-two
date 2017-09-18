@@ -6,17 +6,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>百莲达管理系统</title>
-    <link href="/css/base.css" rel="stylesheet">
-    <link href="/css/login/login.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/layer/layer.js"></script>
-    <script type="text/javascript" src="/js/basic.js"></script>
-    <link href="/css/base.css" rel="stylesheet">
-    <script type="text/javascript" src="/custom/jquery.min.js"></script>
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/login/login.css" rel="stylesheet">
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="js/basic.js"></script>
+    <link href="css/base.css" rel="stylesheet">
+    <script type="text/javascript" src="../custom/jquery.min.js"></script>
 </head>
 <body>
 <div class="login-hd">
     <div class="hd-inner">
-        <img src="/images/bailianda.png" alt="logo"
+        <img src="images/bailianda.png" alt="logo"
              style="vertical-align:top;margin-top: 20px;margin-left: 20px;">
     </div>
 </div>
@@ -30,7 +30,7 @@
                         <i class="iconfont">&#xe62e;</i>
                         <span></span>
                     </div>
-                    <form action="/User/login" method="post" class="form">
+                    <form action="User/login" method="post" class="form">
                         <div class="lg-username input-item clearfix">
                             <i class="iconfont">&#xe60d;</i>
                             <input type="text" name="name" placeholder="请输入账号" value="${cookie.username.value}">
@@ -49,9 +49,10 @@
                                          style="width: 100%;height: 100%;">
 								</span>
                         </div>
-                        <input type="hidden" name="box" value="1">
+                        <input type="hidden" name="box" value="0">
                         <div class="tips clearfix">
-                            <label><input type="checkbox" checked="checked" onclick="rebox($(this));">记住用户名</label>
+                            <label><input type="checkbox" class="remebox"
+                                          onclick="rebox($(this));">记住用户名</label>
                         </div>
                         <div class="enter">
                             <a href="javascript:;" class="purchaser"
@@ -72,14 +73,21 @@
             <a href="javascript:;">服务条款</a>
             <a href="javascript:;">联系方式</a>
         </div>
-        <div class="address">地址：xxxxxxxxxxxxxxxxxxx&nbsp;邮编：xxxxxx&nbsp;&nbsp;Copyright&nbsp;©&nbsp;xxxx&nbsp;-&nbsp;xxxx&nbsp;xxxxxxxxxxxxx&nbsp;版权所有</div>
-        <div class="other-info">建议使用IE8及以上版本浏览器&nbsp;苏ICP备&nbsp;xxxxxxxx号&nbsp;E-mail：xxxxx@xxx.com</div>
+        <div class="address">地址：江苏省南京市雨花台区软件园&nbsp;邮编：210019&nbsp;&nbsp;Copyright&nbsp;©&nbsp;2015&nbsp;-&nbsp;2016&nbsp;uimaker-专注于ui设计&nbsp;版权所有</div>
+        <div class="other-info">建议使用IE8及以上版本浏览器&nbsp;苏ICP备&nbsp;09003078号&nbsp;E-mail：admin@uimaker.com</div>
     </div>
 </div>
 </body>
 </html>
 
 <script type="text/javascript">
+    $(function () {
+        if ($("[name=name]").val()) {
+            $("[name=box]").val(1);
+            $(".remebox").prop("checked", true);
+        }
+    });
+    //验证码刷新
     var a = 0;
 
     function codeReload(img) {
@@ -87,12 +95,14 @@
         img.attr("src", src + "?a=" + (a++));
     }
 
+    //box赋值
     function rebox(box) {
         inbox = $("[name=box]");
         if (box.prop("checked")) inbox.val(1);
         else inbox.val(0);
     }
 
+    //登录
     function login(form) {
         if ($("[name=name]").val().length == 0) showErr("请填入用户名");
         else if ($("[name=pass]").val().length == 0) showErr("请填入密码");
@@ -104,18 +114,16 @@
             $.ajax({
                 url: action, type: method, dataType: "json", data: data,
                 success: function (json) {
-                    if (json.status != 1) {
-                        showErr(json.info);
-
-                    }
+                    if (json.status == -1) showErr(json.info);
                     else {
-                        location.href = "/index.jsp";
+                        location.href = "index.jsp";
                     }
                 }
             });
         }
     }
 
+    //显示错误
     function showErr(text) {
         var err = $(".alert-error");
         err.removeAttr("style");

@@ -3,22 +3,23 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <base href="../../">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>会员列表</title>
 
-    <script type="text/javascript" src="custom/jquery.min.js"></script>
-    <script type="text/javascript" src="custom/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="custom/easyui-lang-zh_CN.js"></script>
-    <script type="text/javascript" src="js/selfFunction.js"></script>
-    <script type="text/javascript" src="js/layer/layer.js"></script>
-    <script type="text/javascript" src="js/basic.js"></script>
+    <script type="text/javascript" src="/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/custom/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/js/selfFunction.js"></script>
+    <script type="text/javascript" src="/js/layer/layer.js"></script>
+    <script type="text/javascript" src="/js/basic.js"></script>
+    <script type="text/javascript" src="/js/jquery.jqprint-0.3.js"></script>
+    <script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
 
-    <link href="css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="custom/uimaker/easyui.css">
-    <link rel="stylesheet" type="text/css" href="custom/uimaker/icon.css">
-    <link rel="stylesheet" href="css/providers1.css">
+    <link href="/css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="/custom/uimaker/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/custom/uimaker/icon.css">
+    <link rel="stylesheet" href="/css/providers1.css">
     <style type="text/css">
         .none{
             display: none;
@@ -32,6 +33,7 @@
     </style>
 </head>
 <body>
+<div id="test"></div>
 <div class="container">
     <table id="dg" style="width:100%;height:529px" title="全体供应商列表" data-options="
             rownumbers:true,
@@ -75,18 +77,26 @@
             <input type="hidden" name="pageno">
             <input type="hidden" name="maxrow">
             <div class="conditions search-trem first-trem">
-                <select style="height:35px;width:166px;" name="trem" onchange="changeInput($(this));"></select>
-                <select style="height:35px;width:166px;" name="compare"></select>
+                <select style="height:35px;width:10%;" name="trem" onchange="changeInput($(this));"></select>
+                <select style="height:35px;width:12%;" name="compare"></select>
                 <input class="trem-input in-line" type="text" name="text" style="width:166px;height:35px;line-height:35px;"/>
                 <select class="trem-select none" style="height:35px;width:166px;"></select>
-                <select style="height:35px;width:166px;" name="join">
+                <select style="height:35px;width:6%;" name="join">
                     <option value="0">并且</option>
                     <option value="1">或者</option>
                 </select>
-                <a onclick="addTrem($('.form'));" class="easyui-linkbutton more" iconCls="icon-add">添加条件</a>
-                <a onclick="removeTrem($(this));" style="display: none" class="easyui-linkbutton more" iconCls="icon-cancel">去除条件</a>
+                <a onclick="addTrem($('.form'));"
+                   class="easyui-linkbutton more" iconCls="icon-add">添加条件</a>
+                <a onclick="removeTrem($(this));" style="display: none"
+                   class="easyui-linkbutton more" iconCls="icon-cancel">去除条件</a>
                 <a onclick="tableData($('.form'));" class="easyui-linkbutton a-select" iconCls="icon-search"
                    data-options="selected:true">查询</a>
+                <a onclick="$('[name=where]').val('');tableData();" class="easyui-linkbutton a-select"
+                   iconCls="icon-search"data-options="selected:true">全查</a>
+                <a onclick="tableData();" class="easyui-linkbutton a-select"
+                   iconCls="icon-reload"data-options="selected:true"><%--刷新--%></a>
+                <a onclick="tablePrint();" class="easyui-linkbutton a-select"
+                   iconCls="icon-print"data-options="selected:true"><%--打印--%></a>
                 <a onclick="addPage();" class="easyui-linkbutton addRow" style="background: #4f9fcf;color: #ffffff"
                    iconCls="icon-add">添加会员</a>
             </div>
@@ -304,7 +314,7 @@
             };
         }
         $.ajax({
-            type: "POST", url: "Vip/selectByAll", dataType: "json", data: data, success: function (json) {
+            type: "POST", url: "/Vip/selectByAll", dataType: "json", data: data, success: function (json) {
                 for (var i = 0; i < json.list.length; i++) {
                     var vip = json.list[i];
                     rows.push({
@@ -360,7 +370,7 @@
             onDblClickRow:function(rowIndex, rowData){
                 //alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("修改会员信息","Vip/updat?id="+rowData.id,1000,400,function(){
+                showPage("修改会员信息","/Vip/updat?id="+rowData.id,1000,400,function(){
                     tableData();
                 },true,false);
             }
@@ -370,7 +380,7 @@
 
     //打开新增页面
     function addPage() {
-        showPage("新增会员信息","Vip/ad",1000,400,function(){
+        showPage("新增会员信息","/Vip/ad",1000,400,function(){
             tableData();
         },true,false);
     }
@@ -384,7 +394,7 @@
         var divTrem = $(".first-trem");
         var trem = divTrem.find("[name=trem]");
         var compare = divTrem.find("[name=compare]");
-        $.getJSON("Vip/getStatus", function (json) {
+        $.getJSON("/Vip/getStatus", function (json) {
             //获得vip查询变量
             var tremOpt = json.vipInput;
             for(var name in tremOpt){
@@ -410,7 +420,7 @@
         var sel = select.siblings(".trem-select");
         sel.empty();
         var selval = select.val();
-        $.getJSON("Vip/getStatus", function (json) {
+        $.getJSON("/Vip/getStatus", function (json) {
             //获得vip查询变量
             var textOpt = json.vipInput[selval].input;//下拉框集合
             //如果是空的，则是输入框
@@ -432,6 +442,16 @@
                 }
             }
         });
+    }
+    //打印预览
+    function tablePrint() {
+        var thead=$("<thead></thead>").append($(".datagrid-header-row").clone());
+        thead.find("td").css("min-width:80px;");
+        var tbody=$(".datagrid-view2").find(".datagrid-btable").find("tbody").clone();
+        var table=$("<table></table>").attr("border",1).attr("cellspacing",0).append(thead).append(tbody);
+        //$("#test").append(table);
+        table.jqprint();
+        table.remove();
     }
 </script>
 </body>
