@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.Product_ServiceImpl;
 import serviceimpl.Store_ServiceImpl;
+import utils.JsonData;
 import utils.JsonData1;
+import utils.ListAndSearchInfo;
+import utils.SeachInfo;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -25,21 +28,22 @@ public class Store_Controller extends Basic_Controller<Store> {
 
     @RequestMapping("ready")
     public @ResponseBody
-    List ready(int shopid) {
+    ListAndSearchInfo ready(SeachInfo sea,int shopid) {
         List<Store> list = service.getByAttr(new JsonData1("shopid", shopid));
         List<Product> plist = new ArrayList<Product>();
         for (Store store : list) {
             plist.add(pservice.getById(store.getProductid().getId()));
         }
-        return plist;
+        return new ListAndSearchInfo(sea, plist);
     }
 
     @RequestMapping("updateStore")
-    public @ResponseBody String updateStore(int id,int count,int cbprice){
-        if(count<0||cbprice<0)return "{\"status\":0}";
+    public @ResponseBody
+    JsonData updateStore(int id, int count, int cbprice){
+        if(count<0||cbprice<0)return new JsonData(0,"成本或单价不能小于0");
         service.updateAttr(new JsonData1("count",id,count));
         service.updateAttr(new JsonData1("cbprice",id,cbprice));
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
 

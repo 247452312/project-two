@@ -16,7 +16,7 @@ public class LoginFilter implements Filter {
 
 	}
 
-	String login = "//login.jsp,/User/login,/code,";
+	String login = "/login.jsp,/User/login,/code,";
 	String mark = ".css,.jpg,.js,.png,.woff,.ico,";
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,

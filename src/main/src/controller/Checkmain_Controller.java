@@ -3,6 +3,7 @@ package controller;
 import entity.Checkdetail;
 import entity.Checkmain;
 import entity.User;
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import serviceimpl.Checkmain_ServiceImpl;
 import serviceimpl.Ordermain_ServiceImpl;
 import serviceimpl.Store_ServiceImpl;
 import utils.Info;
+import utils.JsonData;
 import utils.JsonData1;
 
 import javax.annotation.Resource;
@@ -36,9 +38,9 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
 
     @RequestMapping("insert")
     public @ResponseBody
-    String insert(Checkmain check, List<Checkdetail> list,HttpSession session) {
+    JsonData insert(Checkmain check, List<Checkdetail> list, HttpSession session) {
         if (check.getCheckcode() == null || check.getCheckdate() == null || check.getCheckname() == null || check.getFexp() == null || check.getShopid() == null || check.getStatus() == null || list.size() == 0)
-            return "{\"status\":0}";
+            return new JsonData(0,"数据不全");
         check.setCheckdate(Info.getNow());
         if (check.getStatus() == null)
             check.setStatus(0);
@@ -49,17 +51,16 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
 
             cservice.insert(checkdetail);
         }
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
     @RequestMapping("aotoOrder")
     public @ResponseBody
-    String aotoOrder(Checkmain check, List<Checkdetail> list, HttpSession session) {
+    JsonData aotoOrder(Checkmain check, List<Checkdetail> list, HttpSession session) {
         User u = (User) session.getAttribute("user");
-        if (u == null) return "{\"status\":2}";
         service.insert(check);
         service.autocreate(check.getId());
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
 

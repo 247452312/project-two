@@ -3,22 +3,21 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <base href="../../">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>会员信息修改</title>
-    <script type="text/javascript" src="custom/jquery.min.js"></script>
-    <script type="text/javascript" src="js/layer/layer.js"></script>
-    <script type="text/javascript" src="js/basic.js"></script>
-    <script type="text/javascript" src="js/Calendar3.js"></script>
-    <script type="text/javascript" src="js/selfFunction.js"></script>
-    <link rel="stylesheet" type="text/css" href="js/layer/layui.css">
-    <link rel="stylesheet" type="text/css" href="css/lib/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/addpage/addpage.css" />
-    <link rel="stylesheet" type="text/css" href="css/addpage/font.css" />
+    <script type="text/javascript" src="/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/layer/layer.js"></script>
+    <script type="text/javascript" src="/js/basic.js"></script>
+    <script type="text/javascript" src="/js/Calendar3.js"></script>
+    <script type="text/javascript" src="/js/selfFunction.js"></script>
+    <link rel="stylesheet" type="text/css" href="/js/layer/layui.css">
+    <link rel="stylesheet" type="text/css" href="/css/lib/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/addpage/addpage.css" />
+    <link rel="stylesheet" type="text/css" href="/css/addpage/font.css" />
 </head>
 <body>
-    <form class="form" action="Vip/ajax" method="post">
+    <form class="form" action="/Vip/ajax" method="post">
         <input type="hidden" name="cmd" value="${requestScope.cmd}">
         <input type="hidden" name="id" value="${requestScope.object.id}">
         <input type="hidden" name="status" value="0">
@@ -115,7 +114,7 @@
     <%--函数部分--%>
     <script type="text/javascript">
         $(function () {
-            $.getJSON("Vip/getStatus",function (json) {
+            $.getJSON("/Vip/getStatus",function (json) {
                 var vipSels=json.vipInput;
                 addSel(vipSels[2],"sex");
                 addSel(vipSels[4],"viptypeid");
