@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class LoginFilter implements Filter {
 
@@ -46,7 +47,8 @@ public class LoginFilter implements Filter {
 			res.setHeader("Cache-Control", "no-store");
 			res.setDateHeader("Expires", 0);
 			res.setHeader("Prama", "no-cache");
-			res.sendRedirect("/login.jsp");
+			PrintWriter out = res.getWriter();
+			out.println("<html><script type=\"text/javascript\">window.open ('/login.jsp','_top')</script>");
 			return;
 		}
 	}
