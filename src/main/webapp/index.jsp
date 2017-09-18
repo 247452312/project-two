@@ -187,7 +187,7 @@
                         <li src="table/Vip/index.jsp" ><a href="javascript:;">会员信息</a></li>
                         <li src="hello.jsp?name=shop" ><a href="javascript:;">分店信息</a></li>
                         <li src="hello.jsp?name=product" ><a href="javascript:;">商品信息</a></li>
-                        <li src="hello.jsp?name=viptype" ><a href="javascript:;">会员类型信息</a></li>
+                        <li src="table/Viptype/index.jsp" ><a href="javascript:;">会员类型信息</a></li>
                         <li src="hello.jsp?name=protype" ><a href="javascript:;">商品类型信息</a></li>
                     </ul>
                 </li>

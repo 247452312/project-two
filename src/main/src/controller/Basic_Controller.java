@@ -43,6 +43,7 @@ public class Basic_Controller<T> {
 				.getGenericSuperclass();
 		Class cls = (Class) type.getActualTypeArguments()[0];
 		String tableName = cls.getSimpleName();
+		System.out.println(tableName);
 		return "table/" + tableName;
 	}
 

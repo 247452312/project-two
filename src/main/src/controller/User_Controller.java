@@ -2,13 +2,11 @@ package controller;
 
 import entity.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.User_ServiceImpl;
 import utils.JsonData;
 import utils.JsonData1;
-import utils.ListAndSearchInfo;
 import utils.MD5Util;
 
 import javax.annotation.Resource;
@@ -34,8 +32,8 @@ public class User_Controller extends Basic_Controller<User> {
     /**
      * 登陆
      *
-     * @param username 用户名
-     * @param userpass 密码
+     * @param name 用户名
+     * @param pass 密码
      * @param code     验证码
      * @param box      是否记住密码
      * @param session  session
@@ -43,16 +41,21 @@ public class User_Controller extends Basic_Controller<User> {
      */
     @RequestMapping("login")
     public @ResponseBody
-    JsonData login(String username, String userpass, String code, int box, HttpServletResponse res, HttpSession session) {
+    JsonData login(String name, String pass, String code, int box, HttpServletResponse res, HttpSession session) {
         String str = session.getAttribute("code").toString();
         if (str == null || str.equals("")) return new JsonData(0, "客户端错误");
         if (!str.equals(code)) return new JsonData(2, "验证码错误");
-        User u = service.login(username, userpass);
+        User u = service.login(name, pass);
         if (u == null) return new JsonData(3, "用户名或密码不存在");
         session.setAttribute("user", u);
         if (box == 1) {
-            Cookie c1 = new Cookie("username", username);
-            Cookie c2 = new Cookie("userpass", userpass);
+            Cookie c1 = new Cookie("username", name);
+            Cookie c2 = new Cookie("userpass", pass);
+            c1.setMaxAge(60*60*24*14);
+            c2.setMaxAge(60*60*24*14);
+            c1.setPath("/");
+            c2.setPath("/");
+
             res.addCookie(c1);
             res.addCookie(c2);
         }
@@ -74,10 +77,10 @@ public class User_Controller extends Basic_Controller<User> {
     JsonData updatePass(String oldPass, String newPass, String newPassAgain, HttpSession session,HttpServletRequest req) {
         User u = (User) session.getAttribute("user");
         if (u == null) return new JsonData(0,"没有登录");
-        if (!u.getPass().equals(MD5Util.getMD5(oldPass))) return new JsonData(4,"旧密码不正确");
+        if (!u.getPass().equals(MD5Util.MD5(oldPass))) return new JsonData(4,"旧密码不正确");
         if (newPass.equals(oldPass)) return new JsonData(3,"新密码与旧密码相同");
         if (!newPass.equals(newPassAgain)) return new JsonData(2,"新密码两次不一致");
-        service.updateAttr(new JsonData1("pass", u.getId(), MD5Util.getMD5(newPass)));
+        service.updateAttr(new JsonData1("pass", u.getId(), MD5Util.MD5(newPass)));
         for (Cookie cookie : req.getCookies()) {
             if(cookie.getName().equals("userpass")){cookie.setValue(newPass);}
         }
