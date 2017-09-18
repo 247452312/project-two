@@ -6,17 +6,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>百莲达管理系统</title>
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/login/login.css" rel="stylesheet">
-    <script type="text/javascript" src="js/layer/layer.js"></script>
-    <script type="text/javascript" src="js/basic.js"></script>
-    <link href="css/base.css" rel="stylesheet">
-    <script type="text/javascript" src="../custom/jquery.min.js"></script>
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/login/login.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/layer/layer.js"></script>
+    <script type="text/javascript" src="/js/basic.js"></script>
+    <link href="/css/base.css" rel="stylesheet">
+    <script type="text/javascript" src="/custom/jquery.min.js"></script>
 </head>
 <body>
 <div class="login-hd">
     <div class="hd-inner">
-        <img src="images/bailianda.png" alt="logo"
+        <img src="/images/bailianda.png" alt="logo"
              style="vertical-align:top;margin-top: 20px;margin-left: 20px;">
     </div>
 </div>
@@ -30,7 +30,7 @@
                         <i class="iconfont">&#xe62e;</i>
                         <span></span>
                     </div>
-                    <form action="User/login" method="post" class="form">
+                    <form action="/User/login" method="post" class="form">
                         <div class="lg-username input-item clearfix">
                             <i class="iconfont">&#xe60d;</i>
                             <input type="text" name="name" placeholder="请输入账号" value="${cookie.username.value}">
@@ -106,6 +106,7 @@
                 success: function (json) {
                     if (json.status != 1) {
                         showErr(json.info);
+
                     }
                     else {
                         location.href = "/index.jsp";

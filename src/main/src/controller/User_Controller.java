@@ -63,6 +63,13 @@ public class User_Controller extends Basic_Controller<User> {
 
     }
 
+    @RequestMapping("cancel")
+    public String cancellogin(HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:/login.jsp";
+
+    }
+
     /**
      * 返回值为0:没有登录,返回值为1:修改成功.返回值为2:新密码两次不一致,返回值为3:新密码与旧密码相同,返回值为4,旧密码不正确
      *

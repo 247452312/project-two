@@ -24,7 +24,7 @@ public class LoginFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		String url = req.getServletPath();
 		for (String s : mark.split(",")) {
-			if(url.contains(s)) {
+			if((url+",").contains(s+",")) {
 				chain.doFilter(request, response);
 				System.out.println(url+" 悄悄地路过拦截器");
 				return;

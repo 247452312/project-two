@@ -32,7 +32,6 @@ public class User_ServiceImpl extends Basic_ServiceImpl<User> implements User_Se
 
 	@Override
 	public User login(String user, String pass) {
-		System.out.println(MD5Util.MD5(pass));
 		return mapper.login(user,MD5Util.MD5(pass));
 	}
 }

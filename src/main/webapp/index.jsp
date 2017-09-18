@@ -137,7 +137,7 @@
             <div class="pf-user-photo">
                 <img src="images/main/user.png" alt="">
             </div>
-            <h4 class="pf-user-name ellipsis">uimaker</h4>
+            <h4 class="pf-user-name ellipsis">${sessionScope.user.name}</h4>
             <i class="iconfont xiala">&#xe607;</i>
 
             <div class="pf-user-panel">
@@ -149,13 +149,13 @@
                         </a>
                     </li>
                     <li class="pf-modify-pwd">
-                        <a href="http://www.uimaker.com">
+                        <a href="#">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
                     </li>
                     <li class="pf-logout">
-                        <a href="login.html">
+                        <a href="/User/cancel">
                             <i class="iconfont">&#xe60e;</i>
                             <span class="pf-opt-name">退出</span>
                         </a>
