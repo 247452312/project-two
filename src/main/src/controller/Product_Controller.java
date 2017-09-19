@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.Product_ServiceImpl;
+import utils.JsonData;
 import utils.ListAndSearchInfo;
 import utils.SeachInfo;
 
@@ -22,12 +23,11 @@ public class Product_Controller extends Basic_Controller<Product> {
     Product_ServiceImpl service;
 
 
-
     @RequestMapping("updateStatus")
-    public @ResponseBody
-    String updateStatus(int id) {
+    @ResponseBody
+    JsonData updateStatus(int id) {
         service.updateStatus(id);
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
 

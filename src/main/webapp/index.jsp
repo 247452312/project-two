@@ -21,7 +21,7 @@
         <div class="pf-nav-wrap">
             <div class="pf-nav-ww">
                 <ul class="pf-nav">
-                    <li class="pf-nav-item home current" data-menu="sys-manage">
+                    <li class="pf-nav-item home current" data-menu="sys-manage" src="table/Client/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe63f;</span>
                             <span class="pf-nav-title">供货商管理</span>
@@ -134,9 +134,9 @@
 
         <div class="pf-user">
             <div class="pf-user-photo">
-                <img src="images/main/user.png" alt="">
+                <img src="/images/main/user.png" alt="">
             </div>
-            <h4 class="pf-user-name ellipsis">uimaker</h4>
+            <h4 class="pf-user-name ellipsis">${sessionScope.user.name}</h4>
             <i class="iconfont xiala">&#xe607;</i>
 
             <div class="pf-user-panel">
@@ -148,13 +148,13 @@
                         </a>
                     </li>
                     <li class="pf-modify-pwd">
-                        <a href="http://www.uimaker.com">
+                        <a href="#">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
                     </li>
                     <li class="pf-logout">
-                        <a href="login.html">
+                        <a href="/User/cancel">
                             <i class="iconfont">&#xe60e;</i>
                             <span class="pf-opt-name">退出</span>
                         </a>
@@ -181,13 +181,13 @@
                         <i class="iconfont">&#xe642;</i>
                     </a>
                     <ul class="sider-nav-s">
-                        <li src="hello.jsp?name=user" class="active"><a href="javascript:;">操作员信息</a></li>
-                        <li src="hello.jsp?name=client"><a href="javascript:;">供货商信息</a></li>
+                        <li src="table/User/index.jsp" class="active"><a href="javascript:;">操作员信息</a></li>
+                        <li src="table/Client/index.jsp"><a href="javascript:;">供货商信息</a></li>
                         <li src="table/Vip/index.jsp"><a href="javascript:;">会员信息</a></li>
-                        <li src="hello.jsp?name=shop"><a href="javascript:;">分店信息</a></li>
-                        <li src="hello.jsp?name=product"><a href="javascript:;">商品信息</a></li>
-                        <li src="hello.jsp?name=viptype"><a href="javascript:;">会员类型信息</a></li>
-                        <li src="hello.jsp?name=protype"><a href="javascript:;">商品类型信息</a></li>
+                        <li src="table/Shop/index.jsp"><a href="javascript:;">分店信息</a></li>
+                        <li src="table/Product/index.jsp"><a href="javascript:;">商品信息</a></li>
+                        <li src="table/Viptype/index.jsp"><a href="javascript:;">会员类型信息</a></li>
+                        <li src="table/Producttype/index.jsp"><a href="javascript:;">商品类型信息</a></li>
                     </ul>
                 </li>
                 <li>

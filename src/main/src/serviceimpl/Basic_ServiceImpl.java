@@ -125,6 +125,7 @@ public class Basic_ServiceImpl<T> {
         if(s.equals("user"))return StatusUtils.UserSelectMap;
         if(s.equals("shop"))return StatusUtils.ShopSelectMap;
         if(s.equals("producttype"))return StatusUtils.producttypeSelectMap;
+        if(s.equals("client"))return StatusUtils.ClientSelectMap;
         return null;
     }
 

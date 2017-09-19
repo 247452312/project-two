@@ -26,6 +26,24 @@ public class User implements Comparable<User>  {
 	private String telmov;
 	private String fright;
 
+	private String statusString;
+	private String sexString;
+
+	public String getSexString() {
+		return sexString;
+	}
+
+	public void setSexString(String sexString) {
+		this.sexString = sexString;
+	}
+
+	public String getStatusString() {
+		return statusString;
+	}
+
+	public void setStatusString(String statusString) {
+		this.statusString = statusString;
+	}
 
 	public User(){
 	}
