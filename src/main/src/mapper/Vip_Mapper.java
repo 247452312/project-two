@@ -56,7 +56,7 @@ public interface Vip_Mapper extends Basic_Mapper<Vip> {
             @Result(column = "viptypeid", property = "viptypeid", one = @One(select = "mapper.Viptype_Mapper.getById")),
             @Result(column = "telmov", property = "telmov"),
     })
-    public List<Vip> getByAttr(SeachInfo sea);
+    public List<Vip> getByAttr(JsonData1 j);
 
     @Select("select * from `vip` where id = #{id}")
     @Results({

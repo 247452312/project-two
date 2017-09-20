@@ -13,6 +13,7 @@ import utils.ListAndSearchInfo;
 import utils.SeachInfo;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Store_Controller extends Basic_Controller<Store> {
         for (Store store : list) {
             plist.add(pservice.getById(store.getProductid().getId()));
         }
-        return new ListAndSearchInfo(sea, plist);
+        return new ListAndSearchInfo(sea, list);
     }
 
     @RequestMapping("updateStore")
@@ -45,6 +46,7 @@ public class Store_Controller extends Basic_Controller<Store> {
         service.updateAttr(new JsonData1("cbprice",id,cbprice));
         return new JsonData(1);
     }
+
 
 
 

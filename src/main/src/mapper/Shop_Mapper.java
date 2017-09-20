@@ -39,7 +39,7 @@ public interface Shop_Mapper extends Basic_Mapper<Shop> {
             @Result(column = "telmov", property = "telmov"),
             @Result(column = "code", property = "code"),
     })
-    public List<Shop> getByAttr(SeachInfo sea);
+    public List<Shop> getByAttr(JsonData1 j);
 
     @Select("select shop.*,user.`name` username from `shop` inner join user on user.id=shop.userid where shop.id = #{id}")
     @Results({

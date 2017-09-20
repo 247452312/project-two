@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.Ordermain_ServiceImpl;
 import serviceimpl.Vip_ServiceImpl;
+import utils.JsonData;
 import utils.JsonData1;
 import utils.ListAndSearchInfo;
 import utils.SeachInfo;
@@ -32,9 +33,9 @@ public class Vip_Controller extends Basic_Controller<Vip> {
 
     @RequestMapping("updateStatus")
     public @ResponseBody
-    String updateStatus(int id) {
+    JsonData updateStatus(int id) {
         service.updateStatus(id);
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
     @RequestMapping("getVip")

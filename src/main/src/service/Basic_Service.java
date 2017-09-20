@@ -1,5 +1,6 @@
 package service;
 
+import utils.JsonData;
 import utils.JsonData1;
 import utils.ListAndSearchInfo;
 import utils.SeachInfo;
@@ -13,7 +14,9 @@ public interface Basic_Service<T> {
 	public List<T> getAll(SeachInfo sea);
 	
 	public List<T> getByAttr(JsonData1 j);
-	
+
+	public List<T> getByAttr(JsonData1... j);
+
 	public T getById(int id);
 	
 	public void insert(T t);

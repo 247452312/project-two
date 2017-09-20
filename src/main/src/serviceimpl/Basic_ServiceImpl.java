@@ -71,7 +71,7 @@ public class Basic_ServiceImpl<T> {
         Map<Integer, nameInput> temp = getMap(tableName);
         if (trem != null) {
             for (int i = 0; i < trem.length; i++) {
-
+                if(text[i].contains("\"")||text[i].contains("'")||text[i].contains("or")||text[i].contains("and"))return null;
                 if (text[i] == null||text[i].equals("")) continue;
                 sea.setCol(temp.get(trem[i]).getSql());
                 //in中文标点改英文标点

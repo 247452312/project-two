@@ -56,7 +56,7 @@ public interface User_Mapper extends Basic_Mapper<User> {
 		@Result(column="telmov",property="telmov"),
 		@Result(column="fright",property="fright"),
 	})
-	public List<User> getByAttr(SeachInfo sea);
+	public List<User> getByAttr(JsonData1 j);
 
 	@Select("select * from `user` where id = #{id}")
 	@Results({

@@ -1,5 +1,7 @@
 package entity;
 
+import utils.StatusUtils;
+
 public class User implements Comparable<User>  {
 
 	private Integer sex;
@@ -33,17 +35,10 @@ public class User implements Comparable<User>  {
 		return sexString;
 	}
 
-	public void setSexString(String sexString) {
-		this.sexString = sexString;
-	}
-
 	public String getStatusString() {
 		return statusString;
 	}
 
-	public void setStatusString(String statusString) {
-		this.statusString = statusString;
-	}
 
 	public User(){
 	}
@@ -153,12 +148,14 @@ public class User implements Comparable<User>  {
 	}
 	public void setSex(Integer sex){
 		this.sex=sex;
+		this.sexString= StatusUtils.sex[sex];
 	}
 	public void setCcode(String ccode){
 		this.ccode=ccode;
 	}
 	public void setStatus(Integer status){
 		this.status=status;
+		this.statusString=StatusUtils.UserStatus[status];
 	}
 	public void setTel(String tel){
 		this.tel=tel;

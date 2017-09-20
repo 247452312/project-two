@@ -34,7 +34,7 @@ public interface Checkmain_Mapper extends Basic_Mapper<Checkmain> {
 		@Result(column="status",property="status"),
 		@Result(column="checkname",property="checkname"),
 	})
-	public List<Checkmain> getByAttr(SeachInfo sea);
+	public List<Checkmain> getByAttr(JsonData1 j);
 
 	@Select("select * from `checkmain` where id = #{id}")
 	@Results({

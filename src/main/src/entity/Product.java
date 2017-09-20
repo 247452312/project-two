@@ -1,5 +1,7 @@
 package entity;
 
+import utils.StatusUtils;
+
 public class Product implements Comparable<Product> {
 
     private Integer status;
@@ -21,10 +23,6 @@ public class Product implements Comparable<Product> {
 
     public String getStatusString() {
         return statusString;
-    }
-
-    public void setStatusString(String statusString) {
-        this.statusString = statusString;
     }
 
     public Product() {
@@ -128,6 +126,7 @@ public class Product implements Comparable<Product> {
 
     public void setStatus(Integer status) {
         this.status = status;
+        this.statusString= StatusUtils.ProductStatus[status];
     }
 
     public void setDefaultprice(Double defaultprice) {

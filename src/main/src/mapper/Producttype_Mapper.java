@@ -26,7 +26,7 @@ public interface Producttype_Mapper extends Basic_Mapper<Producttype> {
 		@Result(column="fexp",property="fexp"),
 		@Result(column="name",property="name"),
 	})
-	public List<Producttype> getByAttr(SeachInfo sea);
+	public List<Producttype> getByAttr(JsonData1 j);
 
 	@Select("select * from `producttype` where id = #{id}")
 	@Results({

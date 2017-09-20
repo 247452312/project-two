@@ -48,7 +48,7 @@ public interface Product_Mapper extends Basic_Mapper<Product> {
 		@Result(column="name",property="name"),
 		@Result(column="zjm",property="zjm"),
 	})
-	public List<Product> getByAttr(SeachInfo sea);
+	public List<Product> getByAttr(JsonData1 j);
 
 	@Select("select * from `product` where id = #{id}")
 	@Results({

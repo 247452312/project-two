@@ -26,7 +26,7 @@ public interface Viptype_Mapper extends Basic_Mapper<Viptype> {
 		@Result(column="fexp",property="fexp"),
 		@Result(column="name",property="name"),
 	})
-	public List<Viptype> getByAttr(SeachInfo sea);
+	public List<Viptype> getByAttr(JsonData1 j);
 
 	@Select("select * from `viptype` where id = #{id}")
 	@Results({

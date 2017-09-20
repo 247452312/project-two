@@ -38,7 +38,7 @@ public interface Orderdetail_Mapper extends Basic_Mapper<Orderdetail> {
 		@Result(column="orderid",property="orderid",one=@One(select="mapper.Ordermain_Mapper.getById")),
 		@Result(column="cbprice",property="cbprice"),
 	})
-	public List<Orderdetail> getByAttr(SeachInfo sea);
+	public List<Orderdetail> getByAttr(JsonData1 j);
 
 	@Select("select * from `orderdetail` where id = #{id}")
 	@Results({

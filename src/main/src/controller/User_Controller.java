@@ -24,9 +24,9 @@ public class User_Controller extends Basic_Controller<User> {
 
     @RequestMapping("updateStatus")
     public @ResponseBody
-    String updateStatus(int id, int status) {
+    JsonData updateStatus(int id, int status) {
         service.updateAttr(new JsonData1("status", id, status));
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
     /**

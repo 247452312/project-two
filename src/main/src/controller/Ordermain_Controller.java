@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.Orderdetail_ServiceImpl;
 import serviceimpl.Ordermain_ServiceImpl;
 import utils.Info;
+import utils.JsonData;
+import utils.JsonData1;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -25,16 +27,16 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
 
     @RequestMapping("insertType1")
     public @ResponseBody
-    String insertType1(int type,Ordermain om, HttpSession session) {
+    JsonData insertType1(int type, Ordermain om, HttpSession session) {
         om.setOrdertype(type);
         om.setCreatedate(Info.getNow());
         om.setUserid((User) session.getAttribute("user"));
         service.insert(om);
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
     @RequestMapping("insertType2")
-    public @ResponseBody String insertType2(int type,Ordermain om , List<Orderdetail> list, HttpSession session){
+    public @ResponseBody JsonData insertType2(int type,Ordermain om , List<Orderdetail> list, HttpSession session){
         om.setOrdertype(type);
         om.setCreatedate(Info.getNow());
         om.setUserid((User) session.getAttribute("user"));
@@ -47,7 +49,7 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
         }
         om.setAmount(amount);
         service.insert(om);
-        return "{\"status\":1}";
+        return new JsonData(1);
     }
 
 }

@@ -30,7 +30,7 @@ public interface Checkdetail_Mapper extends Basic_Mapper<Checkdetail> {
 		@Result(column="productid",property="productid",one=@One(select="mapper.Product_Mapper.getById")),
 		@Result(column="checkid",property="checkid",one=@One(select="mapper.Checkmain_Mapper.getById")),
 	})
-	public List<Checkdetail> getByAttr(SeachInfo sea);
+	public List<Checkdetail> getByAttr(JsonData1 j);
 
 	@Select("select * from `checkdetail` where id = #{id}")
 	@Results({

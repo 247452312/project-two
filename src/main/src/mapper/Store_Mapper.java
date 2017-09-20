@@ -3,6 +3,7 @@ package mapper;
 import entity.Store;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import utils.JsonData;
 import utils.JsonData1;
 import utils.SeachInfo;
 
@@ -32,7 +33,7 @@ public interface Store_Mapper extends Basic_Mapper<Store> {
 		@Result(column="productid",property="productid",one=@One(select="mapper.Product_Mapper.getById")),
 		@Result(column="cbprice",property="cbprice"),
 	})
-	public List<Store> getByAttr(SeachInfo sea);
+	public List<Store> getByAttr(JsonData1 j);
 
 	@Select("select * from `store` where id = #{id}")
 	@Results({

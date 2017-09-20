@@ -42,7 +42,7 @@ public interface Client_Mapper extends Basic_Mapper<Client> {
 		@Result(column="telmov",property="telmov"),
 		@Result(column="code",property="code"),
 	})
-	public List<Client> getByAttr(SeachInfo sea);
+	public List<Client> getByAttr(JsonData1 j);
 
 	@Select("select * from `client` where id = #{id}")
 	@Results({

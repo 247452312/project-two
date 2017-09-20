@@ -50,7 +50,7 @@ public interface Ordermain_Mapper extends Basic_Mapper<Ordermain> {
 		@Result(column="shopid",property="shopid",one=@One(select="mapper.Shop_Mapper.getById")),
 		@Result(column="ordercode",property="ordercode"),
 	})
-	public List<Ordermain> getByAttr(SeachInfo sea);
+	public List<Ordermain> getByAttr(JsonData1 j);
 
 	@Select("select * from `ordermain` where id = #{id}")
 	@Results({
