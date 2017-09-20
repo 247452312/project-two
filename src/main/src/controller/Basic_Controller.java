@@ -1,9 +1,7 @@
 package controller;
 
 import entity.User;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
-import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +33,8 @@ public class Basic_Controller<T> {
     @RequestMapping("getStatus")
     public @ResponseBody
     StatusUtils getStatus() {
-        return StatusUtils.getSingle();
+        StatusUtils su = StatusUtils.getSingle();
+        return su;
     }
 
 

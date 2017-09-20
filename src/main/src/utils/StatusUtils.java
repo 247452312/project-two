@@ -30,11 +30,11 @@ public class StatusUtils {
     }
 
     //获得service
-    ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-    Viptype_ServiceImpl viptypeService = (Viptype_ServiceImpl) ac.getBean("Viptype_ServiceImpl");
-    User_ServiceImpl userService = (User_ServiceImpl) ac.getBean("User_ServiceImpl");
-    Shop_ServiceImpl shopService = (Shop_ServiceImpl) ac.getBean("Shop_ServiceImpl");
-    Producttype_ServiceImpl producttypeService = (Producttype_ServiceImpl) ac.getBean("Producttype_ServiceImpl");
+    static ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+    static Viptype_ServiceImpl viptypeService = (Viptype_ServiceImpl) ac.getBean("Viptype_ServiceImpl");
+    static User_ServiceImpl userService = (User_ServiceImpl) ac.getBean("User_ServiceImpl");
+    static Shop_ServiceImpl shopService = (Shop_ServiceImpl) ac.getBean("Shop_ServiceImpl");
+    static Producttype_ServiceImpl producttypeService = (Producttype_ServiceImpl) ac.getBean("Producttype_ServiceImpl");
 
 
     //通用静态变量
@@ -56,6 +56,7 @@ public class StatusUtils {
     public static Map<Integer, nameInput> OrdermainSelectMap = new HashMap<Integer, nameInput>();
 
     //选项下拉列表
+    private Map<Integer, nameInput> storeInput;
     private Map<Integer, nameInput> compareInput;
     private Map<Integer, nameInput> vipInput;
     private Map<Integer, nameInput> userInput;
@@ -64,7 +65,6 @@ public class StatusUtils {
     private Map<Integer, nameInput> shopInput;
     private Map<Integer, nameInput> productInput;
     private Map<Integer, nameInput> clientInput;
-    private Map<Integer, nameInput> storeInput;
     private Map<Integer, nameInput> CheckmainInput;
     private Map<Integer, nameInput> OrdermainInput;
 
@@ -236,6 +236,9 @@ public class StatusUtils {
         //操作员加入分店
         userInput.get(13).setInput(scoreShopMap);
         //////////////////////////////////////////////////////////////////////////////////
+        //库存加入分店
+        storeInput.get(0).setInput(scoreShopMap);
+        //////////////////////////////////////////////////////////////////////////////////
     }
 
     public Map<Integer, nameInput> getVipInput() {
@@ -268,5 +271,17 @@ public class StatusUtils {
 
     public Map<Integer, nameInput> getCompareInput() {
         return compareInput;
+    }
+
+    public Map<Integer, nameInput> getStoreInput() {
+        return storeInput;
+    }
+
+    public Map<Integer, nameInput> getCheckmainInput() {
+        return CheckmainInput;
+    }
+
+    public Map<Integer, nameInput> getOrdermainInput() {
+        return OrdermainInput;
     }
 }

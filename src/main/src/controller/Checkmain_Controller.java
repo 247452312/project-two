@@ -40,7 +40,7 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
     public @ResponseBody
     JsonData insert(Checkmain check, List<Checkdetail> list, HttpSession session) {
         if (check.getCheckcode() == null || check.getCheckdate() == null || check.getCheckname() == null || check.getFexp() == null || check.getShopid() == null || check.getStatus() == null || list.size() == 0)
-            return new JsonData(0,"数据不全");
+            return new JsonData(0, "数据不全");
         check.setCheckdate(Info.getNow());
         if (check.getStatus() == null)
             check.setStatus(0);
@@ -57,24 +57,30 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
     @RequestMapping("aotoOrder")
     public @ResponseBody
     JsonData aotoOrder(Checkmain check, List<Checkdetail> list, HttpSession session) {
-        User u = (User) session.getAttribute("user");
-        service.insert(check);
-        service.autocreate(check.getId());
-        return new JsonData(1);
+        Checkmain ch = service.getById(check.getId());
+        if (ch != null) {
+            service.autocreate(check.getId());
+            return new JsonData(1);
+        } else {
+            JsonData temp = insert(check, list, session);
+            if (temp.getStatus() == 1) {
+                service.autocreate(check.getId());
+            }
+            return temp;
+        }
     }
 
 
-
-
     @RequestMapping("update")
-    public @ResponseBody String update(Integer mainId){
+    public @ResponseBody
+    String update(Integer mainId) {
         Checkmain main = service.getById(mainId);
-        List<Checkdetail> list = cservice.getByAttr(new JsonData1("checkid",mainId));
+        List<Checkdetail> list = cservice.getByAttr(new JsonData1("checkid", mainId));
         StringBuilder sb = new StringBuilder("{");
-         sb.append(JSONObject.fromObject(main));
-         sb.append(",");
-         sb.append(JSONArray.fromObject(list));
-         sb.append("}");
+        sb.append(JSONObject.fromObject(main));
+        sb.append(",");
+        sb.append(JSONArray.fromObject(list));
+        sb.append("}");
         return sb.toString();
     }
 }

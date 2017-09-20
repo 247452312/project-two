@@ -3,7 +3,9 @@ package controller;
 import entity.Product;
 import entity.Store;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.Product_ServiceImpl;
 import serviceimpl.Store_ServiceImpl;
@@ -26,28 +28,31 @@ public class Store_Controller extends Basic_Controller<Store> {
     @Resource(name = "Product_ServiceImpl")
     Product_ServiceImpl pservice;
 
+    @Override
+    public String updat(int id, ModelMap m) {
+        m.put("object",service.getById(id));
+        return "/setInfo/update";
+    }
 
     @RequestMapping("ready")
     public @ResponseBody
-    ListAndSearchInfo ready(SeachInfo sea,int shopid) {
-        List<Store> list = service.getByAttr(new JsonData1("shopid", shopid));
-        List<Product> plist = new ArrayList<Product>();
-        for (Store store : list) {
-            plist.add(pservice.getById(store.getProductid().getId()));
+    ListAndSearchInfo ready(SeachInfo sea,@RequestParam(defaultValue = "0") int shopid) {
+        if (shopid == 0) return new ListAndSearchInfo(sea,new ArrayList());
+        if(shopid==-1){
+            List<Store> list = service.getAll(sea);
         }
+        List<Store> list = service.getByAttr(new JsonData1("shopid", shopid));
         return new ListAndSearchInfo(sea, list);
     }
 
     @RequestMapping("updateStore")
     public @ResponseBody
-    JsonData updateStore(int id, int count, int cbprice){
-        if(count<0||cbprice<0)return new JsonData(0,"成本或单价不能小于0");
-        service.updateAttr(new JsonData1("count",id,count));
-        service.updateAttr(new JsonData1("cbprice",id,cbprice));
+    JsonData updateStore(int id, int count, int cbprice) {
+        if (count < 0 || cbprice < 0) return new JsonData(0, "成本或单价不能小于0");
+        service.updateAttr(new JsonData1("count", id, count));
+        service.updateAttr(new JsonData1("cbprice", id, cbprice));
         return new JsonData(1);
     }
-
-
 
 
 }

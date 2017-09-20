@@ -148,7 +148,7 @@
                         </a>
                     </li>
                     <li class="pf-modify-pwd">
-                        <a href="#">
+                        <a href="/setInfo/updatePass.jsp">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
@@ -197,10 +197,9 @@
                         <i class="iconfont">&#xe642;</i>
                     </a>
                     <ul class="sider-nav-s">
-                        <li src="#" class="active"><a href="javascript:;">修改密码</a></li>
-                        <li src="#"><a href="javascript:;">库存初始</a></li>
-                        <li src="#"><a href="javascript:;">库存盘点</a></li>
-                        <li src="#"><a href="javascript:;">盘点记录</a></li>
+                        <li src="/setInfo/checkReady.jsp" class="active"><a href="javascript:;">库存初始</a></li>
+                        <li src="/setInfo/checkReady.jsp"><a href="javascript:;">库存盘点</a></li>
+                        <li src="/setInfo/checkReady.jsp"><a href="javascript:;">盘点记录</a></li>
                     </ul>
                 </li>
                 <li>
