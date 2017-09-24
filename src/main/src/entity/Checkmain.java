@@ -1,5 +1,7 @@
 package entity;
 
+import utils.StatusUtils;
+
 public class Checkmain implements Comparable<Checkmain> {
 
 	private Integer id;
@@ -9,7 +11,7 @@ public class Checkmain implements Comparable<Checkmain> {
 	private String checkdate;
 	private Integer status;
 	private String checkname;
-
+	private String statusString;
 
 	public Checkmain(){
 	}
@@ -79,9 +81,14 @@ public class Checkmain implements Comparable<Checkmain> {
 	}
 	public void setStatus(Integer status){
 		this.status=status;
+		this.statusString= StatusUtils.CheckmainStatus[status];
 	}
 	public void setCheckname(String checkname){
 		this.checkname=checkname;
+	}
+
+	public String getStatusString() {
+		return statusString;
 	}
 
 	@Override

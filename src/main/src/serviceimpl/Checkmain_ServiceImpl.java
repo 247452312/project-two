@@ -36,4 +36,8 @@ public class Checkmain_ServiceImpl extends Basic_ServiceImpl<Checkmain> implemen
     public void autocreate(int id) {
         mapper.autocreate(id);
     }
+
+    public Checkmain getNew(){
+        return mapper.getNew();
+    };
 }

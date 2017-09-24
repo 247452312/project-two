@@ -1,16 +1,10 @@
 package utils;
 
 
-import entity.Producttype;
-import entity.Shop;
-import entity.User;
-import entity.Viptype;
+import entity.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import serviceimpl.Producttype_ServiceImpl;
-import serviceimpl.Shop_ServiceImpl;
-import serviceimpl.User_ServiceImpl;
-import serviceimpl.Viptype_ServiceImpl;
+import serviceimpl.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,13 +29,17 @@ public class StatusUtils {
     static User_ServiceImpl userService = (User_ServiceImpl) ac.getBean("User_ServiceImpl");
     static Shop_ServiceImpl shopService = (Shop_ServiceImpl) ac.getBean("Shop_ServiceImpl");
     static Producttype_ServiceImpl producttypeService = (Producttype_ServiceImpl) ac.getBean("Producttype_ServiceImpl");
-
+    static Client_ServiceImpl clientService = (Client_ServiceImpl) ac.getBean("Client_ServiceImpl");
 
     //通用静态变量
     public static String[] sex = new String[]{"男", "女"};
     public static String[] VIPStatus = new String[]{"可用", "禁用"};
     public static String[] ProductStatus = new String[]{"可用", "不可用"};
     public static String[] UserStatus = new String[]{"操作员", "职员", "离职", "临时工"};
+    public static String[] CheckmainStatus = new String[]{"可修改", "已完成"};
+    public static String[] OrdermainStatus = new String[]{"自动生成", "手动生成"};
+    public static String[] OrdermainType = new String[]{"充值单","退款单","项目充值单","项目退款单",
+            "采购单","采购退货单","销售单","销售退货单","移库单","库损单","库溢单"};
 
     public static Map<Integer, nameInput> compareMap = new HashMap<Integer, nameInput>();
     public static Map<Integer, nameInput> VIPSelectMap = new HashMap<Integer, nameInput>();
@@ -53,6 +51,7 @@ public class StatusUtils {
     public static Map<Integer, nameInput> ClientSelectMap = new HashMap<Integer, nameInput>();
     public static Map<Integer, nameInput> StoreSelectMap = new HashMap<Integer, nameInput>();
     public static Map<Integer, nameInput> CheckmainSelectMap = new HashMap<Integer, nameInput>();
+    public static Map<Integer, nameInput> CheckdetailSelectMap = new HashMap<Integer, nameInput>();
     public static Map<Integer, nameInput> OrdermainSelectMap = new HashMap<Integer, nameInput>();
 
     //选项下拉列表
@@ -65,8 +64,12 @@ public class StatusUtils {
     private Map<Integer, nameInput> shopInput;
     private Map<Integer, nameInput> productInput;
     private Map<Integer, nameInput> clientInput;
-    private Map<Integer, nameInput> CheckmainInput;
-    private Map<Integer, nameInput> OrdermainInput;
+    private Map<Integer, nameInput> checkmainInput;
+    private Map<Integer, nameInput> checkdetailInput;
+    private Map<Integer, nameInput> ordermainInput;
+
+    //单据类型
+    private String[] orderTypeArray=OrdermainType;
 
     //静态常用固定量
     static {
@@ -99,8 +102,8 @@ public class StatusUtils {
         UserSelectMap.put(12, new nameInput("fexp", "操作员备注", null));
         UserSelectMap.put(13, new nameInput("shopid", "办理分店", null));
         //Viptype
-        ViptypeSelectMap.put(0, new nameInput("name", "名字", null));
-        ViptypeSelectMap.put(1, new nameInput("fexp", "备注", null));
+        ViptypeSelectMap.put(0, new nameInput("name", "类型名字", null));
+        ViptypeSelectMap.put(1, new nameInput("fexp", "类型备注", null));
         //producttype
         ProductSelectMap.put(0, new nameInput("code", "商品编号", null));
         ProductSelectMap.put(1, new nameInput("name", "商品名称", null));
@@ -110,34 +113,36 @@ public class StatusUtils {
         ProductSelectMap.put(5, new nameInput("producttypeid", "商品类型名称", null));
 
         //Shop
-        ShopSelectMap.put(0, new nameInput("code", "编号", null));
-        ShopSelectMap.put(1, new nameInput("name", "名称", null));
-        ShopSelectMap.put(2, new nameInput("addr", "地址", null));
-        ShopSelectMap.put(3, new nameInput("tel", "电话", null));
-        ShopSelectMap.put(4, new nameInput("telmov", "手机", null));
-        ShopSelectMap.put(5, new nameInput("fexp", "备注", null));
+        ShopSelectMap.put(0, new nameInput("code", "分店编号", null));
+        ShopSelectMap.put(1, new nameInput("name", "分店名称", null));
+        ShopSelectMap.put(2, new nameInput("addr", "分店地址", null));
+        ShopSelectMap.put(3, new nameInput("tel", "分店电话", null));
+        ShopSelectMap.put(4, new nameInput("telmov", "分店手机", null));
+        ShopSelectMap.put(5, new nameInput("fexp", "分店备注", null));
         ShopSelectMap.put(6, new nameInput("createdate", "创建日期", null));
         //Product
-        producttypeSelectMap.put(0, new nameInput("name", "名称", null));
-        producttypeSelectMap.put(1, new nameInput("fexp", "备注", null));
+        producttypeSelectMap.put(0, new nameInput("name", "货类名称", null));
+        producttypeSelectMap.put(1, new nameInput("fexp", "货类备注", null));
 
         //Client
-        ClientSelectMap.put(0, new nameInput("code", "编号", null));
-        ClientSelectMap.put(1, new nameInput("name", "名字", null));
-        ClientSelectMap.put(2, new nameInput("addr", "地址", null));
-        ClientSelectMap.put(3, new nameInput("tel", "电话", null));
-        ClientSelectMap.put(4, new nameInput("telmov", "手机", null));
+        ClientSelectMap.put(0, new nameInput("code", "供货商编号", null));
+        ClientSelectMap.put(1, new nameInput("name", "供货商名字", null));
+        ClientSelectMap.put(2, new nameInput("addr", "供货商地址", null));
+        ClientSelectMap.put(3, new nameInput("tel", "供货商电话", null));
+        ClientSelectMap.put(4, new nameInput("telmov", "供货商手机", null));
         ClientSelectMap.put(5, new nameInput("lxr", "联系人", null));
         ClientSelectMap.put(6, new nameInput("name", "创建日期", null));
         //Store
         StoreSelectMap.put(0, new nameInput("shopid", "分店名称", null));
         //Checkmain
-        CheckmainSelectMap.put(0, new nameInput("code", "盘点编号", null));
-        CheckmainSelectMap.put(0, new nameInput("code", "盘点名称", null));
-        CheckmainSelectMap.put(0, new nameInput("code", "盘点日期", null));
-        CheckmainSelectMap.put(0, new nameInput("code", "分店名字", null));
-        CheckmainSelectMap.put(0, new nameInput("code", "盘点状态", null));
-        CheckmainSelectMap.put(0, new nameInput("code", "盘点备注", null));
+        CheckmainSelectMap.put(0, new nameInput("checkcode", "盘点编号", null));
+        CheckmainSelectMap.put(1, new nameInput("checkname", "盘点名称", null));
+        CheckmainSelectMap.put(2, new nameInput("checkdate", "盘点日期", null));
+        CheckmainSelectMap.put(3, new nameInput("shopid", "分店名字", null));
+        CheckmainSelectMap.put(4, new nameInput("status", "盘点状态", null));
+        CheckmainSelectMap.put(5, new nameInput("fexp", "盘点备注", null));
+        //Checkdetail
+        CheckdetailSelectMap.put(0, new nameInput("checkid", "主表", null));
         //Ordermain
         OrdermainSelectMap.put(0, new nameInput("code", "单据编号", null));
         OrdermainSelectMap.put(1, new nameInput("ordertype", "单据类型", null));
@@ -149,9 +154,9 @@ public class StatusUtils {
         OrdermainSelectMap.put(7, new nameInput("clientid", "供应商", null));
         OrdermainSelectMap.put(8, new nameInput("vipid", "会员名字", null));
         OrdermainSelectMap.put(9, new nameInput("shopid", "分店", null));
-        OrdermainSelectMap.put(11, new nameInput("destshopid", "目的分店", null));
-        OrdermainSelectMap.put(12, new nameInput("status", "单据状态", null));
-        OrdermainSelectMap.put(13, new nameInput("fexp", "单据备注", null));
+        OrdermainSelectMap.put(10, new nameInput("destshopid", "目的分店", null));
+        OrdermainSelectMap.put(11, new nameInput("status", "单据状态", null));
+        OrdermainSelectMap.put(12, new nameInput("fexp", "单据备注", null));
         //符号比较
         compareMap.put(0, new nameInput("like", "模糊查询", null));
         compareMap.put(1, new nameInput("in", "多项查询(以" + '"' + ";" + '"' + "隔开)", null));
@@ -175,8 +180,9 @@ public class StatusUtils {
         productInput = ProductSelectMap;
         clientInput = ClientSelectMap;
         storeInput = StoreSelectMap;
-        CheckmainInput = CheckmainSelectMap;
-        OrdermainInput = OrdermainSelectMap;
+        checkmainInput = CheckmainSelectMap;
+        ordermainInput = OrdermainSelectMap;
+        checkdetailInput = CheckdetailSelectMap;
         //////////////////////////////////////////////////////////////////////////////////
         //VIP表加入性别
         Map<Integer, String> sexMap = new HashMap<Integer, String>();
@@ -191,7 +197,6 @@ public class StatusUtils {
         Map<Integer, String> proStatusMap = new HashMap<Integer, String>();
         for (int i = 0; i < ProductStatus.length; i++) proStatusMap.put(i, ProductStatus[i]);
         productInput.get(4).setInput(proStatusMap);
-
         //////////////////////////////////////////////////////////////////////////////////
         // 操作员表加入状态
         Map<Integer, String> userStatusMap = new HashMap<Integer, String>();
@@ -200,6 +205,19 @@ public class StatusUtils {
         //操作员表加入性别
         userInput.get(2).setInput(sexMap);
         //////////////////////////////////////////////////////////////////////////////////
+        //盘点主表加入状态
+        Map<Integer, String> CheckmainStatusMap = new HashMap<Integer, String>();
+        for (int i = 0; i < CheckmainStatus.length; i++) CheckmainStatusMap.put(i, CheckmainStatus[i]);
+        checkmainInput.get(4).setInput(CheckmainStatusMap);
+        //////////////////////////////////////////////////////////////////////////////////
+        //单据加入状态
+        Map<Integer, String> OrdermainStatusMap = new HashMap<Integer, String>();
+        for (int i = 0; i < OrdermainStatus.length; i++) OrdermainStatusMap.put(i, OrdermainStatus[i]);
+        ordermainInput.get(11).setInput(OrdermainStatusMap);
+        //单据加入类型
+        Map<Integer, String> OrdermainTypeMap = new HashMap<Integer, String>();
+        for (int i = 0; i < OrdermainType.length; i++) OrdermainTypeMap.put(i, OrdermainType[i]);
+        ordermainInput.get(1).setInput(OrdermainTypeMap);
     }
 
     //重新抽取数据库内容
@@ -211,33 +229,43 @@ public class StatusUtils {
         for (Viptype vp : vplist) viptypeMap.put(vp.getId(), vp.getName());
         vipInput.get(4).setInput(viptypeMap);
         //VIP表加入创建人
-        Map<Integer, String> vipUserMap = new HashMap<Integer, String>();
+        Map<Integer, String> userMap = new HashMap<Integer, String>();
         List<User> vipUslist = userService.getAll(new SeachInfo(false));
-        for (User us : vipUslist) vipUserMap.put(us.getId(), us.getName());
-        vipInput.get(9).setInput(vipUserMap);
+        for (User us : vipUslist) userMap.put(us.getId(), us.getName());
+        vipInput.get(9).setInput(userMap);
         //VIP表加入商店
-        Map<Integer, String> vipShopMap = new HashMap<Integer, String>();
+        Map<Integer, String> shopMap = new HashMap<Integer, String>();
         List<Shop> vipShoplist = shopService.getAll(new SeachInfo(false));
-        for (Shop sp : vipShoplist) vipShopMap.put(sp.getId(), sp.getName());
-        vipInput.get(11).setInput(vipShopMap);
+        for (Shop sp : vipShoplist) shopMap.put(sp.getId(), sp.getName());
+        vipInput.get(11).setInput(shopMap);
         //////////////////////////////////////////////////////////////////////////////////
         //库存加入分店
-        Map<Integer, String> scoreShopMap = new HashMap<Integer, String>();
-        List<Shop> scoreShoplist = shopService.getAll(new SeachInfo(false));
-        for (Shop sp : scoreShoplist) scoreShopMap.put(sp.getId(), sp.getName());
-        vipInput.get(0).setInput(scoreShopMap);
+        vipInput.get(0).setInput(shopMap);
         //////////////////////////////////////////////////////////////////////////////////
         //商品加入商品类型
-        Map<Integer, String> proProtypeMap = new HashMap<Integer, String>();
+        Map<Integer, String> protypeMap = new HashMap<Integer, String>();
         List<Producttype> proProtypelist = producttypeService.getAll(new SeachInfo(false));
-        for (Producttype sp : proProtypelist) proProtypeMap.put(sp.getId(), sp.getName());
-        productInput.get(5).setInput(proProtypeMap);
+        for (Producttype sp : proProtypelist) protypeMap.put(sp.getId(), sp.getName());
+        productInput.get(5).setInput(protypeMap);
         //////////////////////////////////////////////////////////////////////////////////
         //操作员加入分店
-        userInput.get(13).setInput(scoreShopMap);
+        userInput.get(13).setInput(shopMap);
         //////////////////////////////////////////////////////////////////////////////////
         //库存加入分店
-        storeInput.get(0).setInput(scoreShopMap);
+        storeInput.get(0).setInput(shopMap);
+        //////////////////////////////////////////////////////////////////////////////////
+        //盘点主表加入分店
+        checkmainInput.get(3).setInput(shopMap);
+        //////////////////////////////////////////////////////////////////////////////////
+        //单据表加入供应商
+        Map<Integer, String> clientMap = new HashMap<Integer, String>();
+        List<Client> clientlist = clientService.getAll(new SeachInfo(false));
+        for (Client cl : clientlist) clientMap.put(cl.getId(), cl.getName());
+        ordermainInput.get(7).setInput(clientMap);
+        //单据表加入分店
+        ordermainInput.get(9).setInput(shopMap);
+        //单据表加入目的分店
+        ordermainInput.get(10).setInput(shopMap);
         //////////////////////////////////////////////////////////////////////////////////
     }
 
@@ -278,10 +306,18 @@ public class StatusUtils {
     }
 
     public Map<Integer, nameInput> getCheckmainInput() {
-        return CheckmainInput;
+        return checkmainInput;
     }
 
     public Map<Integer, nameInput> getOrdermainInput() {
-        return OrdermainInput;
+        return ordermainInput;
+    }
+
+    public Map<Integer, nameInput> getCheckdetailInput() {
+        return checkdetailInput;
+    }
+
+    public String[] getOrderTypeArray() {
+        return orderTypeArray;
     }
 }

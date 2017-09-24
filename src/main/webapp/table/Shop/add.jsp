@@ -40,9 +40,6 @@
                    lay-verify="title" autocomplete="off" placeholder="请输入分店地址" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
-    </div>
-    <div class="float-right" style="width: 50%;">
-        <!--------------------------------------------------------------->
         <div class="div-part">
             <label class="label">固定电话</label>
             <input type="number" name="tel" value="${requestScope.object.tel}"
@@ -54,6 +51,9 @@
             <input type="number" name="telmov" value="${requestScope.object.telmov}"
                    lay-verify="title" autocomplete="off" placeholder="请输入11位手机号码" class="input form-name">
         </div>
+        <!--------------------------------------------------------------->
+    </div>
+    <div class="float-right" style="width: 50%;">
         <!--------------------------------------------------------------->
         <div class="div-part">
             <label class="label float-left">信息备注</label>

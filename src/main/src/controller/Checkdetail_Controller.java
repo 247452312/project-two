@@ -13,6 +13,4 @@ public class Checkdetail_Controller extends Basic_Controller<Checkdetail> {
     @Resource(name = "Checkdetail_ServiceImpl")
     Checkdetail_ServiceImpl service;
 
-
-
 }

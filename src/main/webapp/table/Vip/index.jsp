@@ -15,6 +15,7 @@
     <script type="text/javascript" src="/js/basic.js"></script>
     <script type="text/javascript" src="/js/jquery.jqprint-0.3.js"></script>
     <script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/easyuiTable.js"></script>
 
     <link href="/css/base.css" rel="stylesheet">
     <link rel="stylesheet" href="/custom/uimaker/easyui.css">
@@ -52,20 +53,20 @@
         <tr>
             <th field="code" width="4%">编码</th>
             <th field="name" width="4%">姓名</th>
-            <th field="viptypeid" width="5%">类型</th>
+            <%--<th field="viptypeid" width="5%">类型</th>--%>
             <th field="sex" width="4%">性别</th>
             <th field="addr" width="8%">家庭住址</th>
             <th field="tel" width="6%">固定电话</th>
             <th field="telmov" width="8%">移动电话</th>
             <th field="birthdate" width="6%">生日</th>
-            <th field="ccode" width="10%">身份证号</th>
+            <%--<th field="ccode" width="10%">身份证号</th>--%>
             <th field="shopid" width="5%">办理分店</th>
             <th field="amount" width="4%">总金额</th>
             <th field="point" width="4%">积分</th>
-            <th field="status" width="4%">状态</th>
-            <th field="createdate" width="10%">创建日期</th>
+            <%--<th field="status" width="4%">状态</th>--%>
+            <%--<th field="createdate" width="10%">创建日期</th>--%>
             <th field="userid" width="4%">创建人</th>
-            <th field="jsr" width="4%">介绍人</th>
+            <%--<th field="jsr" width="4%">介绍人</th>--%>
             <th field="fexp" width="9%">备注</th>
         </tr>
         </thead>
@@ -165,131 +166,6 @@
 
 
 <script type="text/javascript">
-    (function ($) {
-        function pagerFilter(data) {
-            if ($.isArray(data)) {   // is array
-                data = {
-                    total: data.length,
-                    rows: data
-                }
-            }
-            var target = this;
-            var dg = $(target);
-            var state = dg.data('datagrid');
-            var opts = dg.datagrid('options');
-            if (!state.allRows) {
-                state.allRows = (data.rows);
-            }
-            if (!opts.remoteSort && opts.sortName) {
-                var names = opts.sortName.split(',');
-                var orders = opts.sortOrder.split(',');
-                state.allRows.sort(function (r1, r2) {
-                    var r = 0;
-                    for (var i = 0; i < names.length; i++) {
-                        var sn = names[i];
-                        var so = orders[i];
-                        var col = $(target).datagrid('getColumnOption', sn);
-                        var sortFunc = col.sorter || function (a, b) {
-                            return a == b ? 0 : (a > b ? 1 : -1);
-                        };
-                        r = sortFunc(r1[sn], r2[sn]) * (so == 'asc' ? 1 : -1);
-                        if (r != 0) {
-                            return r;
-                        }
-                    }
-                    return r;
-                });
-            }
-            var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
-            var end = start + parseInt(opts.pageSize);
-            data.rows = state.allRows.slice(start, end);
-            return data;
-        }
-
-        var loadDataMethod = $.fn.datagrid.methods.loadData;
-        var deleteRowMethod = $.fn.datagrid.methods.deleteRow;
-        $.extend($.fn.datagrid.methods, {
-            clientPaging: function (jq) {
-                return jq.each(function () {
-                    var dg = $(this);
-                    var state = dg.data('datagrid');
-                    var opts = state.options;
-                    opts.loadFilter = pagerFilter;
-                    var onBeforeLoad = opts.onBeforeLoad;
-                    opts.onBeforeLoad = function (param) {
-                        state.allRows = null;
-                        return onBeforeLoad.call(this, param);
-                    }
-                    var pager = dg.datagrid('getPager');
-                    pager.pagination({
-                        onSelectPage: function (pageNum, pageSize) {
-                            opts.pageNumber = pageNum;
-                            opts.pageSize = pageSize;
-                            pager.pagination('refresh', {
-                                pageNumber: pageNum,
-                                pageSize: pageSize
-                            });
-                            dg.datagrid('loadData', state.allRows);
-                        }
-                    });
-                    $(this).datagrid('loadData', state.data);
-                    if (opts.url) {
-                        $(this).datagrid('reload');
-                    }
-                });
-            },
-            loadData: function (jq, data) {
-                jq.each(function () {
-                    $(this).data('datagrid').allRows = null;
-                });
-                return loadDataMethod.call($.fn.datagrid.methods, jq, data);
-            },
-            deleteRow: function (jq, index) {
-                return jq.each(function () {
-                    var row = $(this).datagrid('getRows')[index];
-                    deleteRowMethod.call($.fn.datagrid.methods, $(this), index);
-                    var state = $(this).data('datagrid');
-                    if (state.options.loadFilter == pagerFilter) {
-                        for (var i = 0; i < state.allRows.length; i++) {
-                            if (state.allRows[i] == row) {
-                                state.allRows.splice(i, 1);
-                                break;
-                            }
-                        }
-                        $(this).datagrid('loadData', state.allRows);
-                    }
-                });
-            },
-            getAllRows: function (jq) {
-                return jq.data('datagrid').allRows;
-            }
-        })
-    })(jQuery);
-
-    //添加查询条件
-    function addTrem(divTrems) {
-        var newdiv = $(".first-trem").clone();
-        newdiv.find("input[type=text]").val("");
-        newdiv.find("select").val(0);
-        newdiv.removeClass("first-trem");
-        newdiv.find(".a-select").remove();
-        newdiv.find(".addRow").remove();
-        newdiv.find(".trem-select").removeAttr("name").addClass("none").removeClass("in-line");
-        newdiv.find(".trem-input").attr("name", "text").addClass("in-line").removeClass("none");
-        newdiv.find("[name=compare]").removeAttr("disabled");
-        newdiv.find(".more").removeAttr("style");
-        divTrems.append(newdiv);
-        resetDg();
-    }
-
-    //删除查询条件
-    function removeTrem(delTrem) {
-        var pardiv = delTrem.parents(".search-trem");
-        if (!pardiv.hasClass("first-trem")){
-            pardiv.remove();
-            resetDg();
-        }
-    }
     //后台获得资料，方便以后调用
     var rows = [];
     //传送数据获取表格信息
@@ -442,16 +318,6 @@
                 }
             }
         });
-    }
-    //打印预览
-    function tablePrint() {
-        var thead=$("<thead></thead>").append($(".datagrid-header-row").clone());
-        thead.find("td").css("min-width:80px;");
-        var tbody=$(".datagrid-view2").find(".datagrid-btable").find("tbody").clone();
-        var table=$("<table></table>").attr("border",1).attr("cellspacing",0).append(thead).append(tbody);
-        //$("#test").append(table);
-        table.jqprint();
-        table.remove();
     }
 </script>
 </body>

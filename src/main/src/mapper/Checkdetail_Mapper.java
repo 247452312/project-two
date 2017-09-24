@@ -12,7 +12,7 @@ import java.util.List;
 @Repository("Checkdetail_Mapper")
 public interface Checkdetail_Mapper extends Basic_Mapper<Checkdetail> {
 
-	@Select("select * from `checkdetail` ")
+	@Select("select * from `checkdetail` ${where} ${sort} ${limit}")
 	@Results({
 		@Result(id=true,column="id",property="id"),
 		@Result(column="fexp",property="fexp"),

@@ -129,4 +129,8 @@ public class Basic_Controller<T> {
         return select(searchInfo);
     }
 
+    @RequestMapping("selectById")
+    public @ResponseBody T selectById(int id){
+        return getService().getById(id);
+    }
 }

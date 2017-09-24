@@ -203,6 +203,7 @@ public class User implements Comparable<User>  {
 		this.fright=fright;
 	}
 
+
 	@Override
 	public int compareTo(User o) {
 		if(o.getId()==null||this.id==o.getId())return 0;

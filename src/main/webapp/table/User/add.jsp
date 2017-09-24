@@ -23,40 +23,53 @@
     <div class="float-left" style="width: 50%;">
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label">操作员姓名</label>
+            <label class="label">人员姓名</label>
             <input type="text" name="name" value="${requestScope.object.name}"
                    lay-verify="title" autocomplete="off" placeholder="请输入操作员姓名" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label font-gray float-left">操作员性别</label>
+            <label class="label font-gray float-left">人员性别</label>
             <input type="hidden" class="inpval" value="${requestScope.object.sex}">
             <select class="select" name="sex"></select>
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label font-gray float-left">操作员编号</label>
+            <label class="label">人员编号</label>
             <input type="text" name="code" value="${requestScope.object.code}"
                    lay-verify="title" autocomplete="off" placeholder="请输入操作员编号" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label font-gray float-left">所在分店</label>
+            <label class="label font-gray float-left">负责分店</label>
             <input type="hidden" class="inpval" value="${requestScope.object.shopid.id}">
             <select class="select" name="shopid"></select>
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label">操作员状态</label>
+            <label class="label font-gray float-left">人员类型</label>
             <input type="hidden" class="inpval" value="${requestScope.object.status}">
             <select class="select" name="status"></select>
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label">身 份 证 号</label>
+            <label class="label">身份证号</label>
             <input type="text" name="ccode" value="${requestScope.object.ccode}"
                    lay-verify="title" autocomplete="off" placeholder="请输入身份证号" class="input form-name">
         </div>
+        <!--------------------------------------------------------------->
+        <div class="div-part">
+            <label class="label">固定电话</label>
+            <input type="text" name="telmov" value="${requestScope.object.telmov}"
+                   lay-verify="title" autocomplete="off" placeholder="请输入8位固定电话" class="input form-name">
+        </div>
+        <!--------------------------------------------------------------->
+        <div class="div-part">
+            <label class="label">移动电话</label>
+            <input type="text" name="tel" value="${requestScope.object.tel}"
+                   lay-verify="title" autocomplete="off" placeholder="请输入11位手机号" class="input form-name">
+        </div>
+        <!--------------------------------------------------------------->
     </div>
     <div class="float-right" style="width: 50%;">
         <!--------------------------------------------------------------->
@@ -66,18 +79,6 @@
                    lay-verify="title" autocomplete="off" placeholder="" class="input form-name"
                    size="10" maxlength="10"
                    onclick="new Calendar().show(this);" readonly="readonly">
-        </div>
-        <!--------------------------------------------------------------->
-        <div class="div-part">
-            <label class="label">电话</label>
-            <input type="text" name="telmov" value="${requestScope.object.telmov}"
-                   lay-verify="title" autocomplete="off" placeholder="请输入8位固定电话" class="input form-name">
-        </div>
-        <!--------------------------------------------------------------->
-        <div class="div-part">
-            <label class="label">手机</label>
-            <input type="text" name="tel" value="${requestScope.object.tel}"
-                   lay-verify="title" autocomplete="off" placeholder="请输入11位手机号" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
@@ -97,7 +98,7 @@
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label">地址</label>
+            <label class="label">所在地址</label>
             <input type="text" name="addr" value="${requestScope.object.addr}"
                    lay-verify="title" autocomplete="off" placeholder="请输入地址" class="input form-name">
         </div>

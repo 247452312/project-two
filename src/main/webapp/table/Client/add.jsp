@@ -46,9 +46,6 @@
                    lay-verify="title" autocomplete="off" placeholder="请输入11位手机号码" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
-    </div>
-    <div class="float-right" style="width: 50%;">
-        <!--------------------------------------------------------------->
         <div class="div-part">
             <label class="label">供应商地址</label>
             <input type="text" name="addr" value="${requestScope.object.addr}"
@@ -61,14 +58,17 @@
                    lay-verify="title" autocomplete="off" placeholder="请输入联系人姓名" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
+    </div>
+    <div class="float-right" style="width: 50%;">
+        <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label">银 行 账 号</label>
+            <label class="label">银行账号</label>
             <input type="text" name="bank" value="${requestScope.object.bank}"
                    lay-verify="title" autocomplete="off" placeholder="" class="input form-name">
         </div>
         <!--------------------------------------------------------------->
         <div class="div-part">
-            <label class="label float-left">信 息 备 注</label>
+            <label class="label float-left">信息备注</label>
             <textarea name="fexp" lay-verify="content" id="LAY_demo_editor"
                       class="textarea float-left form-info">${requestScope.object.fexp}</textarea>
             <div class="float-clear"></div>

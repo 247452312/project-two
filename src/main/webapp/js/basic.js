@@ -3,6 +3,17 @@ function showMsg(txt){
 	layer.alert(txt);
 }
 //打开页面
+/**
+ *
+ * @param title
+ * @param url
+ * @param width
+ * @param height
+ * @param closeCallBack
+ * @param full
+ * @param maxmin
+ * @returns {*}
+ */
 function showPage(title,url,width,height,closeCallBack,full,maxmin) {
 	var win;
 	if(maxmin) maxmin=true;
@@ -14,6 +25,7 @@ function showPage(title,url,width,height,closeCallBack,full,maxmin) {
 			maxmin:maxmin,//是否最大化
 			area:[width+'px',height+'px'],//尺寸
 			content:url,//地址
+            scrollbar: false,
 			end:function(){
 				if(closeCallBack)
 					closeCallBack();

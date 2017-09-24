@@ -1,5 +1,7 @@
 package entity;
 
+import utils.StatusUtils;
+
 public class Ordermain implements Comparable<Ordermain>  {
 
 	private Integer status=0;
@@ -17,7 +19,8 @@ public class Ordermain implements Comparable<Ordermain>  {
 	private Double point=0.0;
 	private Shop shopid=new Shop(0);
 	private String ordercode="";
-
+	private String statusString="";
+	private String typeString="";
 
 	public Ordermain(){
 	}
@@ -112,6 +115,7 @@ public class Ordermain implements Comparable<Ordermain>  {
 	}
 	public void setStatus(Integer status){
 		this.status=status;
+		this.statusString= StatusUtils.OrdermainStatus[status];
 	}
 	public void setOrderdate(String orderdate){
 		this.orderdate=orderdate;
@@ -124,6 +128,7 @@ public class Ordermain implements Comparable<Ordermain>  {
 	}
 	public void setOrdertype(Integer ordertype){
 		this.ordertype=ordertype;
+		this.typeString=StatusUtils.OrdermainType[ordertype];
 	}
 	public void setVipid(Vip vipid){
 		this.vipid=vipid;
@@ -154,6 +159,14 @@ public class Ordermain implements Comparable<Ordermain>  {
 	}
 	public void setOrdercode(String ordercode){
 		this.ordercode=ordercode;
+	}
+
+	public String getStatusString() {
+		return statusString;
+	}
+
+	public String getTypeString() {
+		return typeString;
 	}
 
 	@Override

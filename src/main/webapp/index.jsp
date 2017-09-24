@@ -59,70 +59,6 @@
                             <span class="pf-nav-title">商品类型</span>
                         </a>
                     </li>
-
-                    <%--<li class="pf-nav-item manger" data-menu="contract-mange">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe64c;</span>
-                            <span class="pf-nav-title">合同管理</span>
-                        </a>
-                    </li>
-
-
-                    <li class="pf-nav-item manger" data-menu="pur-source">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe623;</span>
-                            <span class="pf-nav-title">示例示例</span>
-                        </a>
-                    </li>
-
-                    <li class="pf-nav-item manger" data-menu="contract-mange">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe646;</span>
-                            <span class="pf-nav-title">示例示例示例示例示例</span>
-                        </a>
-                    </li>
-                    <li class="pf-nav-item manger" data-menu="pur-source">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe623;</span>
-                            <span class="pf-nav-title">采购寻源</span>
-                        </a>
-                    </li>
-
-                    <li class="pf-nav-item manger" data-menu="contract-mange">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe646;</span>
-                            <span class="pf-nav-title">合同管理</span>
-                        </a>
-                    </li>
-
-
-                    <li class="pf-nav-item manger" data-menu="pur-source">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe623;</span>
-                            <span class="pf-nav-title">示例示例</span>
-                        </a>
-                    </li>
-
-                    <li class="pf-nav-item manger" data-menu="contract-mange">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe646;</span>
-                            <span class="pf-nav-title">示例示例示例示例示例示例</span>
-                        </a>
-                    </li>
-
-                    <li class="pf-nav-item manger" data-menu="pur-source">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe623;</span>
-                            <span class="pf-nav-title">采购寻源</span>
-                        </a>
-                    </li>
-
-                    <li class="pf-nav-item manger" data-menu="contract-mange">
-                        <a href="javascript:;">
-                            <span class="iconfont">&#xe646;</span>
-                            <span class="pf-nav-title">合同管理</span>
-                        </a>
-                    </li>--%>
                 </ul>
             </div>
 
@@ -148,7 +84,7 @@
                         </a>
                     </li>
                     <li class="pf-modify-pwd">
-                        <a href="/setInfo/updatePass.jsp">
+                        <a href="javascript:;">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
@@ -181,13 +117,13 @@
                         <i class="iconfont">&#xe642;</i>
                     </a>
                     <ul class="sider-nav-s">
-                        <li src="table/User/index.jsp" class="active"><a href="javascript:;">操作员信息</a></li>
-                        <li src="table/Client/index.jsp"><a href="javascript:;">供货商信息</a></li>
-                        <li src="table/Vip/index.jsp"><a href="javascript:;">会员信息</a></li>
-                        <li src="table/Shop/index.jsp"><a href="javascript:;">分店信息</a></li>
-                        <li src="table/Product/index.jsp"><a href="javascript:;">商品信息</a></li>
-                        <li src="table/Viptype/index.jsp"><a href="javascript:;">会员类型信息</a></li>
-                        <li src="table/Producttype/index.jsp"><a href="javascript:;">商品类型信息</a></li>
+                        <li src="/table/User/index.jsp" class="active"><a href="javascript:;">操作员信息</a></li>
+                        <li src="/table/Client/index.jsp"><a href="javascript:;">供货商信息</a></li>
+                        <li src="/table/Vip/index.jsp"><a href="javascript:;">会员信息</a></li>
+                        <li src="/table/Shop/index.jsp"><a href="javascript:;">分店信息</a></li>
+                        <li src="/table/Product/index.jsp"><a href="javascript:;">商品信息</a></li>
+                        <li src="/table/Viptype/index.jsp"><a href="javascript:;">会员类型信息</a></li>
+                        <li src="/table/Producttype/index.jsp"><a href="javascript:;">商品类型信息</a></li>
                     </ul>
                 </li>
                 <li>
@@ -197,9 +133,9 @@
                         <i class="iconfont">&#xe642;</i>
                     </a>
                     <ul class="sider-nav-s">
-                        <li src="/setInfo/checkReady.jsp" class="active"><a href="javascript:;">库存初始</a></li>
-                        <li src="/setInfo/checkReady.jsp"><a href="javascript:;">库存盘点</a></li>
-                        <li src="/setInfo/checkReady.jsp"><a href="javascript:;">盘点记录</a></li>
+                        <li src="/table/Store/index.jsp"><a href="javascript:;">库存初始</a></li>
+                        <li src="/table/Checkmain/add.jsp"><a href="javascript:;">新增盘点</a></li>
+                        <li src="/table/Checkmain/index.jsp"><a href="javascript:;">盘点记录</a></li>
                     </ul>
                 </li>
                 <li>
@@ -208,19 +144,9 @@
                         <span class="sider-nav-title">单据录入</span>
                         <i class="iconfont">&#xe642;</i>
                     </a>
-                    <ul class="sider-nav-s">
-                        <li src="#" class="active"><a href="javascript:;">充值单</a></li>
-                        <li src="#"><a href="javascript:;">退款单</a></li>
-                        <li src="#"><a href="javascript:;">项目充值单</a></li>
-                        <li src="#"><a href="javascript:;">项目退款单</a></li>
-                        <li src="#"><a href="javascript:;">采购单</a></li>
-                        <li src="#"><a href="javascript:;">采购退货单</a></li>
-                        <li src="#"><a href="javascript:;">销售单</a></li>
-                        <li src="#"><a href="javascript:;">销售退货单</a></li>
-                        <li src="#"><a href="javascript:;">移库单</a></li>
-                        <li src="#"><a href="javascript:;">库损单</a></li>
-                        <li src="#"><a href="javascript:;">库溢单</a></li>
-                        <li src="#"><a href="javascript:;">单据列表</a></li>
+                    <ul class="sider-nav-s orders">
+                        <li src="/table/Ordermain/index.jsp" class="active"><a href="javascript:;">单据列表</a></li>
+                        <%--动态生成单据类型列表--%>
                     </ul>
                 </li>
                 <li>
@@ -238,25 +164,11 @@
                         <li src="#"><a href="javascript:;">综合统计表</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:;">
-                        <span class="iconfont sider-nav-icon">&#xe611;</span>
-                        <span class="sider-nav-title">关于</span>
-                        <i class="iconfont">&#xe642;</i>
-                    </a>
-                    <ul class="sider-nav-s">
-                        <li src="#" class="active"><a href="javascript:;">数据导入</a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
 
         <div id="pf-page">
-            <div class="easyui-tabs1" style="width:100%;height:100%;">
-                <%--<div title="首页" style="padding:10px 5px 5px 10px;">
-                  <iframe class="page-iframe" src="workbench.html" frameborder="no"   border="no" height="100%" width="100%" scrolling="auto"></iframe>
-                </div>--%>
-            </div>
+            <div class="easyui-tabs1" style="width:100%;height:100%;"></div>
         </div>
     </div>
 
@@ -321,6 +233,7 @@
             }
         }
     })
+
     $(window).resize(function () {
         $('.tabs-panels').height($("#pf-page").height() - 46);
         $('.panel-body').height($("#pf-page").height() - 76)
@@ -332,9 +245,8 @@
     if (pages === 0) {
         $('.pf-nav-prev,.pf-nav-next').hide();
     }
+
     $(document).on('click', '.pf-nav-prev,.pf-nav-next', function () {
-
-
         if ($(this).hasClass('disabled')) return;
         if ($(this).hasClass('pf-nav-next')) {
             page++;
@@ -361,11 +273,22 @@
 
     $(function () {
         addTab($("#exLi li"));//加入首页
+        addOrders($(".orders"));
     });
-    // setTimeout(function(){
-    //    $('.tabs-panels').height($("#pf-page").height()-46);
-    //    $('.panel-body').height($("#pf-page").height()-76)
-    // }, 200)
+    //添加单据链接
+    function addOrders(orders) {
+        $.getJSON("/Ordermain/getStatus", function (json) {
+            //获得单据类型
+            var orderTypes = json.orderTypeArray;
+            for (var i = 0; i < orderTypes.length; i++) {
+                var orderType = orderTypes[i];
+                var li=$("<li></li>").attr("src","/table/Ordermain/add.jsp?ordertype="+i);
+                var a=$("<a></a>").attr("href","javascript:;").html(orderType);
+                li.append(a);
+                orders.append(li);
+            }
+        });
+    }
 </script>
 </body>
 </html>
