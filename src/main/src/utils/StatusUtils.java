@@ -70,7 +70,11 @@ public class StatusUtils {
 
     //单据类型
     private String[] orderTypeArray=OrdermainType;
-
+    //权限列表
+    private String[] powerArray={"操作员信息","供货商信息","会员信息","分店信息","商品信息","会员类型信息","商品类型信息"
+            ,"库存初始","库存盘点","盘点记录","充值单","退换单","项目充值单","项目退款单","采购单","采购退款单"
+            ,"销售单","销售退款单","移库单","库存单","库溢单","单据列表","会员明细余额统计表","会员统计表","操作员统计表"
+            ,"分店统计表","商品统计表","综合统计表"/*,"数据导入"*/};
     //静态常用固定量
     static {
         //VIP
@@ -240,7 +244,7 @@ public class StatusUtils {
         vipInput.get(11).setInput(shopMap);
         //////////////////////////////////////////////////////////////////////////////////
         //库存加入分店
-        vipInput.get(0).setInput(shopMap);
+        storeInput.get(0).setInput(shopMap);
         //////////////////////////////////////////////////////////////////////////////////
         //商品加入商品类型
         Map<Integer, String> protypeMap = new HashMap<Integer, String>();
@@ -319,5 +323,9 @@ public class StatusUtils {
 
     public String[] getOrderTypeArray() {
         return orderTypeArray;
+    }
+
+    public String[] getPowerArray() {
+        return powerArray;
     }
 }

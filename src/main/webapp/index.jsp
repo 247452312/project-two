@@ -9,51 +9,58 @@
     <title>百莲达</title>
     <link href="css/base.css" rel="stylesheet">
     <link href="css/platform.css" rel="stylesheet">
-    <link rel="stylesheet" href="../custom/uimaker/easyui.css">
+    <link rel="stylesheet" href="/custom/uimaker/easyui.css">
+    <script type="text/javascript" src="/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/layer/layer.js"></script>
+    <script type="text/javascript" src="/js/basic.js"></script>
 </head>
 <body>
 <div class="container">
     <div id="pf-hd" style="background-image: none">
-        <div class="pf-logo" style="width: 190px;">
-            <img src="images/bailianda.png" style="margin: 10px;">
+        <div class="pf-logo" style="width: 190px;border: 0px;">
+            <img src="images/bailianda.png" style="margin: 10px;margin-left: 30px;">
         </div>
 
-        <div class="pf-nav-wrap">
+        <%--上方选项--%>
+        <%--<div class="pf-nav-wrap">
             <div class="pf-nav-ww">
                 <ul class="pf-nav">
-                    <li class="pf-nav-item home current" data-menu="sys-manage" src="table/Client/index.jsp">
+                    &lt;%&ndash; current&ndash;%&gt;
+                    <li class="pf-nav-item home" data-menu="sys-manage" src="/table/Client/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe63f;</span>
                             <span class="pf-nav-title">供货商管理</span>
                         </a>
                     </li>
-                    <li class="pf-nav-item project" data-menu="org-manage" src="table/Vip/index.jsp">
+                    <li class="pf-nav-item project" data-menu="org-manage" src="/table/Vip/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe60d;</span>
                             <span class="pf-nav-title">会员管理</span>
                         </a>
                     </li>
-                    <li class="pf-nav-item static" data-menu="main-data">
+                    <li class="pf-nav-item static" data-menu="main-data" src="/table/Shop/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe61e;</span>
                             <span class="pf-nav-title">分店管理</span>
                         </a>
                     </li>
-                    <li class="pf-nav-item manger" data-menu="supplier-mange">
+                    <li class="pf-nav-item manger" data-menu="supplier-mange" src="/table/Product/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe620;</span>
                             <span class="pf-nav-title">商品管理</span>
                         </a>
                     </li>
 
-                    <li class="pf-nav-item manger" data-menu="supplier-dev">
+                    <li class="pf-nav-item manger" data-menu="supplier-dev" src="/table/Viptype/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe625;</span>
                             <span class="pf-nav-title">会员类型</span>
                         </a>
                     </li>
 
-                    <li class="pf-nav-item manger" data-menu="pur-source">
+                    <li class="pf-nav-item manger" data-menu="pur-source" src="/table/Producttype/index.jsp">
                         <a href="javascript:;">
                             <span class="iconfont">&#xe64b;</span>
                             <span class="pf-nav-title">商品类型</span>
@@ -65,7 +72,7 @@
 
             <a href="javascript:;" class="pf-nav-prev disabled iconfont">&#xe606;</a>
             <a href="javascript:;" class="pf-nav-next iconfont">&#xe607;</a>
-        </div>
+        </div>--%>
 
 
         <div class="pf-user">
@@ -77,19 +84,19 @@
 
             <div class="pf-user-panel">
                 <ul class="pf-user-opt">
-                    <li>
+                    <%--<li>
                         <a href="javascript:;">
                             <i class="iconfont">&#xe60d;</i>
                             <span class="pf-opt-name">用户信息</span>
                         </a>
-                    </li>
-                    <li class="pf-modify-pwd">
-                        <a href="javascript:;">
+                    </li>--%>
+                    <li>
+                        <a href="javascript:void(0);" onclick="editpass();">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
                     </li>
-                    <li class="pf-logout">
+                    <li>
                         <a href="/User/cancel">
                             <i class="iconfont">&#xe60e;</i>
                             <span class="pf-opt-name">退出</span>
@@ -145,7 +152,7 @@
                         <i class="iconfont">&#xe642;</i>
                     </a>
                     <ul class="sider-nav-s orders">
-                        <li src="/table/Ordermain/index.jsp" class="active"><a href="javascript:;">单据列表</a></li>
+
                         <%--动态生成单据类型列表--%>
                     </ul>
                 </li>
@@ -210,9 +217,7 @@
 </div>
 
 
-<script type="text/javascript" src="../custom/jquery.min.js"></script>
-<script type="text/javascript" src="../custom/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
+
 <!--[if IE 7]>
 <script type="text/javascript">
     $(window).resize(function () {
@@ -287,7 +292,16 @@
                 li.append(a);
                 orders.append(li);
             }
+            var li=$("<li></li>").attr("src","/table/Ordermain/index.jsp");
+            var a=$("<a></a>").attr("href","javascript:;").html("单据列表");
+            li.append(a);
+            orders.append(li);
+            orders.children(":first").addClass("active");
         });
+    }
+    //打开修改密码
+    function editpass() {
+        showPage("修改密码","/editpass.jsp",600,300,function(){},false,false);
     }
 </script>
 </body>

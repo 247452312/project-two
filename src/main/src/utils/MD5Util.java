@@ -1,6 +1,7 @@
 package utils;
 
 import java.security.MessageDigest;
+import java.util.Scanner;
 
 public class MD5Util {
     public final static String MD5(String s) {
@@ -25,5 +26,10 @@ public class MD5Util {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        while(true) System.out.println(MD5Util.MD5(sc.next()));
     }
 }

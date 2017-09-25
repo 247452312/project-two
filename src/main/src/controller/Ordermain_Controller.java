@@ -35,21 +35,27 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
         return new JsonData(1);
     }
 
-    @RequestMapping("insertType2")
-    public @ResponseBody JsonData insertType2(int type,Ordermain om , List<Orderdetail> list, HttpSession session){
+    @RequestMapping("insertType2-1")
+    public @ResponseBody JsonData insertType2(int type,Ordermain om, HttpSession session){
         om.setOrdertype(type);
         om.setCreatedate(Info.getNow());
         om.setUserid((User) session.getAttribute("user"));
-        Double amount = 0.0;
-        Ordermain o = service.getNew();
-        for (Orderdetail orderdetail : list) {
-            amount+=orderdetail.getAmount();
-            orderdetail.setOrderid(o);
-            oservice.insert(orderdetail);
-        }
-        om.setAmount(amount);
+        om.setAmount(0.0);
         service.insert(om);
+        return new JsonData(1,""+service.getNew().getId());
+    }
+
+    @RequestMapping("insertType2-2")
+    public @ResponseBody JsonData insertType2(int id,List<Orderdetail> list, HttpSession session){
+        Double amount = 0.0;
+        for (Orderdetail orderdetail : list) {
+            orderdetail.setOrderid(new Ordermain(id));
+            oservice.insert(orderdetail);
+            amount+=orderdetail.getAmount();
+        }
+        service.updateAttr(new JsonData1("amount",id,amount));
         return new JsonData(1);
     }
+
 
 }

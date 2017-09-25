@@ -20,7 +20,8 @@
 <form class="form" action="/User/ajax" method="post">
     <input type="hidden" name="cmd" value="${requestScope.cmd}">
     <input type="hidden" name="id" value="${requestScope.object.id}">
-    <div class="float-left" style="width: 50%;">
+    <input type="hidden" name="fright" value="${requestScope.object.fright}">
+    <div class="float-left" style="width: 33%;">
         <!--------------------------------------------------------------->
         <div class="div-part">
             <label class="label">人员姓名</label>
@@ -71,7 +72,7 @@
         </div>
         <!--------------------------------------------------------------->
     </div>
-    <div class="float-right" style="width: 50%;">
+    <div class="float-left" style="width: 33%;">
         <!--------------------------------------------------------------->
         <div class="div-part">
             <label class="label">出生日期</label>
@@ -111,6 +112,19 @@
         </div>
         <!--------------------------------------------------------------->
     </div>
+    <div class="float-left" style="width: 34%;">
+        <!--------------------------------------------------------------->
+        <div class="div-part">
+            <label class="label float-left">权限选择</label>
+            <div class="boxs float-left"
+                 style="width: 75%;border: 1px solid rgb(180, 180, 180);
+                 margin-left:4px;max-height: 300px;
+                 overflow: auto;padding-left: 10px;">
+            </div>
+            <div class="float-clear"></div>
+        </div>
+        <!--------------------------------------------------------------->
+    </div>
     <div class="float-clear"></div>
     <div class="div-part div-buttons">
         <button type="button" class="layui-btn submit-btn float-left" onclick="save($('.form'));">提交</button>
@@ -127,6 +141,19 @@
             addSel(userSels[13], "shopid");
             addSel(userSels[8],"status");
             $("[name=shopid]").attr("name", "shopid.id");
+            var boxs=$(".boxs");
+            var boxarray=json.powerArray;
+            var fright=$("[name=fright]").val();
+            for (var i = 0; i < boxarray.length; i++) {
+                var box = boxarray[i];
+                var label=$("<label></label>").attr("for","boxid"+i);
+                var input=$("<input/>").attr("type","checkbox").attr("id","boxid"+i).attr("name","powerlist");
+                if(fright.substring(i,i+1)==1) input.prop("checked","checked");
+                label.append(input);
+                label.append(box);
+                label.append($("<br>"));
+                boxs.append(label);
+            }
         });
     });
 
@@ -146,6 +173,15 @@
 
     //提交表单
     function save(form) {
+        //将权限序列化
+        var boxs=$(".boxs").find("input");
+        var fright="";
+        $.each(boxs,function (i,box) {
+            if($(box).prop("checked")) fright+="1";
+            else fright+="0";
+        });
+        $("[name=fright]").val(fright);
+
         if ($("[name=code]").val().length == 0)
             showMsg("请填入操作员编号");
         else if ($("[name=name]").val().length == 0)

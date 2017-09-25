@@ -38,46 +38,26 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
     @Resource(name = "Ordermain_ServiceImpl")
     Ordermain_ServiceImpl oservice;
 
-    @RequestMapping("insert")
+    @RequestMapping("insertMain")
     public @ResponseBody
-    JsonData insert(Checkmain check, ArrayList<Checkdetail> list, HttpSession session) {
-        System.out.println("Checkcode:"+check.getCheckcode());
-        System.out.println("Checkdate:"+check.getCheckdate());
-        System.out.println("Checkname:"+check.getCheckname());
-        System.out.println("Shopid:"+check.getShopid());
-        System.out.println("Status:"+check.getStatus());
-        System.out.println("list:"+list.size());
+    JsonData insertMain(Checkmain check) {
         if (check.getCheckcode() == null || check.getCheckdate() == null
-        || check.getCheckname() == null || check.getShopid() == null
-        || check.getStatus() == null || list.size() == 0)
+                || check.getCheckname() == null || check.getShopid() == null
+                || check.getStatus() == null)
             return new JsonData(-1, "数据不全");
         check.setCheckdate(Info.getNow());
-        if (check.getStatus() == null)
-            check.setStatus(0);
+        check.setStatus(0);
         service.insert(check);
         Checkmain m = service.getNew();
-        for (Checkdetail checkdetail : list) {
-            checkdetail.setCheckid(m);
-            cservice.insert(checkdetail);
-        }
-        return new JsonData(1);//返回成功信息和新的id
+        return new JsonData(1, m.getId() + "");
     }
 
-    @RequestMapping("aotoOrder")
-    public @ResponseBody
-    JsonData aotoOrder(Checkmain check, ArrayList<Checkdetail> list, HttpSession session) {
-        if (check.getId() != null) {
-            service.autocreate(check.getId());
-            return new JsonData(1);
-        } else {
-            JsonData temp = insert(check, list, session);
-            if (temp.getStatus() == 1) {
-                int id = service.getNew().getId();
-                service.autocreate(id);
-            }
-            return temp;
-        }
+    @RequestMapping("autoOrder")
+    public @ResponseBody JsonData autoOrder(int id){
+        service.autocreate(id);
+        return new JsonData(1);
     }
+
 
     public String updat(int id, ModelMap m) {
         m.put("object", service.getById(id));

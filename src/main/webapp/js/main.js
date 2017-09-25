@@ -14,8 +14,9 @@ var mainPlatform = {
             $(this).addClass('current');
 
             // 渲染对应侧边菜单
-            var m = $(this).data('menu');
-            self.render(menu[m]);
+            //var m = $(this).data('menu');
+            //self.render(menu[m]);
+            addTab($(this));
         });
         //一级菜单设置
         $(document).on('click', '.sider-nav>li>a', function () {

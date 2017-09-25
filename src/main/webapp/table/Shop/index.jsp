@@ -1,4 +1,4 @@
-`<%@ page language="java" import="java.util.*" pageEncoding="utf-8" isELIgnored="false" %>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -281,13 +281,13 @@
             if (isEmptyObject(textOpt)) {
                 sel.removeAttr("name").addClass("none").removeClass("in-line");
                 inp.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").removeAttr("disabled");
+                select.siblings("[name=compare]").removeAttr("disabled");
             }
             //否则是下拉列表
             else {
                 inp.removeAttr("name").addClass("none").removeClass("in-line");
                 sel.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").attr("disabled","disabled").val(2);
+                select.siblings("[name=compare]").attr("disabled","disabled").val(2);
                 for (var name in textOpt) {
                     var opt = $("<option></option>");
                     opt.val(name);

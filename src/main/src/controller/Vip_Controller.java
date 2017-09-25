@@ -86,6 +86,10 @@ public class Vip_Controller extends Basic_Controller<Vip> {
         }
         return mlist;
     }
-
+    @RequestMapping("resetPass")
+    public @ResponseBody JsonData resetPass(int id){
+        //service.updateAttr(new JsonData1());
+        return new JsonData(1);
+    }
 
 }

@@ -32,27 +32,27 @@ public class User_Controller extends Basic_Controller<User> {
     /**
      * 登陆
      *
-     * @param name    用户名
-     * @param pass    密码
-     * @param code    验证码
-     * @param box     是否记住密码
-     * @param session session
+     * @param name 用户名
+     * @param pass 密码
+     * @param code     验证码
+     * @param box      是否记住密码
+     * @param session  session
      * @return 0->客户端出错(未加载code) 1->成功 2->验证吗错误 3->用户名或密码不存在
      */
     @RequestMapping("login")
     public @ResponseBody
     JsonData login(String name, String pass, String code, int box, HttpServletResponse res, HttpSession session) {
         String str = session.getAttribute("code").toString();
-        if (str == null || str.equals("")) return new JsonData(0, "客户端错误");
-        if (!str.equals(code)) return new JsonData(2, "验证码错误");
+        if (str == null || str.equals("")) return new JsonData(-1, "客户端错误");
+        if (!str.equals(code)) return new JsonData(-1, "验证码错误");
         User u = service.login(name, pass);
-        if (u == null) return new JsonData(3, "用户名或密码不存在");
+        if (u == null) return new JsonData(-1, "用户名或密码不存在");
         session.setAttribute("user", u);
         if (box == 1) {
             Cookie c1 = new Cookie("username", name);
             Cookie c2 = new Cookie("userpass", pass);
-            c1.setMaxAge(60 * 60 * 24 * 14);
-            c2.setMaxAge(60 * 60 * 24 * 14);
+            c1.setMaxAge(60*60*24*14);
+            c2.setMaxAge(60*60*24*14);
             c1.setPath("/");
             c2.setPath("/");
 
@@ -64,7 +64,7 @@ public class User_Controller extends Basic_Controller<User> {
     }
 
     @RequestMapping("cancel")
-    public String cancellogin(HttpSession session) {
+    public String cancellogin(HttpSession session){
         session.removeAttribute("user");
         return "redirect:/login.jsp";
 
@@ -72,30 +72,32 @@ public class User_Controller extends Basic_Controller<User> {
 
     /**
      * 返回值为0:没有登录,返回值为1:修改成功.返回值为2:新密码两次不一致,返回值为3:新密码与旧密码相同,返回值为4,旧密码不正确
-     *
-     * @param session session
+     * @param session      session
      * @return status
      */
     @RequestMapping("updatePass")
     public @ResponseBody
-    JsonData updatePass(HttpSession session, HttpServletRequest req) {
-        String oldPass = req.getParameter("oldPass"),
-                newPass = req.getParameter("newPass"),
-                newPassAgain = req.getParameter("newPassAgain");
+    JsonData updatePass(HttpSession session,HttpServletRequest req) {
+        String oldPass=req.getParameter("oldPass"),
+                newPass=req.getParameter("newPass"),
+                newPassAgain=req.getParameter("newPassAgain");
         User u = (User) session.getAttribute("user");
-        if (u == null) return new JsonData(0, "没有登录");
-        if (!u.getPass().equals(MD5Util.MD5(oldPass))) return new JsonData(4, "旧密码不正确");
-        if (newPass.equals(oldPass)) return new JsonData(3, "新密码与旧密码相同");
-        if (!newPass.equals(newPassAgain)) return new JsonData(2, "新密码两次不一致");
+        if (u == null) return new JsonData(0,"没有登录");
+        if (!u.getPass().equals(MD5Util.MD5(oldPass))) return new JsonData(4,"旧密码不正确");
+        if (newPass.equals(oldPass)) return new JsonData(3,"新密码与旧密码相同");
+        if (!newPass.equals(newPassAgain)) return new JsonData(2,"新密码两次不一致");
         service.updateAttr(new JsonData1("pass", u.getId(), MD5Util.MD5(newPass)));
         u.setPass(MD5Util.MD5(newPass));
-        session.setAttribute("user", u);
+        session.setAttribute("user",u);
         for (Cookie cookie : req.getCookies()) {
-            if (cookie.getName().equals("userpass")) {
-                cookie.setValue(newPass);
-            }
+            if(cookie.getName().equals("userpass")){cookie.setValue(newPass);}
         }
         return new JsonData(1);
     }
 
+    @RequestMapping("resetPass")
+    public @ResponseBody JsonData resetPass(int id){
+        service.updateAttr(new JsonData1("pass",id,MD5Util.MD5("123")));
+        return new JsonData(1);
+    }
 }

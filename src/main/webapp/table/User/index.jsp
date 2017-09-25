@@ -33,12 +33,19 @@
         .in-line {
             display: inline;
         }
+        .resetpass:hover{
+            color: #1AA094;
+        }
+        .resetpass{
+            color: #000;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 <div id="test"></div>
 <div class="container">
-    <table id="dg" style="width:100%;height:529px" title="全体供应商列表" data-options="
+    <table id="dg" style="width:100%;height:529px" title="操作员列表" data-options="
             rownumbers:true,
             singleSelect:false,
             autoRowHeight:true,
@@ -53,12 +60,13 @@
             ">
         <thead>
         <tr>
-            <th field="code" width="16%">编码</th>
-            <th field="name" width="16%">姓名</th>
-            <th field="sex" width="17%">性别</th>
-            <th field="telmov" width="17%">移动电话</th>
-            <th field="status" width="17%">状态</th>
-            <th field="userid" width="17%">创建人</th>
+            <th field="code" width="14%">编码</th>
+            <th field="name" width="14%">姓名</th>
+            <th field="sex" width="14%">性别</th>
+            <th field="telmov" width="14%">移动电话</th>
+            <th field="status" width="14%">状态</th>
+            <th field="userid" width="14%">创建人</th>
+            <th field="operate" width="16%">操作</th>
         </tr>
         </thead>
     </table>
@@ -195,6 +203,9 @@
                             telmov: user.telmov,
                             status: user.statusString,
                             userid: user.userid.name,
+                            operate:
+                            "<a href='javascript:;' class='resetpass' " +
+                            "onclick='resetPass("+user.id+");'>重置密码</a>"
                         });
                     } else {
                         rows.push({
@@ -204,6 +215,9 @@
                             sex: user.sexString,
                             telmov: user.telmov,
                             status: user.statusString,
+                            operate:
+                            "<a href='javascript:;' class='resetpass' " +
+                            "onclick='resetPass("+user.id+");'>重置密码</a>"
                         });
                     }
                 }
@@ -300,13 +314,13 @@
             if (isEmptyObject(textOpt)) {
                 sel.removeAttr("name").addClass("none").removeClass("in-line");
                 inp.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").removeAttr("disabled");
+                select.siblings("[name=compare]").removeAttr("disabled");
             }
             //否则是下拉列表
             else {
                 inp.removeAttr("name").addClass("none").removeClass("in-line");
                 sel.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").attr("disabled", "disabled").val(2);
+                select.siblings("[name=compare]").attr("disabled", "disabled").val(2);
                 for (var name in textOpt) {
                     var opt = $("<option></option>");
                     opt.val(name);
@@ -315,6 +329,13 @@
                 }
             }
         });
+    }
+    function resetPass(id) {
+        showConfirm("是否重置密码为123？",function () {
+            $.getJSON("/User/resetPass",{id:id},function (json) {
+                if(json.status==1) layer.closeAll('dialog');
+            });
+        },null,"确定","取消");
     }
 </script>
 </body>

@@ -36,7 +36,7 @@
 <body>
 <div id="test"></div>
 <div class="container">
-    <table id="dg" style="width:100%;height:529px" title="全体供应商列表" data-options="
+    <table id="dg" style="width:100%;height:529px" title="会员列表" data-options="
             rownumbers:true,
             singleSelect:false,
             autoRowHeight:true,
@@ -51,23 +51,24 @@
             ">
         <thead>
         <tr>
-            <th field="code" width="4%">编码</th>
-            <th field="name" width="4%">姓名</th>
+            <th field="code" width="5%">编码</th>
+            <th field="name" width="10%">姓名</th>
             <%--<th field="viptypeid" width="5%">类型</th>--%>
-            <th field="sex" width="4%">性别</th>
-            <th field="addr" width="8%">家庭住址</th>
-            <th field="tel" width="6%">固定电话</th>
-            <th field="telmov" width="8%">移动电话</th>
-            <th field="birthdate" width="6%">生日</th>
+            <th field="sex" width="5%">性别</th>
+            <th field="addr" width="10%">家庭住址</th>
+            <th field="tel" width="10%">固定电话</th>
+            <th field="telmov" width="10%">移动电话</th>
+            <th field="birthdate" width="10%">生日</th>
             <%--<th field="ccode" width="10%">身份证号</th>--%>
             <th field="shopid" width="5%">办理分店</th>
-            <th field="amount" width="4%">总金额</th>
-            <th field="point" width="4%">积分</th>
+            <th field="amount" width="5%">总金额</th>
+            <th field="point" width="5%">积分</th>
             <%--<th field="status" width="4%">状态</th>--%>
             <%--<th field="createdate" width="10%">创建日期</th>--%>
-            <th field="userid" width="4%">创建人</th>
+            <th field="userid" width="10%">创建人</th>
             <%--<th field="jsr" width="4%">介绍人</th>--%>
-            <th field="fexp" width="9%">备注</th>
+            <th field="fexp" width="15%">备注</th>
+            <%--<th field="operate" width="10%">操作</th>--%>
         </tr>
         </thead>
     </table>
@@ -211,7 +212,10 @@
                         createdate: vip.createdate,
                         userid: vip.userid.name,
                         jsr: vip.jsr,
-                        fexp: vip.fexp
+                        fexp: vip.fexp,
+                        /*operate:
+                            "<a href='javascript:;' class='resetpass' " +
+                            "onclick='resetPass("+vip.id+");'>重置密码</a>"*/
                     });
                 }
                 //页数相关赋值
@@ -303,13 +307,13 @@
             if (isEmptyObject(textOpt)) {
                 sel.removeAttr("name").addClass("none").removeClass("in-line");
                 inp.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").removeAttr("disabled");
+                select.siblings("[name=compare]").removeAttr("disabled");
             }
             //否则是下拉列表
             else {
                 inp.removeAttr("name").addClass("none").removeClass("in-line");
                 sel.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").attr("disabled","disabled").val(2);
+                select.siblings("[name=compare]").attr("disabled","disabled").val(2);
                 for (var name in textOpt) {
                     var opt = $("<option></option>");
                     opt.val(name);
@@ -318,6 +322,13 @@
                 }
             }
         });
+    }
+    function resetPass(id) {
+        showConfirm("是否重置密码为123？",function () {
+            $.getJSON("/Vip/resetPass",{id:id},function (json) {
+                if(json.status==1) closePage();
+            });
+        },null,"确定","取消");
     }
 </script>
 </body>

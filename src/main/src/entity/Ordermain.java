@@ -8,7 +8,7 @@ public class Ordermain implements Comparable<Ordermain>  {
 	private String orderdate="";
 	private String createdate="";
 	private User userid=new User(0);
-	private Integer ordertype=0;
+	private Integer ordertype=9;
 	private Vip vipid=new Vip(0);
 	private Shop destshopid=new Shop(0);
 	private Integer id=0;

@@ -94,7 +94,7 @@ public class Basic_Controller<T> {
             }
             getService().insert(t);
         }
-        return new JsonData(1);
+        return new JsonData(1,getService().getNew().toString());
     }
 
     @RequestMapping("change")

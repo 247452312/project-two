@@ -116,9 +116,7 @@
                 url: action, type: method, dataType: "json", data: data,
                 success: function (json) {
                     if (json.status == 1) location.href = "index.jsp";
-                    else {
-                        showErr(json.info);
-                    }
+                    else showErr(json.info);
                 }
             });
         }

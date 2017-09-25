@@ -36,7 +36,7 @@
 <body>
 <div id="test"></div>
 <div class="container">
-    <table id="dg" style="width:100%;height:529px" title="全体供应商列表" data-options="
+    <table id="dg" style="width:100%;height:529px" title="供应商列表" data-options="
             rownumbers:true,
             singleSelect:false,
             autoRowHeight:true,
@@ -284,13 +284,13 @@
             if (isEmptyObject(textOpt)) {
                 sel.removeAttr("name").addClass("none").removeClass("in-line");
                 inp.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").removeAttr("disabled");
+                select.siblings("[name=compare]").removeAttr("disabled");
             }
             //否则是下拉列表
             else {
                 inp.removeAttr("name").addClass("none").removeClass("in-line");
                 sel.attr("name", "text").addClass("in-line").removeClass("none");
-                $("[name=compare]").attr("disabled","disabled").val(2);
+                select.siblings("[name=compare]").attr("disabled","disabled").val(2);
                 for (var name in textOpt) {
                     var opt = $("<option></option>");
                     opt.val(name);
