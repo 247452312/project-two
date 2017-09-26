@@ -59,28 +59,27 @@ public class Checkmain_Controller extends Basic_Controller<Checkmain> {
     }
 
 
-    public String updat(int id, ModelMap m) {
-        m.put("object", service.getById(id));
-        m.put("cmd", "update");
-        return getTypeName() + "/add";
-    }
-
-    @RequestMapping("update")
+    @RequestMapping("update1")
     public @ResponseBody
-    JsonData update(Checkmain check, ArrayList<Checkdetail> list, HttpSession session) {
+    JsonData update1(Checkmain check) {
         if (check.getCheckcode() == null || check.getCheckdate() == null
-        || check.getCheckname() == null || check.getShopid() == null
-        || check.getStatus() == null || list.size() == 0)
+        || check.getCheckname() == null || check.getShopid() == null)
             return new JsonData(-1, "数据不全");
         check.setCheckdate(Info.getNow());
         if (check.getStatus() == null)
             check.setStatus(0);
         service.update(check);
-        for (Checkdetail checkdetail : list) {
-            checkdetail.setCheckid(check);
-            if(cservice.getById(checkdetail.getId())==null) cservice.insert(checkdetail);
-            else cservice.update(checkdetail);
+        return new JsonData(1,""+service.getNew().getId());
+    }
+    @RequestMapping("update2")
+    public @ResponseBody
+    JsonData update2(Checkdetail detail) {
+        if(detail.getId()!=null){
+            cservice.update(detail);
+        }else{
+            cservice.insert(detail);
         }
         return new JsonData(1);
     }
+
 }

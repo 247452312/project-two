@@ -2,16 +2,16 @@ package entity.tj;
 
 public class Tj_Vip implements Tj {
 
-    private Double je4;
-    private Double je3;
-    private String vipname;
-    private Double point4;
     private Integer vipid;
+    private String vipname;
+    private Double je1;
+    private Double je2;
+    private Double je3;
+    private Double je4;
     private Double point1;
     private Double point2;
-    private Double je2;
     private Double point3;
-    private Double je1;
+    private Double point4;
 
     private Integer sex;
     private String ccode;

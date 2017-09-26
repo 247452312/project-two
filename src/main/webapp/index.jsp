@@ -164,7 +164,7 @@
                     </a>
                     <ul class="sider-nav-s">
                         <li src="#" class="active"><a href="javascript:;">会员明细余额统计表</a></li>
-                        <li src="#"><a href="javascript:;">会员统计表</a></li>
+                        <li src="/table/Tj/Tj_Vip.jsp"><a href="javascript:;">会员统计表</a></li>
                         <li src="#"><a href="javascript:;">操作员统计表</a></li>
                         <li src="#"><a href="javascript:;">分店统计表</a></li>
                         <li src="#"><a href="javascript:;">商品统计表</a></li>
