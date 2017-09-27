@@ -27,6 +27,6 @@ public interface Tj_Mapper {
     public List<Tj_Vip> callvip(String where, String sdate, String ddate);
 
     @Select("call tj_vipmx(#{id})")
-    public List<Tj_VipMx> callVipMx(int id);
+    public List<Tj_VipMx> callVipMx(Integer id);
 
 }

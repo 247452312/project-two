@@ -328,4 +328,5 @@ public class StatusUtils {
     public String[] getPowerArray() {
         return powerArray;
     }
+
 }

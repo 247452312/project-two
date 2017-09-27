@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>会员统计列表</title>
+    <title>综合统计列表</title>
 
     <script type="text/javascript" src="/js/Calendar3.js"></script>
     <script type="text/javascript" src="/custom/jquery.min.js"></script>
@@ -39,7 +39,7 @@
 <body>
 <div id="test"></div>
 <div class="container">
-    <table id="dg" style="width:100%;height:529px" title="商品列表" data-options="
+    <table id="dg" style="width:100%;height:529px" title="综合统计列表" data-options="
             rownumbers:true,
             singleSelect:false,
             autoRowHeight:true,
@@ -54,17 +54,26 @@
             ">
         <thead>
         <tr>
-            <th field="vipname" width="10%">会员名称</th>
-            <th field="je1" width="9%">充值金额</th>
-            <th field="point1" width="9%">充值积分</th>
-            <th field="je2" width="9%">取款金额</th>
-            <th field="point2" width="9%">取款积分</th>
-            <th field="je3" width="9%">销售金额</th>
-            <th field="point3" width="9%">销售积分</th>
-            <th field="je4" width="9%">退货金额</th>
-            <th field="point4" width="9%">退货积分</th>
-            <th field="amount" width="9%">会员余额</th>
-            <th field="point" width="9%">会员积分</th>
+            <th field="amount1" width="4%">充值金额</th>
+            <th field="point1" width="4%">充值积分</th>
+            <th field="amount2" width="4%">取款金额</th>
+            <th field="point2" width="4%">取款积分</th>
+            <th field="count3" width="4%">采购数量</th>
+            <th field="amount3" width="5%">采购金额</th>
+            <th field="count4" width="6%">采购退货数量</th>
+            <th field="amount4" width="6%">采购退货金额</th>
+            <th field="count5" width="5%">销售数量</th>
+            <th field="amount5" width="5%">销售金额</th>
+            <th field="point5" width="5%">销售积分</th>
+            <th field="count6" width="6%">销售退货数量</th>
+            <th field="amount6" width="6%">销售退货金额</th>
+            <th field="point6" width="6%">销售退货积分</th>
+            <th field="count7" width="5%">移库数量</th>
+            <th field="amount7" width="5%">移库金额</th>
+            <th field="count8" width="5%">库损数量</th>
+            <th field="amount8" width="5%">库损金额</th>
+            <th field="count9" width="5%">库溢数量</th>
+            <th field="amount9" width="5%">库溢金额</th>
         </tr>
         </thead>
     </table>
@@ -127,22 +136,30 @@
             };
         }
         $.ajax({
-            type: "POST", url: "/Tj/selectVip", dataType: "json", data: data, success: function (json) {
+            type: "POST", url: "/Tj/selectAll", dataType: "json", data: data, success: function (json) {
                 for (var i = 0; i < json.length; i++) {
-                    var TjVip = json[i];
+                    var Tj_All = json[i];
                     rows.push({
-                        id: TjVip.id,
-                        vipname: TjVip.vipname,
-                        je1: TjVip.je1,
-                        je2: TjVip.je2,
-                        je3: TjVip.je3,
-                        je4: TjVip.je4,
-                        point1: TjVip.point1,
-                        point2: TjVip.point2,
-                        point3: TjVip.point3,
-                        point4: TjVip.point4,
-                        amount: TjVip.amount,
-                        point: TjVip.point
+                        id: Tj_All.id,
+                        amount1: Tj_All.amount1,
+                        point1: Tj_All.point1,
+                        amount2: Tj_All.amount2,
+                        count3: Tj_All.count3,
+                        amount3: Tj_All.amount3,
+                        count4: Tj_All.count4,
+                        amount4: Tj_All.amount4,
+                        count5: Tj_All.count5,
+                        amount5: Tj_All.amount5,
+                        point5: Tj_All.point5,
+                        count6: Tj_All.count6,
+                        amount6: Tj_All.amount6,
+                        point6: Tj_All.point6,
+                        count7: Tj_All.count7,
+                        amount7: Tj_All.amount7,
+                        count8: Tj_All.count8,
+                        amount8: Tj_All.amount8,
+                        count9: Tj_All.count9,
+                        amount9: Tj_All.amount9
                     });
                 }
                 //页数相关赋值
@@ -179,9 +196,9 @@
         var divTrem = $(".first-trem");
         var trem = divTrem.find("[name=trem]");
         var compare = divTrem.find("[name=compare]");
-        $.getJSON("/Vip/getStatus", function (json) {
+        $.getJSON("/Ordermain/getStatus", function (json) {
 
-            var tremOpt = json.vipInput;
+            var tremOpt = json.ordermainInput;
             for (var name in tremOpt) {
                 var opt = $("<option></option>");
                 opt.val(name);

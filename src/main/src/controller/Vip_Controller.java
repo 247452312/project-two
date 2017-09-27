@@ -31,6 +31,12 @@ public class Vip_Controller extends Basic_Controller<Vip> {
     Ordermain_ServiceImpl oservice;
 
 
+    @RequestMapping("getByName")
+    public @ResponseBody List<Vip> getByName(String name){
+        List<Vip> list = service.getByAttr(new JsonData1("name",name));
+        return list;
+    }
+
     @RequestMapping("updateStatus")
     public @ResponseBody
     JsonData updateStatus(int id) {

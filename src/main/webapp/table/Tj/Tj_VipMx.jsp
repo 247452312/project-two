@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>会员统计列表</title>
+    <title>会员明细余额统计列表</title>
 
     <script type="text/javascript" src="/js/Calendar3.js"></script>
     <script type="text/javascript" src="/custom/jquery.min.js"></script>
@@ -39,7 +39,7 @@
 <body>
 <div id="test"></div>
 <div class="container">
-    <table id="dg" style="width:100%;height:529px" title="商品列表" data-options="
+    <table id="dg" style="width:100%;height:529px" title="会员明细余额统计列表" data-options="
             rownumbers:true,
             singleSelect:false,
             autoRowHeight:true,
@@ -54,51 +54,36 @@
             ">
         <thead>
         <tr>
-            <th field="vipname" width="10%">会员名称</th>
-            <th field="je1" width="9%">充值金额</th>
-            <th field="point1" width="9%">充值积分</th>
-            <th field="je2" width="9%">取款金额</th>
-            <th field="point2" width="9%">取款积分</th>
-            <th field="je3" width="9%">销售金额</th>
-            <th field="point3" width="9%">销售积分</th>
-            <th field="je4" width="9%">退货金额</th>
-            <th field="point4" width="9%">退货积分</th>
-            <th field="amount" width="9%">会员余额</th>
-            <th field="point" width="9%">会员积分</th>
+            <th field="ordercode" width="9%">单据号</th>
+            <th field="ordertype" width="9%">单据类型</th>
+            <th field="orderdate" width="9%">日期</th>
+            <th field="shopname" width="8%">分店</th>
+            <th field="amount" width="9%">单据金额</th>
+            <th field="inje" width="8%">增加</th>
+            <th field="outje" width="8%">减少</th>
+            <th field="je" width="8%">余额</th>
+            <th field="inpoint" width="8%">增加</th>
+            <th field="outpoint" width="8%">减少</th>
+            <th field="point" width="8%">积分</th>
+            <th field="username" width="8%">创建人</th>
         </tr>
         </thead>
     </table>
 
     <div id="tb" style="padding:0 30px;">
-        <form action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
-            <div>
-                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期" onclick="new Calendar().show(this);" readonly="readonly"
-                       style="width:166px;height:35px;line-height:35px;"/>
-                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期" onclick="new Calendar().show(this);" readonly="readonly"
-                       style="width:166px;height:35px;line-height:35px;"/>
-            </div>
+        <div action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
+
             <div class="conditions search-trem first-trem">
-                <select style="height:35px;width:10%;" name="trem" onchange="changeInput($(this));"></select>
-                <select style="height:35px;width:12%;" name="compare"></select>
-                <input class="trem-input in-line" type="text" name="text"
-                       style="width:166px;height:35px;line-height:35px;"/>
-                <select class="trem-select none" style="height:35px;width:166px;"></select>
-                <select style="height:35px;width:6%;" name="join">
-                    <option value="0">并且</option>
-                    <option value="1">或者</option>
-                </select>
-                <a onclick="addTrem($('.form'));"
-                   class="easyui-linkbutton more" iconCls="icon-add">添加条件</a>
-                <a onclick="removeTrem($(this));" style="display: none"
-                   class="easyui-linkbutton more" iconCls="icon-cancel">去除条件</a>
-                <a onclick="tableData($('.form'));" class="easyui-linkbutton a-select" iconCls="icon-search"
-                   data-options="selected:true">查询</a>
-                <a onclick="$('[name=where]').val('');tableData();" class="easyui-linkbutton a-select"
-                   iconCls="icon-search" data-options="selected:true">全查</a>
+                <input type="hidden" name="markid" value="">
+                <input name="name" style="height:35px;width:7%;position:absolute;left:90px;top: 9px;" onkeypress="tj(event)">
+                选择会员：<select style="height:35px;width:10%;" class="vip-select" name="trem" onchange="$('[name=markid]').val($(this).val())"></select>
+                <a onclick="tableData()" class="easyui-linkbutton a-select"
+                   data-options="selected:true">统计</a>
                 <a onclick="tablePrint();" class="easyui-linkbutton a-select"
                    iconCls="icon-print" data-options="selected:true"><%--打印--%></a>
+
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -108,41 +93,25 @@
     var rows = [];
 
     //传送数据获取表格信息
-    function tableData(form) {
+    function tableData() {
         rows = [];
-        var data = [];
-        if (form) {//查询时
-            var selable = false;
-            if ($("[name=compare]")[0].hasAttribute("disabled")) {
-                selable = true;
-                $("[name=compare]").removeAttr("disabled");
-            }
-            data = form.serializeArray();
-            if (selable) $("[name=compare]").attr("disabled", "disabled");
-        } else {//全查时
-            data = {
-                "sdata": "1900-01-01",
-                "ddata": "3000-01-01",
-                "where": "1=1"
-            };
-        }
         $.ajax({
-            type: "POST", url: "/Tj/selectVip", dataType: "json", data: data, success: function (json) {
+            type: "POST", url: "/Tj/selectVipMx", dataType: "json", data: {"id":$('[name=markid]').val()}, success: function (json) {
                 for (var i = 0; i < json.length; i++) {
-                    var TjVip = json[i];
+                    var TjVipMx = json[i];
                     rows.push({
-                        id: TjVip.id,
-                        vipname: TjVip.vipname,
-                        je1: TjVip.je1,
-                        je2: TjVip.je2,
-                        je3: TjVip.je3,
-                        je4: TjVip.je4,
-                        point1: TjVip.point1,
-                        point2: TjVip.point2,
-                        point3: TjVip.point3,
-                        point4: TjVip.point4,
-                        amount: TjVip.amount,
-                        point: TjVip.point
+                        ordercode:TjVipMx.ordercode,
+                        ordertype: TjVipMx.ordertype,
+                        orderdate: TjVipMx.orderdate,
+                        shopname: TjVipMx.shopname,
+                        amount: TjVipMx.amount,
+                        inje: TjVipMx.inje,
+                        outje: TjVipMx.outje,
+                        je: TjVipMx.je,
+                        inpoint: TjVipMx.inpoint,
+                        outpoint: TjVipMx.outpoint,
+                        point: TjVipMx.point,
+                        username: TjVipMx.username
                     });
                 }
                 //页数相关赋值
@@ -171,11 +140,38 @@
 
     $(function () {
         tableData();
-        getSelects();
+        //getSelects();
+
     });
 
+
+    function tj(event) {
+        if(event.keyCode!=13)return;
+       var data=$("[name=name]").val();
+        $.ajax({
+            type: "POST", url: "/Vip/getByName", dataType: "json", data: {"name":data}, success: function (json) {
+                if (json.length==0){
+                    showMsg("无此人");
+                    rerurn;
+                }
+                var select = $(".vip-select");
+                select.empty();
+                for (var i = 0; i < json.length; i++) {
+                    var Vip = json[i];
+                    var op = $("<option value='"+Vip.id+"'>"+Vip.name+"<option>");
+                    select.append(op);
+                   // alert(1);
+                }
+                $("[name=markid]").val(json[0].id);
+                //页数相关赋值
+
+                resetDg();
+            }
+        });
+    }
+
     //获得查询条件下拉列表
-    function getSelects() {
+   /* function getSelects() {
         var divTrem = $(".first-trem");
         var trem = divTrem.find("[name=trem]");
         var compare = divTrem.find("[name=compare]");
@@ -198,15 +194,15 @@
             }
         });
     }
-
-    //变化填写条件
+*/
+   /* //变化填写条件
     function changeInput(select) {
         var inp = select.siblings(".trem-input");
         inp.html("");
         var sel = select.siblings(".trem-select");
         sel.empty();
         var selval = select.val();
-        $.getJSON("/Vip/getStatus", function (json) {
+        $.getJSON("/Ordermain/getStatus", function (json) {
             var textOpt = json.vipInput[selval].input;//下拉框集合
             //如果是空的，则是输入框
             if (isEmptyObject(textOpt)) {
@@ -227,7 +223,7 @@
                 }
             }
         });
-    }
+    }*/
 </script>
 </body>
 </html>

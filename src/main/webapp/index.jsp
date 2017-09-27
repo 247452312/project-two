@@ -163,12 +163,12 @@
                         <i class="iconfont">&#xe642;</i>
                     </a>
                     <ul class="sider-nav-s">
-                        <li src="#" class="active"><a href="javascript:;">会员明细余额统计表</a></li>
+                        <li src="/table/Tj/Tj_VipMx.jsp" class="active"><a href="javascript:;">会员明细余额统计表</a></li>
                         <li src="/table/Tj/Tj_Vip.jsp"><a href="javascript:;">会员统计表</a></li>
-                        <li src="#"><a href="javascript:;">操作员统计表</a></li>
-                        <li src="#"><a href="javascript:;">分店统计表</a></li>
-                        <li src="#"><a href="javascript:;">商品统计表</a></li>
-                        <li src="#"><a href="javascript:;">综合统计表</a></li>
+                        <li src="/table/Tj/Tj_User.jsp"><a href="javascript:;">操作员统计表</a></li>
+                        <li src="/table/Tj/Tj_Shop.jsp"><a href="javascript:;">分店统计表</a></li>
+                        <li src="/table/Tj/Tj_Product.jsp"><a href="javascript:;">商品统计表</a></li>
+                        <li src="/table/Tj/Tj_All.jsp"><a href="javascript:;">综合统计表</a></li>
                     </ul>
                 </li>
             </ul>

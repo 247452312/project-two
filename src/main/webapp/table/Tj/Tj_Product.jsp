@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>会员统计列表</title>
+    <title>商品统计列表</title>
 
     <script type="text/javascript" src="/js/Calendar3.js"></script>
     <script type="text/javascript" src="/custom/jquery.min.js"></script>
@@ -54,17 +54,23 @@
             ">
         <thead>
         <tr>
-            <th field="vipname" width="10%">会员名称</th>
-            <th field="je1" width="9%">充值金额</th>
-            <th field="point1" width="9%">充值积分</th>
-            <th field="je2" width="9%">取款金额</th>
-            <th field="point2" width="9%">取款积分</th>
-            <th field="je3" width="9%">销售金额</th>
-            <th field="point3" width="9%">销售积分</th>
-            <th field="je4" width="9%">退货金额</th>
-            <th field="point4" width="9%">退货积分</th>
-            <th field="amount" width="9%">会员余额</th>
-            <th field="point" width="9%">会员积分</th>
+            <th field="productname" width="8%">商品名称</th>
+            <th field="incount" width="6%">采购数量</th>
+            <th field="inamount" width="6%">采购金额</th>
+            <th field="intcount" width="6%">采购退货数量</th>
+            <th field="intamount" width="6%">采购退货金额</th>
+            <th field="outcount" width="6%">销售数量</th>
+            <th field="10" width="6%">项目销售数量</th>
+            <th field="outamount" width="6%">销售金额</th>
+            <th field="outtcount" width="6%">销售退货数量</th>
+            <th field="11" width="6%">项目退货数量</th>
+            <th field="outtamount" width="6%">销售退货金额</th>
+            <th field="movcount" width="6%">移库数量</th>
+            <th field="movamount" width="6%">移库金额</th>
+            <th field="scount" width="5%">库损数量</th>
+            <th field="samount" width="5%">库损金额</th>
+            <th field="ycount" width="5%">库溢数量</th>
+            <th field="yamount" width="5%">库溢金额</th>
         </tr>
         </thead>
     </table>
@@ -127,22 +133,26 @@
             };
         }
         $.ajax({
-            type: "POST", url: "/Tj/selectVip", dataType: "json", data: data, success: function (json) {
+            type: "POST", url: "/Tj/selectProduct", dataType: "json", data: data, success: function (json) {
                 for (var i = 0; i < json.length; i++) {
-                    var TjVip = json[i];
+                    var Tj_Product = json[i];
                     rows.push({
-                        id: TjVip.id,
-                        vipname: TjVip.vipname,
-                        je1: TjVip.je1,
-                        je2: TjVip.je2,
-                        je3: TjVip.je3,
-                        je4: TjVip.je4,
-                        point1: TjVip.point1,
-                        point2: TjVip.point2,
-                        point3: TjVip.point3,
-                        point4: TjVip.point4,
-                        amount: TjVip.amount,
-                        point: TjVip.point
+                        productid: Tj_Product.productid,
+                        productname: Tj_Product.productname,
+                        incount: Tj_Product.incount,
+                        inamount: Tj_Product.inamount,
+                        intcount: Tj_Product.intcount,
+                        intamount: Tj_Product.intamount,
+                        outcount: Tj_Product.outcount,
+                        outamount: Tj_Product.outamount,
+                        outtcount: Tj_Product.outtcount,
+                        outtamount: Tj_Product.outtamount,
+                        movcount: Tj_Product.movcount,
+                        movamount: Tj_Product.movamount,
+                        scount: Tj_Product.scount,
+                        samount: Tj_Product.samount,
+                        ycount: Tj_Product.ycount,
+                        yamount: Tj_Product.yamount
                     });
                 }
                 //页数相关赋值
@@ -179,9 +189,9 @@
         var divTrem = $(".first-trem");
         var trem = divTrem.find("[name=trem]");
         var compare = divTrem.find("[name=compare]");
-        $.getJSON("/Vip/getStatus", function (json) {
+        $.getJSON("/Product/getStatus", function (json) {
 
-            var tremOpt = json.vipInput;
+            var tremOpt = json.productInput;
             for (var name in tremOpt) {
                 var opt = $("<option></option>");
                 opt.val(name);
@@ -206,8 +216,8 @@
         var sel = select.siblings(".trem-select");
         sel.empty();
         var selval = select.val();
-        $.getJSON("/Vip/getStatus", function (json) {
-            var textOpt = json.vipInput[selval].input;//下拉框集合
+        $.getJSON("/Product/getStatus", function (json) {
+            var textOpt = json.productInput[selval].input;//下拉框集合
             //如果是空的，则是输入框
             if (isEmptyObject(textOpt)) {
                 sel.removeAttr("name").addClass("none").removeClass("in-line");

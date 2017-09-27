@@ -9,6 +9,7 @@ import serviceimpl.Tj_ServiceImpl;
 import utils.SeachInfo;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,7 +20,13 @@ public class Tj_Controller extends Basic_Controller<Tj> {
 
     @RequestMapping("selectAll")
     public @ResponseBody
-    List<Tj_All> selectAll(String sdate, String ddate, int[] trem, int[] compare, String[] text, int[] join, @RequestParam(value = "where", defaultValue = "") String where) {
+    List<Tj_All> selectAll(@RequestParam(value = "sdate", defaultValue = "") String sdate,
+                           @RequestParam(value = "ddate", defaultValue = "") String ddate,
+                           @RequestParam(value = "trem", defaultValue = "") int[] trem,
+                           @RequestParam(value = "compare", defaultValue = "") int[] compare,
+                           @RequestParam(value = "text", defaultValue = "") String[] text,
+                           @RequestParam(value = "join", defaultValue = "") int[] join,
+                           @RequestParam(value = "where", defaultValue = "") String where) {
         return service.callAll(sdate, ddate, trem, compare, text, join, where);
     }
 
@@ -38,7 +45,8 @@ public class Tj_Controller extends Basic_Controller<Tj> {
     @RequestMapping("selectUser")
     public @ResponseBody
     List<Tj_User> selectUser(String sdate, String ddate, int[] trem, int[] compare, String[] text, int[] join, @RequestParam(value = "where", defaultValue = "") String where) {
-        return service.callUser(sdate, ddate, trem, compare, text, join, where);
+        List<Tj_User> list = service.callUser(sdate, ddate, trem, compare, text, join, where);
+        return list;
     }
 
     @RequestMapping("selectVip")
@@ -55,7 +63,7 @@ public class Tj_Controller extends Basic_Controller<Tj> {
 
     @RequestMapping("selectVipMx")
     public @ResponseBody
-    List<Tj_VipMx> selectVipMx(int id) {
+    List<Tj_VipMx> selectVipMx(Integer id) {
         return service.callVipMx(id);
     }
 

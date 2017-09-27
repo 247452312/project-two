@@ -22,7 +22,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
     public List<Tj_All> callAll(String sdate, String ddate, int[] trem, int[] compare, String[] text, int[] join, String where) {
         String where1 = "";
         if (where.equals(""))
-            where1 = getWhere("", null, null, null, null);
+            where1 = getWhere("ordermain", trem, compare, text, join);
         else where1 = where;
 
         return mapper.callall(where1, sdate, ddate);
@@ -32,7 +32,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
     public List<Tj_Product> callproduct(String sdate, String ddate, int[] trem, int[] compare, String[] text, int[] join, String where) {
         String where1 = "";
         if (where.equals(""))
-            where1 = getWhere("", null, null, null, null);
+            where1 = getWhere("product", trem, compare, text, join);
         else where1 = where;
 
         return mapper.callproduct(where1, sdate, ddate);
@@ -42,7 +42,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
     public List<Tj_Shop> callShop(String sdate, String ddate, int[] trem, int[] compare, String[] text, int[] join, String where) {
         String where1 = "";
         if (where.equals(""))
-            where1 = getWhere("", null, null, null, null);
+            where1 = getWhere("shop", trem, compare, text, join);
         else where1 = where;
         return mapper.callshop(where1, sdate, ddate);
     }
@@ -51,7 +51,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
     public List<Tj_User> callUser(String sdate, String ddate, int[] trem, int[] compare, String[] text, int[] join, String where) {
         String where1 = "";
         if (where.equals(""))
-            where1 = getWhere("", null, null, null, null);
+            where1 = getWhere("user", trem, compare, text, join);
         else where1 = where;
         return mapper.calluser(where1, sdate, ddate);
     }
@@ -66,7 +66,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
     }
 
     @Override
-    public List<Tj_VipMx> callVipMx(int id) {
+    public List<Tj_VipMx> callVipMx(Integer id) {
         return mapper.callVipMx(id);
     }
 
@@ -92,7 +92,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
                 }
                 continue;
             } if(compare[i] != 0){
-                sb.append(" " + getMap(table).get(trem[i]).getSql()+" "+getMap("compare").get(compare[i]).getSql()+" "+text[i]);
+                sb.append(" " + getMap(table).get(trem[i]).getSql()+" "+getMap("compare").get(compare[i]).getSql()+" '"+text[i]+"'");
             }else{
                 sb.append(" " + getMap(table).get(trem[i]).getSql()+" "+getMap("compare").get(compare[i]).getSql()+" '%"+text[i]+"%'");
             }
@@ -116,6 +116,7 @@ public class Tj_ServiceImpl extends Basic_ServiceImpl<Tj> implements Tj_Service 
         if (string.equals("shop")) return StatusUtils.ShopSelectMap;
         if (string.equals("product")) return StatusUtils.ProductSelectMap;
         if (string.equals("client")) return StatusUtils.ClientSelectMap;
+        if(string.equals("ordermain"))return StatusUtils.OrdermainSelectMap;
         return null;
 
     }

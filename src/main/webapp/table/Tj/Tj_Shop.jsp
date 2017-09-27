@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>会员统计列表</title>
+    <title>分店统计列表</title>
 
     <script type="text/javascript" src="/js/Calendar3.js"></script>
     <script type="text/javascript" src="/custom/jquery.min.js"></script>
@@ -39,7 +39,7 @@
 <body>
 <div id="test"></div>
 <div class="container">
-    <table id="dg" style="width:100%;height:529px" title="商品列表" data-options="
+    <table id="dg" style="width:100%;height:529px" title="分店统计列表" data-options="
             rownumbers:true,
             singleSelect:false,
             autoRowHeight:true,
@@ -54,17 +54,19 @@
             ">
         <thead>
         <tr>
-            <th field="vipname" width="10%">会员名称</th>
-            <th field="je1" width="9%">充值金额</th>
-            <th field="point1" width="9%">充值积分</th>
-            <th field="je2" width="9%">取款金额</th>
-            <th field="point2" width="9%">取款积分</th>
-            <th field="je3" width="9%">销售金额</th>
-            <th field="point3" width="9%">销售积分</th>
-            <th field="je4" width="9%">退货金额</th>
-            <th field="point4" width="9%">退货积分</th>
-            <th field="amount" width="9%">会员余额</th>
-            <th field="point" width="9%">会员积分</th>
+            <th field="shopname" width="8%">分店名称</th>
+            <th field="storeamount" width="7%">库存金额</th>
+            <th field="inamount" width="7%">采购金额</th>
+            <th field="movinamount" width="7%">移入金额</th>
+            <th field="movoutamount" width="7%">移出金额</th>
+            <th field="saleamount" width="8%">销售金额</th>
+            <th field="xj1" width="8%">销售现金</th>
+            <th field="saletamount" width="8%">销售退货金额</th>
+            <th field="xj2" width="8%">退货现金</th>
+            <th field="samount" width="8%">库损金额</th>
+            <th field="yamount" width="8%">库溢金额</th>
+            <th field="saleallamount" width="8%">销售利润</th>
+            <th field="allamount" width="8%">总利润</th>
         </tr>
         </thead>
     </table>
@@ -127,22 +129,24 @@
             };
         }
         $.ajax({
-            type: "POST", url: "/Tj/selectVip", dataType: "json", data: data, success: function (json) {
+            type: "POST", url: "/Tj/selectShop", dataType: "json", data: data, success: function (json) {
                 for (var i = 0; i < json.length; i++) {
-                    var TjVip = json[i];
+                    var Tj_Shop = json[i];
                     rows.push({
-                        id: TjVip.id,
-                        vipname: TjVip.vipname,
-                        je1: TjVip.je1,
-                        je2: TjVip.je2,
-                        je3: TjVip.je3,
-                        je4: TjVip.je4,
-                        point1: TjVip.point1,
-                        point2: TjVip.point2,
-                        point3: TjVip.point3,
-                        point4: TjVip.point4,
-                        amount: TjVip.amount,
-                        point: TjVip.point
+                        shopid: Tj_Shop.shopid,
+                        shopname: Tj_Shop.shopname,
+                        storeamount: Tj_Shop.storeamount,
+                        inamount: Tj_Shop.inamount,
+                        movinamount: Tj_Shop.movinamount,
+                        movoutamount: Tj_Shop.movoutamount,
+                        saleamount: Tj_Shop.saleamount,
+                        xj1: Tj_Shop.xj1,
+                        saletamount: Tj_Shop.saletamount,
+                        xj2: Tj_Shop.xj2,
+                        samount: Tj_Shop.samount,
+                        yamount: Tj_Shop.yamount,
+                        saleallamount: Tj_Shop.saleallamount,
+                        allamount: Tj_Shop.allamount,
                     });
                 }
                 //页数相关赋值
@@ -179,9 +183,9 @@
         var divTrem = $(".first-trem");
         var trem = divTrem.find("[name=trem]");
         var compare = divTrem.find("[name=compare]");
-        $.getJSON("/Vip/getStatus", function (json) {
+        $.getJSON("/Shop/getStatus", function (json) {
 
-            var tremOpt = json.vipInput;
+            var tremOpt = json.shopInput;
             for (var name in tremOpt) {
                 var opt = $("<option></option>");
                 opt.val(name);
@@ -206,8 +210,8 @@
         var sel = select.siblings(".trem-select");
         sel.empty();
         var selval = select.val();
-        $.getJSON("/Vip/getStatus", function (json) {
-            var textOpt = json.vipInput[selval].input;//下拉框集合
+        $.getJSON("/shop/getStatus", function (json) {
+            var textOpt = json.shopInput[selval].input;//下拉框集合
             //如果是空的，则是输入框
             if (isEmptyObject(textOpt)) {
                 sel.removeAttr("name").addClass("none").removeClass("in-line");

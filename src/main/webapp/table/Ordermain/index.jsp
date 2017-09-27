@@ -22,13 +22,15 @@
     <link rel="stylesheet" type="text/css" href="/custom/uimaker/icon.css">
     <link rel="stylesheet" href="/css/providers1.css">
     <style type="text/css">
-        .none{
+        .none {
             display: none;
         }
-        .block{
+
+        .block {
             display: block;
         }
-        .in-line{
+
+        .in-line {
             display: inline;
         }
     </style>
@@ -75,7 +77,8 @@
             <div class="conditions search-trem first-trem">
                 <select style="height:35px;width:10%;" name="trem" onchange="changeInput($(this));"></select>
                 <select style="height:35px;width:12%;" name="compare"></select>
-                <input class="trem-input in-line" type="text" name="text" style="width:166px;height:35px;line-height:35px;"/>
+                <input class="trem-input in-line" type="text" name="text"
+                       style="width:166px;height:35px;line-height:35px;"/>
                 <select class="trem-select none" style="height:35px;width:166px;"></select>
                 <select style="height:35px;width:6%;" name="join">
                     <option value="0">并且</option>
@@ -88,11 +91,11 @@
                 <a onclick="tableData($('.form'));" class="easyui-linkbutton a-select" iconCls="icon-search"
                    data-options="selected:true">查询</a>
                 <a onclick="$('[name=where]').val('');tableData();" class="easyui-linkbutton a-select"
-                   iconCls="icon-search"data-options="selected:true">全查</a>
+                   iconCls="icon-search" data-options="selected:true">全查</a>
                 <a onclick="tableData();" class="easyui-linkbutton a-select"
-                   iconCls="icon-reload"data-options="selected:true"><%--刷新--%></a>
+                   iconCls="icon-reload" data-options="selected:true"><%--刷新--%></a>
                 <a onclick="tablePrint();" class="easyui-linkbutton a-select"
-                   iconCls="icon-print"data-options="selected:true"><%--打印--%></a>
+                   iconCls="icon-print" data-options="selected:true"><%--打印--%></a>
                 <a onclick="addPage();" class="easyui-linkbutton addRow" style="background: #4f9fcf;color: #ffffff"
                    iconCls="icon-add">添加单据</a>
             </div>
@@ -163,6 +166,7 @@
 <script type="text/javascript">
     //后台获得资料，方便以后调用
     var rows = [];
+
     //传送数据获取表格信息
     function tableData(form) {
         rows = [];
@@ -170,18 +174,18 @@
         if (form) {//查询时
             form.find("[name=pageno]").val(1);
             form.find("[name=maxrow]").val($(".pagination-page-list").val());
-            var selable=false;
-            if($("[name=compare]")[0].hasAttribute("disabled")){
-                selable=true;
+            var selable = false;
+            if ($("[name=compare]")[0].hasAttribute("disabled")) {
+                selable = true;
                 $("[name=compare]").removeAttr("disabled");
             }
             data = form.serializeArray();
-            if(selable) $("[name=compare]").attr("disabled","disabled");
-        }else{//换页时
-            data={
-                "where":$("[name=where]").val(),
-                "pageno":$(".pagination-num").val(),
-                "maxrow":$(".pagination-page-list").val()
+            if (selable) $("[name=compare]").attr("disabled", "disabled");
+        } else {//换页时
+            data = {
+                "where": $("[name=where]").val(),
+                "pageno": $(".pagination-num").val(),
+                "maxrow": $(".pagination-page-list").val()
             };
         }
         $.ajax({
@@ -205,39 +209,41 @@
                     });
                 }
                 //页数相关赋值
-                var jsea=json.sea;
-                if(form){
+                var jsea = json.sea;
+                if (form) {
                     $("[name=where]").val(jsea.where);
-                };
+                }
+                ;
                 $(".rowcount").html(jsea.rowcount);
                 $(".pagecount").html(jsea.pagecount);
                 $(".pagination-num").val(jsea.pageno);
                 $(".pagination-page-list").val(jsea.maxrow);
                 //$("#dg").attr("data-options","pageSize:"+jsea.maxrow);
                 //点击事件
-                $("#page-first").attr("onclick","{$('.pagination-num').val("+1+");tableData();}");
-                $("#page-prev").attr("onclick","{$('.pagination-num').val("+json.sea.prepage+");tableData();}");
-                $("#page-next").attr("onclick","{ $('.pagination-num').val("+json.sea.nextpage+");tableData();}");
-                $("#page-last").attr("onclick","{ $('.pagination-num').val("+json.sea.pagecount+");tableData();}");
+                $("#page-first").attr("onclick", "{$('.pagination-num').val(" + 1 + ");tableData();}");
+                $("#page-prev").attr("onclick", "{$('.pagination-num').val(" + json.sea.prepage + ");tableData();}");
+                $("#page-next").attr("onclick", "{ $('.pagination-num').val(" + json.sea.nextpage + ");tableData();}");
+                $("#page-last").attr("onclick", "{ $('.pagination-num').val(" + json.sea.pagecount + ");tableData();}");
                 //换条数事件
-                $(".pagination-page-list").attr("onchange","{$('.pagination-num').val("+1+");tableData();}");
+                $(".pagination-page-list").attr("onchange", "{$('.pagination-num').val(" + 1 + ");tableData();}");
                 //换页数事件
-                $(".pagination-num").attr("onchange","{tableData();}");
+                $(".pagination-num").attr("onchange", "{tableData();}");
                 resetDg();
             }
         });
     }
+
     //重新添加表格数据
     function resetDg() {
         $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
         $("#dg").datagrid({
-            onDblClickRow:function(rowIndex, rowData){
+            onDblClickRow: function (rowIndex, rowData) {
                 //alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("修改单据","/Ordermain/updat?id="+rowData.id,1000,400,function(){
+                showPage("修改单据", "/Ordermain/updat?id=" + rowData.id, 1000, 400, function () {
                     tableData();
-                },true,false);
+                }, true, false);
             }
         });
         $('#dg').datagrid('reload');
@@ -245,15 +251,16 @@
 
     //打开新增页面
     function addPage() {
-        showPage("新增单据","/Ordermain/ad",1000,400,function(){
+        showPage("新增单据", "/Ordermain/ad", 1000, 400, function () {
             tableData();
-        },true,false);
+        }, true, false);
     }
 
     $(function () {
         tableData();
         getSelects();
     });
+
     //获得查询条件下拉列表
     function getSelects() {
         var divTrem = $(".first-trem");
@@ -262,7 +269,7 @@
         $.getJSON("/Ordermain/getStatus", function (json) {
             //获得client查询变量
             var tremOpt = json.ordermainInput;
-            for(var name in tremOpt){
+            for (var name in tremOpt) {
                 var opt = $("<option></option>");
                 opt.val(name);
                 opt.html(tremOpt[name].option);
@@ -270,7 +277,7 @@
             }
             //获得比较方法
             var compareOpt = json.compareInput;
-            for(var name in compareOpt){
+            for (var name in compareOpt) {
                 var opt = $("<option></option>");
                 opt.val(name);
                 opt.html(compareOpt[name].option);
@@ -278,6 +285,7 @@
             }
         });
     }
+
     //变化填写条件
     function changeInput(select) {
         var inp = select.siblings(".trem-input");
@@ -298,7 +306,7 @@
             else {
                 inp.removeAttr("name").addClass("none").removeClass("in-line");
                 sel.attr("name", "text").addClass("in-line").removeClass("none");
-                select.siblings("[name=compare]").attr("disabled","disabled").val(2);
+                select.siblings("[name=compare]").attr("disabled", "disabled").val(2);
                 for (var name in textOpt) {
                     var opt = $("<option></option>");
                     opt.val(name);
