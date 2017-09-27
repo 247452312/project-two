@@ -17,6 +17,7 @@
     <script type="text/javascript" src="/js/basic.js"></script>
 </head>
 <body>
+<input type="hidden" class="userpower" value="${sessionScope.user.fright}">
 <div class="container">
     <div id="pf-hd" style="background-image: none">
         <div class="pf-logo" style="width: 190px;border: 0px;">
@@ -105,7 +106,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 
     <div id="pf-bd">
@@ -279,15 +279,16 @@
     $(function () {
         addTab($("#exLi li"));//加入首页
         addOrders($(".orders"));
+        setPowers();//设置权限
     });
     //添加单据链接
     function addOrders(orders) {
-        $.getJSON("/Ordermain/getStatus", function (json) {
+        $.ajax({url:"/Ordermain/getStatus",async:false, success:function (json) {
             //获得单据类型
             var orderTypes = json.orderTypeArray;
             for (var i = 0; i < orderTypes.length; i++) {
                 var orderType = orderTypes[i];
-                var li=$("<li></li>").attr("src","/table/Ordermain/add.jsp?ordertype="+i);
+                var li=$("<li></li>").attr("src","/table/Ordermain/add.jsp?ordertype="+(i+1));
                 var a=$("<a></a>").attr("href","javascript:;").html(orderType);
                 li.append(a);
                 orders.append(li);
@@ -297,11 +298,25 @@
             li.append(a);
             orders.append(li);
             orders.children(":first").addClass("active");
-        });
+        }});
     }
     //打开修改密码
     function editpass() {
         showPage("修改密码","/editpass.jsp",600,300,function(){},false,false);
+    }
+    //设置权限
+    function setPowers() {
+        powers=$(".userpower").val();
+        var lis=$(".sider-nav-s>li");
+        for (var i = 0; i < lis.length; i++) {
+            var power=function () {
+                try {return powers.substring(i,i+1);}
+                catch(e) {return '0';}
+            };
+            if(power()!='1') {
+                lis.eq(i).attr("nopower","").children("a").css("color","gray");
+            }
+        }
     }
 </script>
 </body>

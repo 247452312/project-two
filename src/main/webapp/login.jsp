@@ -7,12 +7,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>百莲达管理系统</title>
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/login/login.css" rel="stylesheet">
-    <script type="text/javascript" src="js/layer/layer.js"></script>
-    <script type="text/javascript" src="js/basic.js"></script>
-    <link href="css/base.css" rel="stylesheet">
-    <script type="text/javascript" src="../custom/jquery.min.js"></script>
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/login/login.css" rel="stylesheet">
+    <link href="/css/base.css" rel="stylesheet">
+    <script type="text/javascript" src="/custom/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/layer/layer.js"></script>
+    <script type="text/javascript" src="/js/basic.js"></script>
+    <script type="text/javascript" src="/js/selfFunction.js"></script>
 </head>
 <body>
 <div class="login-hd">
@@ -87,6 +88,11 @@
             $("[name=box]").val(1);
             $(".remebox").prop("checked", true);
         }
+        //回车登录
+        $('.form').keypress(function(e) {
+            var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+            if(eCode=='13') login($(this));
+        });
     });
     //验证码刷新
     var a = 0;

@@ -132,20 +132,16 @@
         $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
         $('#dg').datagrid('reload');
-        $('#dg').datagrid({
+        /*$('#dg').datagrid({
             onDblClickRow:function(rowIndex, rowData){
                 alert(JSON.stringify(rowData));
             }
-        });
+        });*/
     }
     $(function () {
         tableData();
         getSelects();
-        if($(".checkstatus").val()==1){
-            $("input").attr("disabled","disabled");
-            $("select").attr("disabled","disabled");
-            $(".formPro").remove();
-        }
+        lock();
     });
     //获得查询条件下拉列表
     function getSelects() {
@@ -162,12 +158,13 @@
         });
     }
     //保存主表和子表
-    function save() {
+    function save(trans) {
         formTrans();
-        $("[name=shopid]").attr("name","shopid.id");
+        $("[name=shopid]").attr("name","shopid.id").addClass("point-id");
         var formDate=$('.form').serializeObject();//主表数据
+        $(".point-id").attr("name","shopid").removeClass("point-id");
         var action="";
-        if($(".checkid").val()) action="/Checkmain/updateMain";
+        if($(".checkid").val()) action="/Checkmain/update1";
         else action="/Checkmain/insertMain";
         //传主表
         var mainId;
@@ -175,26 +172,31 @@
             if(json.status==1) mainId=json.info;
             else showMsg(json.info);
         }});
-        if(mainId){
-            var rows=$('#dg').datagrid("getRows");//获得表格内所有数据
-            for (var i = 0; i < rows.length; i++) {
-                var rowData = rows[i];//获取单行数据
-                //alert(rowData.proid);
-                var data={
-                    "checkid.id":mainId,
-                    "productid.id":rowData.proid,
-                    "count":rowData.count,
-                    "fexp":rowData.fexp
-                };
-                $.ajax({url:"/Checkdetail/ajax?cmd=add",async:false,type:"POST",dataType:"JSON",data:data,success:function (jsondls){
-                    if(jsondls.status==1) window.rows[i].id=jsondls.info;//将最新id给相应行
-                    else{showMsg(jsondls.info);return;}
-                }});
-            }
+        $(".checkid").val(mainId);
+        var rows=$('#dg').datagrid("getRows");//获得表格内所有数据
+        for (var i = 0; i < rows.length; i++) {
+            var rowData = rows[i];//获取单行数据
+            //alert(rowData.proid);
+            var data={
+                "checkid.id":mainId,
+                "productid.id":rowData.proid,
+                "count":rowData.count,
+                "fexp":rowData.fexp
+            };
+            var action2="/Checkdetail/ajax?cmd=add";
+            if(rowData.id) action2="/Checkmain/update2"
+            $.ajax({url:action2,async:false,type:"POST",dataType:"JSON",data:data,success:function (jsondls){
+                if(jsondls.status==1){
+                    if(jsondls.info) window.rows[i].id=jsondls.info;//将最新id给相应行
+                }
+                else{showMsg(jsondls.info);return;}
+            }});
         }
         resetDg();//重写表格内容
-        showMsg("保存完成");
-        closePage();
+        if(!trans){
+            showMsg("保存完成");
+            closePage();
+        }
     }
     //查找商品
     function find() {
@@ -225,6 +227,7 @@
                             });
                         }
                         resetDg();
+                        details=[];
                     },false,true);
             }
         }});
@@ -232,11 +235,26 @@
     //生成损益单
     function trans() {
         save();
-
+        $.getJSON("/Checkmain/autoOrder",{"id":$(".checkid").val()},function (result) {
+            if(result.status==1) {
+                showMsg("转换完成");
+                $(".checkstatus").val(result.info);
+                lock();
+            }
+        });
     }
     //表格数据转换
     function formTrans() {
-        if(!$(".checkstatus").val()) $(".checkstatus").val(0);
+        if(!$(".checkstatus").val())
+            $(".checkstatus").val(0);
+    }
+    //表单根据状态封锁功能
+    function lock() {
+        if($(".checkstatus").val()==1){
+            $("input").attr("disabled","disabled");
+            $("select").attr("disabled","disabled");
+            $(".formPro").remove();
+        }
     }
 </script>
 </body>
