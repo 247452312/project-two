@@ -33,7 +33,8 @@ public class Vip_Controller extends Basic_Controller<Vip> {
 
     @RequestMapping("getByName")
     public @ResponseBody List<Vip> getByName(String name){
-        List<Vip> list = service.getByAttr(new JsonData1("name",name));
+        SeachInfo sea = new SeachInfo("vip","name",name,false);
+        List<Vip> list = service.getAll(sea);
         return list;
     }
 
