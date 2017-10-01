@@ -94,7 +94,7 @@ public class Basic_Controller<T> {
             }
             getService().insert(t);
         }
-        return new JsonData(1,getService().getNew().toString());
+        return new JsonData(1, getService().getNew().toString());
     }
 
     @RequestMapping("change")
@@ -130,7 +130,14 @@ public class Basic_Controller<T> {
     }
 
     @RequestMapping("selectById")
-    public @ResponseBody T selectById(int id){
+    public @ResponseBody
+    T selectById(int id) {
         return getService().getById(id);
+    }
+
+    @RequestMapping("selectByAttr")
+    public @ResponseBody
+    List<T> selectByAttr(String attrName, Object object) {
+        return getService().getByAttr(new JsonData1(attrName, object));
     }
 }

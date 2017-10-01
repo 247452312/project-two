@@ -28,69 +28,38 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
     @Resource(name = "Orderdetail_ServiceImpl")
     Orderdetail_ServiceImpl oservice;
 
-    public JsonData insertType1(int type, Ordermain om, HttpSession session) {
-        om.setOrdertype(type);
+    @RequestMapping("insert1")
+    public @ResponseBody
+    JsonData insertType1(Ordermain om, HttpSession session) {
         om.setCreatedate(Info.getNow());
         om.setUserid((User) session.getAttribute("user"));
         service.insert(om);
         return new JsonData(1, "" + service.getNew().getId());
     }
 
-    public JsonData insertType2(ArrayList<Orderdetail> list) {
-        for (Orderdetail orderdetail : list) {
-            oservice.insert(orderdetail);
-        }
+    @RequestMapping("insert2")
+    public @ResponseBody
+    JsonData insertType2(Orderdetail orderdetail) {
+        oservice.insert(orderdetail);
+        service.updateAttr(new JsonData1("amount", orderdetail.getOrderid().getId(), "amount+" + orderdetail.getAmount()));
         return new JsonData(1);
     }
 
-    @RequestMapping("insert")
+    @RequestMapping("update1")
     public @ResponseBody
-    JsonData insert(OrdermainParam op, HttpSession session) {
-        ArrayList<Orderdetail> list = op.getDetails();
-        Double d = 0.0;
-        for (Orderdetail orderdetail : list) {
-            d += orderdetail.getAmount();
-        }
-        op.getMain().setAmount(d);
-        JsonData jd = insertType1(op.getType(), op.getMain(), session);
-        if (jd.getStatus() != 1) return jd;
-        return insertType2(list);
+    JsonData update1(Ordermain om) {
+        om.setAmount(0.0);
+        service.update(om);
+        return new JsonData(1, "" + om.getId());
+    }
+
+    @RequestMapping("update2")
+    public @ResponseBody
+    JsonData update2(Orderdetail od) {
+        oservice.update(od);
+        service.updateAttr(new JsonData1("amount", od.getOrderid().getId(), "amount+" + od.getAmount()));
+        return new JsonData(1);
     }
 
 
-}
-
-class OrdermainParam {
-    private Integer type;
-    private Ordermain main;
-    private ArrayList<Orderdetail> details;
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Ordermain getMain() {
-        return main;
-    }
-
-    public void setMain(Ordermain main) {
-        this.main = main;
-    }
-
-    public ArrayList<Orderdetail> getDetails() {
-        return details;
-    }
-
-    public void setDetails(ArrayList<Orderdetail> details) {
-        this.details = details;
-    }
-
-    public OrdermainParam() {
-
-
-    }
 }

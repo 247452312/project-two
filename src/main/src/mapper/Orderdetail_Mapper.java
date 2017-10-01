@@ -71,4 +71,5 @@ public interface Orderdetail_Mapper extends Basic_Mapper<Orderdetail> {
 
 	@Update("update orderdetail set ${attrName}=#{o} where id = #{id}")
 	public void updateAttr(JsonData1 j);
+
 }
