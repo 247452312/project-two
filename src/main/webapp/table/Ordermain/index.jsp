@@ -37,6 +37,8 @@
 </head>
 <body>
 <div id="test"></div>
+<input type="hidden" value="${param.tempname}" id="tempname">
+<input type="hidden" value="${param.tempinfo}" id="tempinfo">
 <div class="container">
     <table id="dg" style="width:100%;height:529px" title="所有单据列表" data-options="
             rownumbers:true,
@@ -71,7 +73,8 @@
 
     <div id="tb" style="padding:0 30px;">
         <input type="hidden" name="where">
-        <form action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
+        <form action="" method="post" class="form" id="select-form"
+              style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
             <input type="hidden" name="pageno">
             <input type="hidden" name="maxrow">
             <div class="conditions search-trem first-trem">
@@ -262,8 +265,62 @@
     }
 
     $(function () {
-        tableData();
         getSelects();
+        if (tempname.value != "") {
+            $("#select-form").remove();
+            rows = [];
+            var data = {
+                "where": "where " + $("#tempname").val() + "=" + $("#tempinfo").val(),
+            };
+            $.ajax({
+                type: "POST", url: "/Ordermain/selectByAll", dataType: "json", data: data, success: function (json) {
+                    for (var i = 0; i < json.list.length; i++) {
+                        var ordermain = json.list[i];
+                        if (!ordermain.clientid) ordermain.clientid = {"name": "无"}
+                        if (!ordermain.vipid) ordermain.vipid = {"name": "无"}
+                        if (!ordermain.shopid) ordermain.shopid = {"name": "无"}
+                        if (!ordermain.destshopid) ordermain.destshopid = {"name": "无"}
+                        rows.push({
+                            id: ordermain.id,
+                            code: ordermain.ordercode,
+                            type: ordermain.typeString,
+                            date: ordermain.orderdate,
+                            amount: ordermain.amount,
+                            vipamount: ordermain.vipamount,
+                            point: ordermain.point,
+                            client: ordermain.clientid.name,
+                            vip: ordermain.vipid.name,
+                            shop: ordermain.shopid.name,
+                            destshop: ordermain.destshopid.name,
+                            status: ordermain.statusString,
+                            fexp: ordermain.fexp,
+                            orderType: ordermain.ordertype,
+                        });
+                    }
+                    //页数相关赋值
+                    var jsea = json.sea;
+                    $("[name=where]").val(jsea.where);
+                    $(".rowcount").html(jsea.rowcount);
+                    $(".pagecount").html(jsea.pagecount);
+                    $(".pagination-num").val(jsea.pageno);
+                    $(".pagination-page-list").val(jsea.maxrow);
+                    //$("#dg").attr("data-options","pageSize:"+jsea.maxrow);
+                    //点击事件
+                    $("#page-first").attr("onclick", "{$('.pagination-num').val(" + 1 + ");tableData();}");
+                    $("#page-prev").attr("onclick", "{$('.pagination-num').val(" + json.sea.prepage + ");tableData();}");
+                    $("#page-next").attr("onclick", "{ $('.pagination-num').val(" + json.sea.nextpage + ");tableData();}");
+                    $("#page-last").attr("onclick", "{ $('.pagination-num').val(" + json.sea.pagecount + ");tableData();}");
+                    //换条数事件
+                    $(".pagination-page-list").attr("onchange", "{$('.pagination-num').val(" + 1 + ");tableData();}");
+                    //换页数事件
+                    $(".pagination-num").attr("onchange", "{tableData();}");
+                    resetDg();
+                }
+            });
+
+        } else {
+            tableData();
+        }
     });
 
     //获得查询条件下拉列表

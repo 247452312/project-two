@@ -72,9 +72,11 @@
     <div id="tb" style="padding:0 30px;">
         <form action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
             <div>
-                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期" onclick="new Calendar().show(this);" readonly="readonly"
+                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期"
+                       onclick="new Calendar().show(this);" readonly="readonly"
                        style="width:166px;height:35px;line-height:35px;"/>
-                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期" onclick="new Calendar().show(this);" readonly="readonly"
+                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期"
+                       onclick="new Calendar().show(this);" readonly="readonly"
                        style="width:166px;height:35px;line-height:35px;"/>
             </div>
             <div class="conditions search-trem first-trem">
@@ -131,6 +133,7 @@
                 for (var i = 0; i < json.length; i++) {
                     var Tj_User = json[i];
                     rows.push({
+                        userid: Tj_User.id,
                         username: Tj_User.username,
                         vipname: Tj_User.vipname,
                         je1: Tj_User.je1,
@@ -158,7 +161,7 @@
             onDblClickRow: function (rowIndex, rowData) {
                 //alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("会员订单明细", "/Ordermain/select?VipId=" + rowData.id, 1000, 400, function () {
+                showPage("会员订单明细", "/table/Ordermain/index.jsp?tempname=userid&tempinfo=" + rowData.userid, 1000, 400, function () {
                     tableData();
                 }, true, false);
             }

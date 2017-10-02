@@ -166,15 +166,7 @@
     function resetDg() {
         $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
-        $("#dg").datagrid({
-            onDblClickRow: function (rowIndex, rowData) {
-                //alert(JSON.stringify(rowData));
-                //编辑本行资料
-                showPage("会员订单明细", "/Ordermain/select?VipId=" + rowData.id, 1000, 400, function () {
-                    tableData();
-                }, true, false);
-            }
-        });
+
         $('#dg').datagrid('reload');
     }
 

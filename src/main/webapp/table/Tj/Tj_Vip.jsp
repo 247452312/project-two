@@ -72,9 +72,11 @@
     <div id="tb" style="padding:0 30px;">
         <form action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
             <div>
-                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期" onclick="new Calendar().show(this);" readonly="readonly"
+                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期"
+                       onclick="new Calendar().show(this);" readonly="readonly"
                        style="width:166px;height:35px;line-height:35px;"/>
-                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期" onclick="new Calendar().show(this);" readonly="readonly"
+                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期"
+                       onclick="new Calendar().show(this);" readonly="readonly"
                        style="width:166px;height:35px;line-height:35px;"/>
             </div>
             <div class="conditions search-trem first-trem">
@@ -158,9 +160,9 @@
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
         $("#dg").datagrid({
             onDblClickRow: function (rowIndex, rowData) {
-                //alert(JSON.stringify(rowData));
+//                alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("会员订单明细", "/Ordermain/select?VipId=" + rowData.id, 1000, 400, function () {
+                showPage("会员订单明细", "/table/Ordermain/index.jsp?tempname=vipid&tempinfo=" + rowData.id, 1000, 400, function () {
                     tableData();
                 }, true, false);
             }

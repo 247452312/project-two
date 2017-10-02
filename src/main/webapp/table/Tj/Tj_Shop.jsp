@@ -164,7 +164,7 @@
             onDblClickRow: function (rowIndex, rowData) {
                 //alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("会员订单明细", "/Ordermain/select?VipId=" + rowData.id, 1000, 400, function () {
+                showPage("会员订单明细", "/table/Ordermain/index.jsp?tempname=shopid&tempinfo="+rowData.shopid, 1000, 400, function () {
                     tableData();
                 }, true, false);
             }

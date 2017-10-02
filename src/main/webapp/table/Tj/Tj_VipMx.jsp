@@ -75,8 +75,11 @@
 
             <div class="conditions search-trem first-trem">
                 <input type="hidden" name="markid" value="">
-                <input name="name" style="height:35px;width:7%;position:absolute;left:90px;top: 9px;" onkeypress="tj(event)">
-                选择会员：<select style="height:35px;width:10%;" class="vip-select" name="trem" onchange="$('[name=markid]').val($(this).val())"></select>
+                <input type="text" id="name" name="name"
+                       style="height:35px;width:7%;position:absolute;left:90px;top: 9px;"
+                       onkeypress="tj(event)">
+                选择会员：<select style="height:35px;width:10%;" class="vip-select" name="trem"
+                             onchange="changeVip()"></select>
                 <a onclick="tableData()" class="easyui-linkbutton a-select"
                    data-options="selected:true">统计</a>
                 <a onclick="tablePrint();" class="easyui-linkbutton a-select"
@@ -96,11 +99,16 @@
     function tableData() {
         rows = [];
         $.ajax({
-            type: "POST", url: "/Tj/selectVipMx", dataType: "json", data: {"id":$('[name=markid]').val()}, success: function (json) {
+            type: "POST",
+            url: "/Tj/selectVipMx",
+            dataType: "json",
+            data: {"id": $('[name=markid]').val()},
+            success: function (json) {
                 for (var i = 0; i < json.length; i++) {
                     var TjVipMx = json[i];
                     rows.push({
-                        ordercode:TjVipMx.ordercode,
+                        orderid: TjVipMx.orderid,
+                        ordercode: TjVipMx.ordercode,
                         ordertype: TjVipMx.ordertype,
                         orderdate: TjVipMx.orderdate,
                         shopname: TjVipMx.shopname,
@@ -121,15 +129,21 @@
         });
     }
 
+    function changeVip() {
+        $('[name=markid]').val($(".vip-select").val());
+        $('#name').val($(".vip-select").find("option:selected").text());
+    }
+
+
     //重新添加表格数据
     function resetDg() {
         $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
         $("#dg").datagrid({
             onDblClickRow: function (rowIndex, rowData) {
-                //alert(JSON.stringify(rowData));
+//                alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("会员订单明细", "/Ordermain/select?VipId=" + rowData.id, 1000, 400, function () {
+                showPage("会员订单明细", "/table/Ordermain/add.jsp?ordertype=" + rowData.ordertype + "&orderid=" + rowData.orderid, 1000, 400, function () {
                     tableData();
                 }, true, false);
             }
@@ -146,11 +160,11 @@
 
 
     function tj(event) {
-        if(event.keyCode!=13)return;
-       var data=$("[name=name]").val();
+        if (event.keyCode != 13) return;
+        var data = $("[name=name]").val();
         $.ajax({
-            type: "POST", url: "/Vip/getByName", dataType: "json", data: {"name":data}, success: function (json) {
-                if (json.length==0){
+            type: "POST", url: "/Vip/getByName", dataType: "json", data: {"name": data}, success: function (json) {
+                if (json.length == 0) {
                     showMsg("无此人");
                     rerurn;
                 }
@@ -158,11 +172,12 @@
                 select.empty();
                 for (var i = 0; i < json.length; i++) {
                     var Vip = json[i];
-                    var op = $("<option value='"+Vip.id+"'>"+Vip.name+"<option>");
+                    var op = $("<option value='" + Vip.id + "' temp='" + Vip.name + "'>" + Vip.name + "</option>");
                     select.append(op);
-                   // alert(1);
+                    // alert(1);
                 }
                 $("[name=markid]").val(json[0].id);
+                $("#name").val(json[0].name);
                 //页数相关赋值
 
                 resetDg();
@@ -171,59 +186,59 @@
     }
 
     //获得查询条件下拉列表
-   /* function getSelects() {
-        var divTrem = $(".first-trem");
-        var trem = divTrem.find("[name=trem]");
-        var compare = divTrem.find("[name=compare]");
-        $.getJSON("/Vip/getStatus", function (json) {
+    /* function getSelects() {
+         var divTrem = $(".first-trem");
+         var trem = divTrem.find("[name=trem]");
+         var compare = divTrem.find("[name=compare]");
+         $.getJSON("/Vip/getStatus", function (json) {
 
-            var tremOpt = json.vipInput;
-            for (var name in tremOpt) {
-                var opt = $("<option></option>");
-                opt.val(name);
-                opt.html(tremOpt[name].option);
-                trem.append(opt);
-            }
-            //获得比较方法
-            var compareOpt = json.compareInput;
-            for (var name in compareOpt) {
-                var opt = $("<option></option>");
-                opt.val(name);
-                opt.html(compareOpt[name].option);
-                compare.append(opt);
-            }
-        });
-    }
-*/
-   /* //变化填写条件
-    function changeInput(select) {
-        var inp = select.siblings(".trem-input");
-        inp.html("");
-        var sel = select.siblings(".trem-select");
-        sel.empty();
-        var selval = select.val();
-        $.getJSON("/Ordermain/getStatus", function (json) {
-            var textOpt = json.vipInput[selval].input;//下拉框集合
-            //如果是空的，则是输入框
-            if (isEmptyObject(textOpt)) {
-                sel.removeAttr("name").addClass("none").removeClass("in-line");
-                inp.attr("name", "text").addClass("in-line").removeClass("none");
-                select.siblings("[name=compare]").removeAttr("disabled");
-            }
-            //否则是下拉列表
-            else {
-                inp.removeAttr("name").addClass("none").removeClass("in-line");
-                sel.attr("name", "text").addClass("in-line").removeClass("none");
-                select.siblings("[name=compare]").attr("disabled", "disabled").val(2);
-                for (var name in textOpt) {
-                    var opt = $("<option></option>");
-                    opt.val(name);
-                    opt.html(textOpt[name]);
-                    sel.append(opt);
-                }
-            }
-        });
-    }*/
+             var tremOpt = json.vipInput;
+             for (var name in tremOpt) {
+                 var opt = $("<option></option>");
+                 opt.val(name);
+                 opt.html(tremOpt[name].option);
+                 trem.append(opt);
+             }
+             //获得比较方法
+             var compareOpt = json.compareInput;
+             for (var name in compareOpt) {
+                 var opt = $("<option></option>");
+                 opt.val(name);
+                 opt.html(compareOpt[name].option);
+                 compare.append(opt);
+             }
+         });
+     }
+ */
+    /* //变化填写条件
+     function changeInput(select) {
+         var inp = select.siblings(".trem-input");
+         inp.html("");
+         var sel = select.siblings(".trem-select");
+         sel.empty();
+         var selval = select.val();
+         $.getJSON("/Ordermain/getStatus", function (json) {
+             var textOpt = json.vipInput[selval].input;//下拉框集合
+             //如果是空的，则是输入框
+             if (isEmptyObject(textOpt)) {
+                 sel.removeAttr("name").addClass("none").removeClass("in-line");
+                 inp.attr("name", "text").addClass("in-line").removeClass("none");
+                 select.siblings("[name=compare]").removeAttr("disabled");
+             }
+             //否则是下拉列表
+             else {
+                 inp.removeAttr("name").addClass("none").removeClass("in-line");
+                 sel.attr("name", "text").addClass("in-line").removeClass("none");
+                 select.siblings("[name=compare]").attr("disabled", "disabled").val(2);
+                 for (var name in textOpt) {
+                     var opt = $("<option></option>");
+                     opt.val(name);
+                     opt.html(textOpt[name]);
+                     sel.append(opt);
+                 }
+             }
+         });
+     }*/
 </script>
 </body>
 </html>
