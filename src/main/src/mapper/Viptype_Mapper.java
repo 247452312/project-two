@@ -1,5 +1,6 @@
 package mapper;
 
+import entity.Vip;
 import entity.Viptype;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -53,5 +54,9 @@ public interface Viptype_Mapper extends Basic_Mapper<Viptype> {
 
 	@Update("update viptype set ${attrName}=#{o} where id = #{id}")
 	public void updateAttr(JsonData1 j);
+
+
+	@Select("select * from Viptype order by id desc limit 1")
+	public Viptype getNew();
 
 }

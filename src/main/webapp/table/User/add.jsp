@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/css/addpage/font.css"/>
 </head>
 <body>
-<form class="form" action="/User/ajax" method="post">
+<form class="form" action="/User/ajax1" method="post">
     <input type="hidden" name="cmd" value="${requestScope.cmd}">
     <input type="hidden" name="id" value="${requestScope.object.id}">
     <input type="hidden" name="fright" value="${requestScope.object.fright}">
@@ -188,6 +188,7 @@
             showMsg("请填入操作员姓名");
         else if ($("[name=ccode]").val().length == 0)
             showMsg("请填入操作员身份证号");
+
         else {
             var action = form.attr("action");
             var method = form.attr("method");

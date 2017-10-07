@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.Client;
+import entity.Product;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import utils.JsonData1;
@@ -77,4 +78,7 @@ public interface Client_Mapper extends Basic_Mapper<Client> {
 
 	@Update("update client set ${attrName}=#{o} where id = #{id}")
 	public void updateAttr(JsonData1 j);
+
+	@Select("select * from Client order by Client.id desc limit 1")
+	public Client getNew();
 }

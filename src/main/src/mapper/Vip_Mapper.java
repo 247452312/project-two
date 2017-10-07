@@ -100,4 +100,7 @@ public interface Vip_Mapper extends Basic_Mapper<Vip> {
     public void updateAttr(JsonData1 j);
 
 
+    @Select("select * from Vip order by Vip.id desc limit 1")
+    public Vip getNew();
+
 }

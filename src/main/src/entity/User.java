@@ -18,7 +18,7 @@ public class User implements Comparable<User>  {
 	//默认123
 	private String pass;
 	//id
-	private Integer id;
+	private int id;
 	private String fexp;
 	private String enterdate;//就职时间
 	private Shop shopid;

@@ -3,6 +3,7 @@ package controller;
 import entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import serviceimpl.User_ServiceImpl;
 import utils.JsonData;
@@ -14,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Method;
 
 @Controller
 @RequestMapping("User")
@@ -98,5 +100,19 @@ public class User_Controller extends Basic_Controller<User> {
     JsonData resetPass(int id) {
         service.updateAttr(new JsonData1("pass", id, MD5Util.MD5("123")));
         return new JsonData(1);
+    }
+
+
+    @RequestMapping("ajax1")
+    public @ResponseBody
+    JsonData ajax(@RequestParam("cmd") String cmd, User user, HttpSession session) {
+        if (cmd.equals("update")) {
+            service.update(user);
+        } else if (cmd.equals("add")) {
+            if (user.getUserid() == null)
+                user.setUserid(new User(0));
+            service.insert(user);
+        }
+        return new JsonData(1, service.getNew().toString());
     }
 }

@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.Shop;
+import entity.Store;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import utils.JsonData1;
@@ -73,4 +74,7 @@ public interface Shop_Mapper extends Basic_Mapper<Shop> {
 
     @Update("update shop set ${attrName}=#{o} where id = #{id}")
     public void updateAttr(JsonData1 j);
+
+    @Select("select * from Shop order by Shop.id desc limit 1")
+    public Shop getNew();
 }

@@ -1,5 +1,6 @@
 package mapper;
 
+import entity.User;
 import entity.tj.*;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -28,5 +29,11 @@ public interface Tj_Mapper {
 
     @Select("call tj_vipmx(#{id})")
     public List<Tj_VipMx> callVipMx(Integer id);
+
+    @Select("select * from Tj order by Tj.id desc limit 1")
+    public Tj getNew();
+
+
+
 
 }

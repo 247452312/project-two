@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.User;
+import entity.Vip;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import utils.JsonData1;
@@ -101,4 +102,9 @@ public interface User_Mapper extends Basic_Mapper<User> {
 
 	@Select("select * from user where name = #{0} and pass = #{1}")
     User login(String user, String pass);
+
+	@Select("select * from User order by User.id desc limit 1")
+	public User getNew();
+
+
 }

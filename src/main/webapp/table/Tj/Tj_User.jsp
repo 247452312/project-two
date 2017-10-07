@@ -71,20 +71,19 @@
 
     <div id="tb" style="padding:0 30px;">
         <form action="" method="post" class="form" style="overflow-y: auto;overflow-x:hidden;max-height: 140px;">
-            <div>
-                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期"
-                       onclick="new Calendar().show(this);" readonly="readonly"
-                       style="width:166px;height:35px;line-height:35px;"/>
-                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期"
-                       onclick="new Calendar().show(this);" readonly="readonly"
-                       style="width:166px;height:35px;line-height:35px;"/>
-            </div>
+
             <div class="conditions search-trem first-trem">
                 <select style="height:35px;width:10%;" name="trem" onchange="changeInput($(this));"></select>
-                <select style="height:35px;width:12%;" name="compare"></select>
+                <select style="height:35px;width:10%;" name="compare"></select>
                 <input class="trem-input in-line" type="text" name="text"
-                       style="width:166px;height:35px;line-height:35px;"/>
+                       style="width:100px;height:35px;line-height:35px;"/>
                 <select class="trem-select none" style="height:35px;width:166px;"></select>
+                <input class="trem-input in-line" type="text" name="sdate" placeholder="开始日期"
+                       onclick="new Calendar().show(this);" readonly="readonly"
+                       style="width:100px;height:35px;line-height:35px;"/>
+                <input class="trem-input in-line" type="text" name="ddate" placeholder="结束日期"
+                       onclick="new Calendar().show(this);" readonly="readonly"
+                       style="width:100px;height:35px;line-height:35px;"/>
                 <select style="height:35px;width:6%;" name="join">
                     <option value="0">并且</option>
                     <option value="1">或者</option>

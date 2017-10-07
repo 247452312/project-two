@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.Producttype;
+import entity.Shop;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import utils.JsonData1;
@@ -51,6 +52,9 @@ public interface Producttype_Mapper extends Basic_Mapper<Producttype> {
 	@Select("select * from producttype where id in (#{ids}) ")
 	public List<Producttype> getByMathod_in(String ids);
 
-	@Update("update produvttype set ${attrName}=#{o} where id = #{id}")
+	@Update("update producttype set ${attrName}=#{o} where id = #{id}")
 	public void updateAttr(JsonData1 j);
+
+	@Select("select * from Producttype order by Producttype.id desc limit 1")
+	public Producttype getNew();
 }

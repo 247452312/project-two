@@ -45,9 +45,10 @@
         textarea {
             vertical-align: top;
             resize: none;
-            width: 531px;
+            width: 1000px;
             height: 100px;
             box-sizing: content-box;
+            margin-left: 20px;
             margin-top: 7px;
         }
 
@@ -683,6 +684,7 @@
         </thead>
     </table>
     <div id="tb" style="padding:30px;position: relative">
+
         <div class="ordername" style="width: 100%;text-align: center;font-size: 30px;"></div>
         <div class="buttons" style="position: absolute;right: 46px;top: 30px;">
             <a onclick="add();" class="easyui-linkbutton a-program" iconCls="icon-list"
