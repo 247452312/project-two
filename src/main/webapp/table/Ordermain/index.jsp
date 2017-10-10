@@ -249,9 +249,10 @@
             onDblClickRow: function (rowIndex, rowData) {
                 //alert(JSON.stringify(rowData));
                 //编辑本行资料
-                showPage("单据详情", "/table/Ordermain/add.jsp?ordertype=" + rowData.orderType + "&orderid=" + rowData.id, 1000, 400, function () {
+                showPage("单据详情", "/table/Ordermain/add.jsp?ordertype=" + rowData.orderType + "&orderid=" + rowData.id,
+                    1250, 550, function () {
                     tableData();
-                }, true, false);
+                }, false, false);
             }
         });
         $('#dg').datagrid('reload');
@@ -259,9 +260,9 @@
 
     //打开新增页面
     function addPage() {
-        showPage("新增单据", "/Ordermain/ad", 1000, 400, function () {
+        showPage("新增单据", "/Ordermain/ad", 1250, 550, function () {
             tableData();
-        }, true, false);
+        }, false, false);
     }
 
     $(function () {

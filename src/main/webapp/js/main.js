@@ -83,7 +83,13 @@ var mainPlatform = {
 mainPlatform.init();
 
 function addTab(li) {
-    if(!li[0].hasAttribute("num")) li.attr("num",$(".tabs").children("li").length);//给选项卡做标记
+    //没有权限就弹提示
+    if(li[0].hasAttribute("nopower")){
+        showMsg("权限不够");
+        return;
+    }
+    if(!li[0].hasAttribute("num"))
+        li.attr("num",$(".tabs").children("li").length);//给选项卡做标记
     var src=li.attr('src');
     var title=li.children("a").html();
     //检查是否已经被打开
@@ -97,7 +103,7 @@ function addTab(li) {
         }
     }
     //新加选项卡
-    var tab=$("#exTab").children("li").clone();
+    var tab=$("#exTab").children("li").clone().attr("panel","");
     tab.attr("src",src).attr("num",li.attr("num"));//给选项卡做标记
     tab.find(".tabs-title").html(title);
     //增加iframe
@@ -130,6 +136,7 @@ function addTab(li) {
             tablast.addClass("tabs-selected").addClass("tabs-last");
             changeIframe($(".panel[num="+tablast.attr("num")+"]"));
         }
+        li.removeAttr("num");
     });
     $(".tabs").children("li").removeClass("tabs-selected");
     $(".tabs").children("li").removeClass("tabs-last");

@@ -91,14 +91,14 @@
                             <span class="pf-opt-name">用户信息</span>
                         </a>
                     </li>--%>
-                    <li>
-                        <a href="javascript:void(0);" onclick="editpass();">
+                    <li onclick="editpass();">
+                        <a href="javascript:void(0);">
                             <i class="iconfont">&#xe634;</i>
                             <span class="pf-opt-name">修改密码</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/User/cancel">
+                    <li onclick="location.href='/User/cancel'">
+                        <a href="javascript:void(0);">
                             <i class="iconfont">&#xe60e;</i>
                             <span class="pf-opt-name">退出</span>
                         </a>

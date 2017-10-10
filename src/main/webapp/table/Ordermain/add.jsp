@@ -37,7 +37,7 @@
 
         select, input {
             height: 35px;
-            width: 120px;
+            width: 12%;
             padding-left: 5px;
             padding-right: 5px;
         }
@@ -45,10 +45,9 @@
         textarea {
             vertical-align: top;
             resize: none;
-            width: 1000px;
+            width: 89%;
             height: 100px;
             box-sizing: content-box;
-            margin-left: 20px;
             margin-top: 7px;
         }
 
@@ -57,8 +56,48 @@
             width: 80px;
         }
 
-        .textbox {
+        .textBox {
+            width: 12%;
             margin-right: 0px;
+        }
+
+        .tb-text {
+            width: 90%;
+            border: 0px;
+            padding-left: 5px;
+            padding-right: 0px;
+            outline: none;
+        }
+
+        .tb-arrow {
+            position: absolute;
+            right: 0%;
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            width: 10%;
+        }
+
+        .tb-opts {
+            position: absolute;
+            left: 0%;
+            background-color: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(150, 150, 150, 1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 120px;
+        }
+
+        .tb-opt {
+            width: 100%;
+            height: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .tb-opt:hover {
+            background-color: blue;
+            color: #fff;
         }
 
         td .textbox {
@@ -96,216 +135,14 @@
         <thead>
         <tr>
             <%--充值单--%><%--退款单--%>
-            <c:if test="${param.ordertype==1||requestScope.object.ordertype==1||
-                            param.ordertype==2||requestScope.object.ordertype==2}">
-                <script type="text/javascript">
-                    function save() {
-                        $("[name=shopid]").attr("name", "shopid.id");
-                        $("[name=destshopid]").attr("name", "destshopid.id");
-                        $("[name=userid]").attr("name", "userid.id");
-                        $("[name=vipid]").attr("name", "vipid.id");
-                        var main = $(".form").serializeArray();
-                        main.push({"name": "type", "value": $(".ordertype").val()});
-                        $.ajax({
-                            type: "POST", url: "/Ordermain/insert1", dataType: "json",
-                            data: main,
-                            success: function () {
-                                showMsg("保存成功");
-                            }
-                        });
-                        showMsg("保存完成");
-                        closePage();
-                    }
-
-                    $(function () {
-                        var orderid = $(" .orderid").val();
-                        if (orderid != "") {
-                            var data = {
-                                "id": orderid
-                            }
-                            //填充主表
-                            $.ajax({
-                                url: "/Ordermain/selectById",
-                                type: "POST",
-                                dataType: "json",
-                                data: data,
-                                success: function (ordermain) {
-                                    $("#order-code").find("input").val(ordermain.ordercode);
-                                    $("#order-date").find("input").val(ordermain.orderdate);
-                                    $("#order-shopid").find("select").append("<option selected='selected' value='" + ordermain.shopid.id + "'>" + ordermain.shopid.name + "</option>")
-                                    $("#order-vipname").find("input").val(ordermain.vipid.name);
-                                    $("#order-vipname").find(".inp-val").val(ordermain.vipid.id);
-                                    $("#order-viptel").find("input").val(ordermain.vipid.tel);
-                                    $("#order-vipamount").find("input").val(ordermain.vipid.amount);
-                                    $("#order-vippoint").find("input").val(ordermain.vipid.point);
-                                    $("#order-vipaddr").find("input").val(ordermain.vipid.addr);
-                                    $("#order-amount").find("input").val(ordermain.amount);
-                                    $("#order-point").find("input").val(ordermain.point);
-                                    $("#order-fexp").find("textarea").text(ordermain.fexp);
-                                }
-                            });
-
-                        }
-                    })
-                </script>
+            <c:if test="${param.ordertype==1||param.ordertype==2||
+                            requestScope.object.ordertype==1||
+                            requestScope.object.ordertype==2}">
             </c:if>
             <%--采购单--%><%--采购退货单--%>
-            <c:if test="${param.ordertype==3||requestScope.object.ordertype==3||
-                            param.ordertype==4||requestScope.object.ordertype==4}">
-                <script type="text/javascript">
-                    function save() {
-                        $("[name=shopid]").attr("name", "shopid.id");
-                        $("[name=destshopid]").attr("name", "destshopid.id");
-                        $("[name=userid]").attr("name", "userid.id");
-                        $("[name=vipid]").attr("name", "vipid.id");
-                        $("[name=clientid]").attr("name", "clientid.id");
-                        var formDate = $('.form').serializeObject();//主表数据
-                        var action = "";
-                        if ($(".orderid").val()) action = "/Ordermain/update1";
-                        else action = "/Ordermain/insert1";
-                        //传主表
-                        var mainId;
-                        $.ajax({
-                            url: action,
-                            type: "POST",
-                            async: false,
-                            dataType: "JSON",
-                            data: formDate,
-                            success: function (json) {
-                                if (json.status == 1) mainId = json.info;
-                                else showMsg(json.info);
-                            }
-                        });
-                        $(".orderid").val(mainId);
-                        var rows = $('#dg').datagrid("getRows");//获得表格内所有数据
-                        for (var i = 0; i < rows.length; i++) {
-                            var rowData = rows[i];//获取单行数据
-                            //alert(rowData.proid);
-                            var data = {
-                                "orderid.id": mainId,
-                                "productid.id": rowData.proid,
-                                "count": rowData.count,
-                                "price": rowData.price,
-                                "amount": rowData.amount,
-                                "fexp": rowData.fexp
-                            };
-                            var action2 = "/Ordermain/insert2";
-                            if (rowData.id) action2 = "/Ordermain/update2"
-                            $.ajax({
-                                url: action2,
-                                async: false,
-                                type: "POST",
-                                dataType: "JSON",
-                                data: data,
-                                success: function (jsondls) {
-                                    if (jsondls.status == 1) {
-                                        if (jsondls.info) window.rows[i].id = jsondls.info;//将最新id给相应行
-                                    }
-                                    else {
-                                        showMsg(jsondls.info);
-                                        return;
-                                    }
-                                }
-                            });
-                        }
-                        resetDg();//重写表格内容
-                        showMsg("保存完成");
-                        closePage();
-
-                    }
-
-                    function add() {
-                        var name = $(".tremName").val();
-                        $.ajax({
-                            url: "/Product/getProduct",
-                            type: "POST",
-                            dataType: "json",
-                            data: {"name": name},
-                            success: function (pros) {
-                                if (pros.length == 0) showMsg("没找到相关商品");
-                                else {
-                                    var pro = pros[0];
-                                    var urlpart = "";
-                                    for (var i = 0; i < pros.length; i++) {
-                                        var obj = pros[i];
-                                        urlpart += "proid=" + obj.id + "&proname=" + obj.name + "&";
-                                    }
-                                    showPage("增加盘点商品", "/table/Ordermain/addpro.jsp?" + urlpart.substring(0, urlpart.length - 1),
-                                        800, 300,
-                                        function () {
-                                            for (var i = 0; i < details.length; i++) {
-                                                var detail = details[i];
-                                                rows.push({
-                                                    proid: detail.productid.id,
-                                                    procode: detail.productid.code,
-                                                    proname: detail.productid.name,
-                                                    count: "",
-                                                    price: "",
-                                                    amount: "",
-                                                    fexp: "",
-                                                });
-                                            }
-                                            resetDg();
-                                            details = [];
-                                        }, false, true);
-                                }
-                            }
-                        });
-                    }
-
-                    $(function () {
-                        var orderid = $(" .orderid").val();
-                        if (orderid != "") {
-                            var data = {
-                                "id": orderid
-                            }
-                            //填充上部信息
-                            $.ajax({
-                                url: "/Ordermain/selectById",
-                                type: "POST",
-                                dataType: "json",
-                                data: data,
-                                success: function (ordermain) {
-                                    $("#order-code").find("input").val(ordermain.ordercode);
-                                    $("#order-date").find("input").val(ordermain.orderdate);
-                                    $("#order-destshopid").find("select").append("<option selected='selected' value='" + ordermain.destshopid.id + "'>" + ordermain.destshopid.name + "</option>")
-                                    $("#order-clientid").find("select").append("<option selected='selected' value='" + ordermain.clientid.id + "'>" + ordermain.clientid.name + "</option>")
-                                    $("#order-viptel").find("input").val(ordermain.clientid.tel);
-                                    $("#order-clientlxr").find("input").val(ordermain.clientid.lxr);
-                                    $("#order-vipaddr").find("input").val(ordermain.clientid.point);
-                                    $("#order-amount").find("input").val(ordermain.amount);
-                                    $("#order-point").find("input").val(ordermain.point);
-                                    $("#order-fexp").find("textarea").text(ordermain.fexp);
-                                }
-                            });
-                            //填充表格
-                            $.ajax({
-                                type: "POST", url: "/Orderdetail/selectByAttr", dataType: "json", data: {
-                                    "attrName": "orderid",
-                                    "object": $(".orderid").val()
-                                }, success: function (json) {
-                                    for (var i = 0; i < json.length; i++) {
-                                        var orderdetail = json[i];
-                                        //details.push(checkdetail);
-                                        rows.push({
-                                            id: orderdetail.id,
-                                            proid: orderdetail.productid.id,
-                                            procode: orderdetail.productid.code,
-                                            proname: orderdetail.productid.name,
-                                            count: orderdetail.count,
-                                            price: orderdetail.price,
-                                            amount: orderdetail.amount,
-                                            fexp: orderdetail.fexp,
-                                        });
-                                    }
-                                    resetDg();
-                                }
-                            });
-                        }
-                    });
-
-
-                </script>
+            <c:if test="${param.ordertype==3||param.ordertype==4||
+                            requestScope.object.ordertype==3||
+                            requestScope.object.ordertype==4}">
                 <th field="procode" width="12%" editor="text">商品编号</th>
                 <th field="proname" width="12%" editor="text">商品名称</th>
                 <th field="count" width="12%" editor="numberbox">数量</th>
@@ -314,128 +151,11 @@
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
             <%--销售单--%><%--销售退货单--%>
-            <c:if test="${param.ordertype==5||requestScope.object.ordertype==5||
-                            param.ordertype==6||requestScope.object.ordertype==6}">
-                <script type="text/javascript">
-                    function save() {
-                        $("[name=shopid]").attr("name", "shopid.id");
-                        $("[name=destshopid]").attr("name", "destshopid.id");
-                        $("[name=userid]").attr("name", "userid.id");
-                        $("[name=vipid]").attr("name", "vipid.id");
-
-                        var main = $(".form").serializeObject();
-                        $.ajax({
-                            type: "POST", url: "/Ordermain/insert", dataType: "json",
-                            data: {
-                                type: $(".ordertype").val(),
-                                main: main
-                            },
-                            success: function () {
-                                showMsg("保存成功");
-                            }
-                        });
-                        resetDg();//重写表格内容
-                        showMsg("保存完成");
-                        closePage();
-
-                    }
-
-                    function add() {
-                        var name = $(".tremName").val();
-                        $.ajax({
-                            url: "/Product/getProduct",
-                            type: "POST",
-                            dataType: "json",
-                            data: {"name": name},
-                            success: function (pros) {
-                                if (pros.length == 0) showMsg("没找到相关商品");
-                                else {
-                                    var pro = pros[0];
-                                    var urlpart = "";
-                                    for (var i = 0; i < pros.length; i++) {
-                                        var obj = pros[i];
-                                        urlpart += "proid=" + obj.id + "&proname=" + obj.name + "&";
-                                    }
-                                    showPage("增加盘点商品", "/table/Ordermain/addpro.jsp?" + urlpart.substring(0, urlpart.length - 1),
-                                        800, 300,
-                                        function () {
-                                            for (var i = 0; i < details.length; i++) {
-                                                var detail = details[i];
-                                                rows.push({
-                                                    proid: detail.productid.id,
-                                                    procode: detail.productid.code,
-                                                    proname: detail.productid.name,
-                                                    count: "",
-                                                    price: "",
-                                                    amount: "",
-                                                    point: "",
-                                                    fexp: ""
-                                                });
-                                            }
-                                            resetDg();
-                                            details = [];
-                                        }, false, true);
-                                }
-                            }
-                        });
-                    }
-
-                    $(function () {
-                        var orderId = $(".orderid").val();
-                        if (orderId != "") {
-                            var data = {
-                                "id": orderId
-                            }
-                            $.ajax({
-                                url: "/Ordermain/selectById",
-                                type: "POST",
-                                dataType: "json",
-                                data: data,
-                                success: function (ordermain) {
-                                    $("#order-code").find("input").val(ordermain.ordercode);
-                                    $("#order-date").find("input").val(ordermain.orderdate);
-                                    $("#order-shopid").find("select").append("<option selected='selected' value='" + ordermain.shopid.id + "'>" + ordermain.shopid.name + "</option>")
-                                    $("#order-vipname").find("input").val(ordermain.vipid.name);
-                                    $("#order-vipname").find(".inp-val").val(ordermain.vipid.id);
-                                    $("#order-viptel").find("input").val(ordermain.vipid.tel);
-                                    $("#order-vipamount").find("input").val(ordermain.vipid.amount);
-                                    $("#order-vippoint").find("input").val(ordermain.vipid.point);
-                                    $("#order-vipaddr").find("input").val(ordermain.vipid.addr);
-                                    $("#order-amount").find("input").val(ordermain.amount);
-                                    $("#order-point").find("input").val(ordermain.point);
-                                    $("#order-fexp").find("textarea").text(ordermain.fexp);
-                                    $("#order-money").find("input").val(ordermain.amount - ordermain.vipamount);
-                                }
-                            });
-                            //填充表格
-                            $.ajax({
-                                type: "POST", url: "/Orderdetail/selectByAttr", dataType: "json", data: {
-                                    "attrName": "orderid",
-                                    "object": $(".orderid").val()
-                                }, success: function (json) {
-                                    for (var i = 0; i < json.list.length; i++) {
-                                        var orderdetail = json.list[i];
-                                        //details.push(checkdetail);
-                                        rows.push({
-                                            id: orderdetail.id,
-                                            proid: orderdetail.productid.id,
-                                            procode: orderdetail.productid.code,
-                                            proname: orderdetail.productid.name,
-                                            count: orderdetail.count,
-                                            price: orderdetail.price,
-                                            amount: orderdetail.amount,
-                                            point: orderdetail.point,
-                                            fexp: orderdetail.fexp
-                                        });
-                                    }
-                                    resetDg();
-                                }
-                            });
-                        }
-                    })
-                </script>
-                <th field="procode" width="12%" editor="text">商品编号</th>
-                <th field="proname" width="12%" editor="text">商品名称</th>
+            <c:if test="${param.ordertype==5||param.ordertype==6||
+                            requestScope.object.ordertype==5||
+                            requestScope.object.ordertype==6}">
+                <th field="procode" width="12%">商品编号</th>
+                <th field="proname" width="12%">商品名称</th>
                 <th field="count" width="12%" editor="numberbox">数量</th>
                 <th field="price" width="12%" editor="numberbox">售价</th>
                 <th field="amount" width="12%" editor="numberbox">金额小计</th>
@@ -443,236 +163,19 @@
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
             <%--移库单--%><%--库损单--%><%--库溢单--%>
-            <c:if test="${param.ordertype==7||requestScope.object.ordertype==7||
-                            param.ordertype==8||requestScope.object.ordertype==8||
-                            param.ordertype==9||requestScope.object.ordertype==9}">
-                <script type="text/javascript">
-                    function save() {
-                        $("[name=shopid]").attr("name", "shopid.id");
-                        $("[name=destshopid]").attr("name", "destshopid.id");
-                        $("[name=userid]").attr("name", "userid.id");
-                        $("[name=vipid]").attr("name", "vipid.id");
-                        var main = $(".form").serializeObject();
-                        $.ajax({
-                            type: "POST", url: "/Ordermain/insert", dataType: "json",
-                            data: {
-                                type: $(".ordertype").val(),
-                                main: main
-                            },
-                            success: function () {
-                                showMsg("保存成功");
-                            }
-                        });
-                        resetDg();//重写表格内容
-                        showMsg("保存完成");
-                        closePage();
-                    }
-
-                    function add() {
-                        var name = $(".tremName").val();
-                        $.ajax({
-                            url: "/Product/getProduct",
-                            type: "POST",
-                            dataType: "json",
-                            data: {"name": name},
-                            success: function (pros) {
-                                if (pros.length == 0) showMsg("没找到相关商品");
-                                else {
-                                    var pro = pros[0];
-                                    var urlpart = "";
-                                    for (var i = 0; i < pros.length; i++) {
-                                        var obj = pros[i];
-                                        urlpart += "proid=" + obj.id + "&proname=" + obj.name + "&";
-                                    }
-                                    showPage("增加盘点商品", "/table/Ordermain/addpro.jsp?" + urlpart.substring(0, urlpart.length - 1),
-                                        800, 300,
-                                        function () {
-                                            for (var i = 0; i < details.length; i++) {
-                                                var detail = details[i];
-                                                rows.push({
-                                                    proid: detail.productid.id,
-                                                    procode: detail.productid.code,
-                                                    proname: detail.productid.name,
-                                                    count: "",
-                                                    fexp: ""
-                                                });
-                                            }
-                                            resetDg();
-                                            details = [];
-                                        }, false, true);
-                                }
-                            }
-                        });
-                    }
-
-
-                    $(function () {
-                        var orderid = $(" .orderid").val();
-                        if (orderid != "") {
-                            var data = {
-                                "id": orderid
-                            }
-                            $.ajax({
-                                url: "/Ordermain/selectById",
-                                type: "POST",
-                                dataType: "json",
-                                data: data,
-                                success: function (ordermain) {
-                                    $("#order-code").find("input").val(ordermain.ordercode);
-                                    $("#order-date").find("input").val(ordermain.orderdate);
-                                    $("#order-shopid").find("select").append("<option selected='selected' value='" + ordermain.shopid.id + "'>" + ordermain.shopid.name + "</option>")
-                                    $("#order-destshopid").find("select").append("<option selected='selected' value='" + ordermain.destshopid.id + "'>" + ordermain.destshopid.name + "</option>")
-                                    $("#order-amount").find("input").val(ordermain.amount);
-                                    $("#order-point").find("input").val(ordermain.point);
-                                    $("#order-fexp").find("textarea").text(ordermain.fexp);
-                                }
-                            });
-
-                            //填充表格
-                            $.ajax({
-                                type: "POST", url: "/Orderdetail/selectByAttr", dataType: "json", data: {
-                                    "attrName": "orderid",
-                                    "object": $(".orderid").val()
-                                }, success: function (json) {
-                                    for (var i = 0; i < json.length; i++) {
-                                        var orderdetail = json[i];
-                                        //details.push(checkdetail);
-                                        rows.push({
-                                            id: orderdetail.id,
-                                            proid: orderdetail.productid.id,
-                                            procode: orderdetail.productid.code,
-                                            proname: orderdetail.productid.name,
-                                            count: orderdetail.count,
-                                            fexp: orderdetail.fexp
-                                        });
-                                    }
-                                    resetDg();
-                                }
-                            });
-                        }
-                    })
-                </script>
+            <c:if test="${param.ordertype==7||param.ordertype==8||param.ordertype==9||
+                            requestScope.object.ordertype==7||
+                            requestScope.object.ordertype==8||
+                            requestScope.object.ordertype==9}">
                 <th field="procode" width="12%" editor="text">商品编号</th>
                 <th field="proname" width="12%" editor="text">商品名称</th>
                 <th field="count" width="12%" editor="numberbox">数量</th>
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
             <%--项目充值单--%><%--项目退款单--%>
-            <c:if test="${param.ordertype==10||requestScope.object.ordertype==10||
-                        param.ordertype==11||requestScope.object.ordertype==11}">
-                <script type="text/javascript">
-                    function save() {
-                        $("[name=shopid]").attr("name", "shopid.id");
-                        $("[name=destshopid]").attr("name", "destshopid.id");
-                        $("[name=userid]").attr("name", "userid.id");
-                        $("[name=vipid]").attr("name", "vipid.id");
-                        var main = $(".form").serializeObject();
-                        $.ajax({
-                            type: "POST", url: "/Ordermain/insert", dataType: "json",
-                            data: {
-                                type: $(".ordertype").val(),
-                                main: main
-                            },
-                            success: function () {
-                                showMsg("保存成功");
-                            }
-                        });
-                        resetDg();//重写表格内容
-                        showMsg("保存完成");
-                        closePage();
-                    }
-
-                    function add() {
-                        var name = $(".tremName").val();
-                        $.ajax({
-                            url: "/Product/getProduct",
-                            type: "POST",
-                            dataType: "json",
-                            data: {"name": name},
-                            success: function (pros) {
-                                if (pros.length == 0) showMsg("没找到相关商品");
-                                else {
-                                    var pro = pros[0];
-                                    var urlpart = "";
-                                    for (var i = 0; i < pros.length; i++) {
-                                        var obj = pros[i];
-                                        urlpart += "proid=" + obj.id + "&proname=" + obj.name + "&";
-                                    }
-                                    showPage("增加盘点商品", "/table/Ordermain/addpro.jsp?" + urlpart.substring(0, urlpart.length - 1),
-                                        800, 300,
-                                        function () {
-                                            for (var i = 0; i < details.length; i++) {
-                                                var detail = details[i];
-                                                rows.push({
-                                                    proid: detail.productid.id,
-                                                    procode: detail.productid.code,
-                                                    proname: detail.productid.name,
-                                                    count: "",
-                                                    amount: "",
-                                                    point: "",
-                                                    fexp: ""
-                                                });
-                                            }
-                                            resetDg();
-                                            details = [];
-                                        }, false, true);
-                                }
-                            }
-                        });
-                    }
-
-                    $(function () {
-                        var orderid = $(" .orderid").val();
-                        if (orderid != "") {
-                            var data = {
-                                "id": orderid
-                            }
-                            $.ajax({
-                                url: "/Ordermain/selectById",
-                                type: "POST",
-                                dataType: "json",
-                                data: data,
-                                success: function (ordermain) {
-                                    $("#order-code").find("input").val(ordermain.ordercode);
-                                    $("#order-date").find("input").val(ordermain.orderdate);
-                                    $("#order-shopid").find("select").append("<option selected='selected' value='" + ordermain.shopid.id + "'>" + ordermain.shopid.name + "</option>")
-                                    $("#order-vipname").find("input").val(ordermain.vipid.name);
-                                    $("#order-vipname").find(".inp-val").val(ordermain.vipid.id);
-                                    $("#order-viptel").find("input").val(ordermain.vipid.tel);
-                                    $("#order-vipamount").find("input").val(ordermain.vipid.amount);
-                                    $("#order-vippoint").find("input").val(ordermain.vipid.point);
-                                    $("#order-vipaddr").find("input").val(ordermain.vipid.addr);
-                                    $("#order-amount").find("input").val(ordermain.amount);
-                                    $("#order-point").find("input").val(ordermain.point);
-                                    $("#order-fexp").find("textarea").text(ordermain.fexp);
-                                }
-                            });
-                            //填充表格
-                            $.ajax({
-                                type: "POST", url: "/Orderdetail/selectByAttr", dataType: "json", data: {
-                                    "attrName": "orderid",
-                                    "object": $(".ordertype").val()
-                                }, success: function (json) {
-                                    for (var i = 0; i < json.length; i++) {
-                                        var orderdetail = json[i];
-                                        //details.push(checkdetail);
-                                        rows.push({
-                                            id: orderdetail.id,
-                                            proid: orderdetail.productid.id,
-                                            procode: orderdetail.productid.code,
-                                            proname: orderdetail.productid.name,
-                                            count: orderdetail.count,
-                                            amount: orderdetail.amount,
-                                            point: orderdetail.point,
-                                            fexp: orderdetail.fexp
-                                        });
-                                    }
-                                    resetDg();
-                                }
-                            });
-                        }
-                    })
-                </script>
+            <c:if test="${param.ordertype==10||param.ordertype==11||
+                        requestScope.object.ordertype==10||
+                        requestScope.object.ordertype==11}">
                 <th field="procode" width="12%" editor="text">商品编号</th>
                 <th field="proname" width="12%" editor="text">商品名称</th>
                 <th field="count" width="12%" editor="numberbox">数量</th>
@@ -686,14 +189,20 @@
     <div id="tb" style="padding:30px;position: relative">
 
         <div class="ordername" style="width: 100%;text-align: center;font-size: 30px;"></div>
-        <div class="buttons" style="position: absolute;right: 46px;top: 30px;">
-            <a onclick="add();" class="easyui-linkbutton a-program" iconCls="icon-list"
-               data-options="selected:true">项目</a>
-            <a onclick="save();" class="easyui-linkbutton" iconCls="icon-save"
-               data-options="selected:true">保存</a>
-            <input class="trem-input in-line tremName" type="text">
-            <a onclick="add();" class="easyui-linkbutton" iconCls="icon-save"
+        <div class="buttons" style="position: absolute;right: 75px;top: 30px;">
+            <a onclick="add();" class="easyui-linkbutton float-right"
+               id="add-detail" iconCls="icon-save"
                data-options="selected:true">添加一行</a>
+            <input class="trem-input in-line tremName float-right"
+                   type="text" id="name-detail" placeholder="商品名称"
+                   style="margin-right: 5px;width: 20%">
+            <a onclick="save();" class="easyui-linkbutton float-right"
+               iconCls="icon-save"
+               data-options="selected:true">保存</a>
+            <a onclick="add();" class="easyui-linkbutton a-program float-right"
+               iconCls="icon-list" id="program-detail"
+               data-options="selected:true">项目</a>
+            <div class="float-clear"></div>
         </div>
         <form action="" method="post" class="form">
 
@@ -719,26 +228,35 @@
 
                     <span id="order-shopid">
                         <span class="con-span">分店</span>
+                        <input type="hidden" class="inpval" value="${requestScope.object.shopid}">
                         <select name="shopid"></select>
                     </span>
 
                     <span id="order-destshopid">
                         <span class="con-span">目的分店</span>
+                        <input type="hidden" class="inpval" value="${requestScope.object.destshopid}">
                         <select name="destshopid"></select>
                     </span>
 
                     <span id="order-clientid">
                         <span class="con-span">供应商</span>
-                        <select name="clientid">
-                            <option></option>
-                        </select>
+                        <input type="hidden" class="inpval" value="${requestScope.object.clientid}">
+                        <select name="clientid"></select>
                     </span>
 
                     <span id="order-vipname" onclick="setSelinputEvt($(this));">
                         <span class="con-span">会员名称</span>
                         <input type="hidden" name="vipid" class="inp-val">
-                        <select class="easyui-combobox" style="height:35px;"></select>
+                        <span class="textBox" id="tb-vipname">
+                            <input type="text" class="tb-text">
+                            <a class="textbox-icon combo-arrow tb-arrow"
+                               href="javascript:;" onclick="disOpts($(this))"></a>
+                        </span>
                     </span>
+                    <%--绝对定位下拉列表--%>
+                    <div class="tb-opts" tbid="tb-vipname">
+                        <%--<div class="tb-opt"></div>--%>
+                    </div>
 
                     <span id="order-viptel">
                         <span class="con-span">电话</span>
@@ -777,10 +295,17 @@
                                name="point" value="0">
                     </span>
 
-                    <span id="order-fexp">
+                    <span id='order-money' class="none">
+                        <span class='con-span'>现金支付</span>
+                        <input class='trem-input in-line' type='text' name2='money'>
+                    </span>
+
+                    <div id="order-fexp">
                         <span class="con-span">备注</span>
                         <textarea class="trem-textarea in-line" name="fexp"></textarea>
-                    </span>
+                    </div>
+
+                    <div class="float-clear"></div>
                 </div>
                 <%-----------------------------------------------------------------------------%>
             </div>
@@ -790,6 +315,8 @@
 
 
 <script type="text/javascript">
+    var hastable = true;
+
     //后台获得资料，方便以后调用
     var rows = [];
     var details = [];
@@ -829,54 +356,107 @@
         $('#dg').datagrid('reload');
     }
 
-
     $(function () {
-        aboutHidden();
         getSelects();
+        addHidden();
+        var orderid = $(" .orderid").val();
+        if (orderid != "") {
+            var data = {"id": orderid}
+            //填充上部信息
+            $.ajax({
+                url: "/Ordermain/selectById",
+                type: "POST",
+                dataType: "json",
+                async: false,
+                data: data,
+                success: function (ordermain) {
+                    if ($("#order-code")[0]) $("#order-code").find("input").val(ordermain.ordercode);
+                    if ($("#order-date")[0]) $("#order-date").find("input").val(ordermain.orderdate);
+                    if ($("#order-shopid")[0]) $("#order-shopid").find("select").find("[value=" + ordermain.shopid.id + "]").attr("selected", "selected");
+                    if ($("#order-destshopid")[0]) $("#order-destshopid").find("select").find("[value=" + ordermain.destshopid.id + "]").attr("selected", "selected");
+                    if ($("#order-clientid")[0]) $("#order-clientid").find("select").find("[value=" + ordermain.clientid.id + "]").attr("selected", "selected");
+                    if ($("#order-vipname")[0]) $("#order-vipname").find(".inp-val").val(ordermain.vipid.id);
+                    if ($("#order-vipname")[0]) $("#order-vipname").find(".tb-text").val(ordermain.vipid.name);
+                    if ($("#order-viptel")[0]) $("#order-viptel").find("input").val(ordermain.vipid.tel);
+                    if ($("#order-clientlxr")[0]) $("#order-clientlxr").find("input").val(ordermain.clientid.lxr);
+                    if ($("#order-vipamount")[0]) $("#order-vipamount").find("input").val(ordermain.vipid.amount);
+                    if ($("#order-vippoint")[0]) $("#order-vippoint").find("input").val(ordermain.vipid.point);
+                    if ($("#order-vipaddr")[0]) $("#order-vipaddr").find("input").val(ordermain.vipid.addr);
+                    if ($("#order-amount")[0]) $("#order-amount").find("input").val(ordermain.amount);
+                    if ($("#order-point")[0]) $("#order-point").find("input").val(ordermain.point);
+                    /*if($("#order-money")[0])        $("#order-money").find("input").val(ordermain.point);*/
+                    if ($("#order-fexp")[0]) $("#order-fexp").find("textarea").text(ordermain.fexp);
+                }
+            });
+            if (hastable) {
+                //填充表格
+                $.ajax({
+                    type: "POST", url: "/Orderdetail/selectByAttr", async: false, dataType: "json", data: {
+                        "attrName": "orderid",
+                        "object": $(".orderid").val()
+                    }, success: function (json) {
+                        for (var i = 0; i < json.length; i++) {
+                            var orderdetail = json[i];
+                            //details.push(checkdetail);
+                            rows.push({
+                                id: orderdetail.id,
+                                proid: orderdetail.productid.id,
+                                procode: orderdetail.productid.code,
+                                proname: orderdetail.productid.name,
+                                count: orderdetail.count,
+                                price: orderdetail.price,
+                                amount: orderdetail.amount,
+                                fexp: orderdetail.fexp,
+                            });
+                        }
+                    }
+                });
+            }
+        }
         resetDg();
-//        tableData();
-
-
+        addTextSelect();
     });
+
 
     //获得查询条件下拉列表
     function getSelects() {
-        $.getJSON("/Ordermain/getStatus", function (json) {
-            var tremOpt = json.ordermainInput;
-            var opts;
-            //获得client查询变量
-            opts = tremOpt["7"].input;
-            for (var name in opts) {
-                var opt = $("<option></option>");
-                opt.val(name);
-                opt.html(opts[name]);
-
-                $("[name=clientid]").append(opt);
-            }
-            $("[name=clientid]").change(function () {
-                $.ajax({
-                    url: "/Client/selectById",
-                    data: {id: $(this).val()},
-                    success: function (json) {
-                        $("#order-viptel").find("input").val(json.tel);
-                        $("#order-clientlxr").find("input").val(json.lxr);
-                        $("#order-vipaddr").find("input").val(json.addr);
-                    }
+        $.ajax({
+            url: "/Ordermain/getStatus", async: false, success: function (json) {
+                var tremOpt = json.ordermainInput;
+                var opts;
+                //获得client查询变量
+                opts = tremOpt["7"].input;
+                for (var name in opts) {
+                    var opt = $("<option></option>");
+                    opt.val(name);
+                    opt.html(opts[name]);
+                    $("[name=clientid]").append(opt);
+                }
+                $("[name=clientid]").change(function () {
+                    $.ajax({
+                        url: "/Client/selectById",
+                        data: {id: $(this).val()},
+                        async: false,
+                        success: function (json) {
+                            $("#order-viptel").find("input").val(json.tel);
+                            $("#order-clientlxr").find("input").val(json.lxr);
+                            $("#order-vipaddr").find("input").val(json.addr);
+                        }
+                    });
                 });
 
-            });
-
-            //获得shop查询变量
-            opts = tremOpt["9"].input;
-            for (var name in opts) {
-                var opt = $("<option></option>");
-                opt.val(name);
-                opt.html(opts[name]);
-                $("[name=shopid]").append(opt);
-                $("[name=destshopid]").append(opt.clone());
+                //获得shop查询变量
+                opts = tremOpt["9"].input;
+                for (var name in opts) {
+                    var opt = $("<option></option>");
+                    opt.val(name);
+                    opt.html(opts[name]);
+                    $("[name=shopid]").append(opt);
+                    $("[name=destshopid]").append(opt.clone());
+                }
+                //获得标题
+                $(".ordername").html(json.orderTypeArray[$(".ordertype").val() - 1]);
             }
-            //获得标题
-            $(".ordername").html(json.orderTypeArray[$(".ordertype").val() - 1]);
         });
     }
 
@@ -885,93 +465,220 @@
         //alert(1);
         if (!span[0].hasAttribute("change")) {
             span.attr("change", "");
-            span.find(".textbox-text").change(function () {
-                var value = span.find(".textbox-value").val();
-                if (!value || value.length == 0) return;
+            span.find(".tb-text").change(function () {
+                var value = span.find(".tb-text").val();
+                var opts = $(".tb-opts");
+                opts.empty();
+                if (!value) return;
                 $.getJSON("/Vip/getByName", {"name": value}, function (result) {
-                    var opts = $(".combo-panel");
-                    opts.empty();
                     for (var i = 0; i < result.length; i++) {
                         var obj = result[i];
-                        //alert(JSON.stringify(obj));
-                        var opt = $("<div id='_easyui_combobox_i1_0' " +
-                            "class='combobox-item combobox-item-selected' " +
-                            "val='" + obj.id + "' " +
-                            "style='display: block;'>" + obj.name + "</div>");
-                        opts.append(opt);
+                        var opt = $("<div " +
+                            "class='tb-opt' " +
+                            "obj-id='" + obj.id + "' " +
+                            "obj-tel='" + obj.tel + "' " +
+                            "obj-amount='" + obj.amount + "' " +
+                            "obj-point='" + obj.point + "' " +
+                            "obj-addr='" + obj.addr + "' " +
+                            ">" + obj.name + "</div>");
                         opt.click(function () {
-                            span.find(".inp-val").val(obj.id);
-                            span.find(".textbox-text").val(obj.name);
-                            span.find(".textbox-value").val(obj.name);
-                            opt.attr("selected", "selected");
+                            span.find(".inp-val").val($(this).attr("obj-id"));
+                            span.find(".tb-text").val($(this).html());
 
-                            $("#order-viptel").find("input").val(obj.tel);
-                            $("#order-vipamount").find("input").val(obj.amount);
-                            $("#order-vippoint").find("input").val(obj.point);
-                            $("#order-vipaddr").find("input").val(obj.addr);
-
+                            $("#order-viptel").find("input").val($(this).attr("obj-tel"));
+                            $("#order-vipamount").find("input").val($(this).attr("obj-amount"));
+                            $("#order-vippoint").find("input").val($(this).attr("obj-point"));
+                            $("#order-vipaddr").find("input").val($(this).attr("obj-addr"));
                         });
+                        opts.append(opt);
                     }
                 });
             });
         }
     }
 
-    //各个表单隐藏与显示情况
-    function aboutHidden() {
-        var orderType = $(".orderType").val();
-        if (orderType == 1 || orderType == 2) {
+    function add() {
+        var name = $(".tremName").val();
+        $.ajax({
+            url: "/Product/getProduct",
+            type: "POST",
+            dataType: "json",
+            data: {"name": name},
+            success: function (pros) {
+                if (pros.length == 0) showMsg("没找到相关商品");
+                else {
+                    var pro = pros[0];
+                    var urlpart = "";
+                    for (var i = 0; i < pros.length; i++) {
+                        var obj = pros[i];
+                        urlpart += "proid=" + obj.id + "&proname=" + obj.name + "&";
+                    }
+                    showPage("增加盘点商品", "/table/Ordermain/addpro.jsp?" + urlpart.substring(0, urlpart.length - 1),
+                        800, 300,
+                        function () {
+                            for (var i = 0; i < details.length; i++) {
+                                var detail = details[i];
+                                rows.push({
+                                    proid: detail.productid.id,
+                                    procode: detail.productid.code,
+                                    proname: detail.productid.name,
+                                    count: detail.count,
+                                    price: detail.price,
+                                    amount: detail.amount,
+                                    fexp: detail.fexp,
+                                });
+                            }
+                            resetDg();
+                            details = [];
+                        }, false, true);
+                }
+            }
+        });
+    }
+
+    function save() {
+        if (!$("[name=ordercode]").val()
+            || !$("[name=orderdate]").val()
+            || ($("[name=vipid]")[0] && !$("[name=vipid]").val())) {
+            showMsg("信息不全！");
+            return;
+        }
+        $("[name=shopid]").attr("name", "shopid.id");
+        $("[name=destshopid]").attr("name", "destshopid.id");
+        $("[name=userid]").attr("name", "userid.id");
+        $("[name=vipid]").attr("name", "vipid.id");
+        $("[name=clientid]").attr("name", "clientid.id");
+        var formDate = $('.form').serializeObject();//主表数据
+        var action = "";
+        if ($(".orderid").val()) action = "/Ordermain/update1";
+        else action = "/Ordermain/insert1";
+        //传主表
+        var mainId;
+        $.ajax({
+            url: action,
+            type: "POST",
+            async: false,
+            dataType: "JSON",
+            data: formDate,
+            success: function (json) {
+                if (json.status == 1) mainId = json.info;
+                else showMsg(json.info);
+            }
+        });
+        if (hastable) {
+            $(".orderid").val(mainId);
+            var rows = $('#dg').datagrid("getRows");//获得表格内所有数据
+            for (var i = 0; i < rows.length; i++) {
+                var rowData = rows[i];//获取单行数据
+                //alert(rowData.proid);
+                var data = {
+                    "orderid.id": mainId,
+                    "productid.id": rowData.proid,
+                    "count": rowData.count,
+                    "price": rowData.price,
+                    "amount": rowData.amount,
+                    "fexp": rowData.fexp
+                };
+                var action2 = "/Ordermain/insert2";
+                if (rowData.id) action2 = "/Ordermain/update2"
+                $.ajax({
+                    url: action2,
+                    async: false,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (jsondls) {
+                        if (jsondls.status == 1) {
+                            if (jsondls.info) window.rows[i].id = jsondls.info;//将最新id给相应行
+                        }
+                        else {
+                            showMsg(jsondls.info);
+                            return;
+                        }
+                    }
+                });
+            }
+            resetDg();//重写表格内容
+        }
+        showMsg("保存完成");
+        closePage();
+    }
+
+    function addHidden() {
+        var type = $(".ordertype").val();
+        if (type == 1 || type == 2) {
+            hastable = false;
+            $("#name-detail").remove();
+            $("#add-detail").remove();
+            $("#program-detail").remove();
+
             $("#order-amount").find("input").removeAttr("disabled");
             $("#order-point").find("input").removeAttr("disabled");
-            $("#order-clientid").css("display", "none");
-            $("#order-clientid").find("select").removeAttr("name");
-            $("#order-destshopid").css("display", "none");
-            $("#order-destshopid").find("select").removeAttr("name");
-            $("#order-clientlxr").css("display", "none");
+            $("#order-clientid").remove();
+            $("#order-destshopid").remove();
+            $("#order-clientlxr").remove();
+        } else if (type == 3 || type == 4) {
+            $("#program-detail").remove();
 
-        }
-        else if (orderType == 3 || orderType == 4) {
-            $("#order-shopid").css("display", "none");
-            $("#order-shopid").find("select").removeAttr("name");
-            $("#order-vipname").css("display", "none");
-            $("#order-vipname").find("input").removeAttr("name");
-            $("#order-vipamount").css("display", "none");
-            $("#order-vippoint").css("display", "none");
-        }
-        else if (orderType == 5 || orderType == 6) {
-            $("#order-destshopid").css("display", "none");
-            $("#order-destshopid").removeAttr("name");
-            $("#order-clientid").css("display", "none");
-            $("#order-clientid").removeAttr("name");
-            $("#order-clientlxr").css("display", "none");
-            var temp = $("<span id='order-money' style='position: relative;left:150px;top: 60px;'><span class='con-span'>现金支付</span><input class='trem-input in-line' type='text' name='money'></span>");
-            $(".first-trem>div").append(temp);
-        }
-        else if (orderType == 7 || orderType == 8 || orderType == 9) {
+            $("#order-shopid").remove();
+            $("#order-vipname").remove();
+            $("#order-vipamount").remove();
+            $("#order-vippoint").remove();
+        } else if (type == 5 || type == 6) {
+            $("#order-destshopid").remove();
+            $("#order-clientid").remove();
+            $("#order-clientlxr").remove();
+            var subinp = $("#order-money").removeClass("none").find(".trem-input");
+            subinp.attr("name", subinp.attr("name2"));
+        } else if (type == 7 || type == 8 || type == 9) {
+            $("#program-detail").remove();
 
-            $("#order-vipname").css("display", "none");
-            $("#order-vipname").removeAttr("name");
-            $("#order-clientlxr").css("display", "none");
-            $("#order-viptel").css("display", "none");
-            $("#order-vipamount").css("display", "none");
-            $("#order-vippoint").css("display", "none");
-            $("#order-vipaddr").css("display", "none");
-            $("#order-clientid").css("display", "none");
-            $("#order-clientid").removeAttr("name");
-            if (orderType == 8 || orderType == 9) {
-                $("#order-destshopid").css("display", "none");
-                $("#order-destshopid").removeAttr("name");
-            }
-        }
-        else if (orderType == 10 || orderType == 11) {
-            $("#order-destshopid").css("display", "none");
-            $("#order-destshopid").removeAttr("name");
-            $("#order-clientid").css("display", "none");
-            $("#order-clientid").removeAttr("name");
-            $("#order-clientlxr").css("display", "none");
+            $("#order-vipname").remove();
+            $("#order-clientlxr").remove();
+            $("#order-viptel").remove();
+            $("#order-vipamount").remove();
+            $("#order-vippoint").remove();
+            $("#order-vipaddr").remove();
+            $("#order-clientid").remove();
+            if (type == 8 || type == 9) $("#order-destshopid").remove();
+        } else if (type == 10 || type == 11) {
+            $("#program-detail").remove();
+
+            $("#order-destshopid").remove();
+            $("#order-clientid").remove();
+            $("#order-clientlxr").remove();
         }
     }
 
+    function addTextSelect() {
+        var optsArray = $(".tb-opts");
+        for (var i = 0; i < optsArray.length; i++) {
+            var opts = optsArray.eq(i);
+            var tb = $("[id=" + opts.attr("tbid") + "]");
+            opts.css({
+                "width": tb.innerWidth(),
+                "left": getBodyLeft(tb[0]),
+                "top": getBodyTop(tb[0]) + tb.innerHeight() + tb.siblings(".con-span").height()
+            });
+            opts.addClass("none");
+            tb.find(".tb-text").blur(function () {
+                $(document).on('click', function (e) {
+                    if ($(e.target).parent(".textBox").attr("id") != opts.attr("tbid")) {
+                        opts.addClass("none");
+                    }
+                });
+            });
+            $("body").append(opts);
+        }
+    }
+
+    function disOpts(a) {
+        a.siblings(".tb-text")[0].focus();
+        var tbid = a.parent(".textBox").attr("id");
+        var opts = $("[tbid=" + tbid + "]");
+        if (opts.hasClass("none")) opts.removeClass("none");
+        else opts.addClass("none");
+    }
 </script>
 </body>
 </html>

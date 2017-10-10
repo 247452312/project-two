@@ -25,7 +25,7 @@ function showPage(title,url,width,height,closeCallBack,full,maxmin) {
 			maxmin:maxmin,//是否最大化
 			area:[width+'px',height+'px'],//尺寸
 			content:url,//地址
-            scrollbar: false,
+            /*scrollbar: true,*/
 			end:function(){
 				if(closeCallBack)
 					closeCallBack();
