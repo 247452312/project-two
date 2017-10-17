@@ -672,7 +672,6 @@
     }
 
     function addTextSelect() {
-    function addTextSelect() {
         var optsArray = $(".tb-opts");
         for (var i = 0; i < optsArray.length; i++) {
             var opts = optsArray.eq(i);
