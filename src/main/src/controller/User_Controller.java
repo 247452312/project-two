@@ -106,11 +106,10 @@ public class User_Controller extends Basic_Controller<User> {
     @RequestMapping("ajax1")
     public @ResponseBody
     JsonData ajax(@RequestParam("cmd") String cmd, User user, HttpSession session) {
+        if (user.getUserid() == null) user.setUserid(new User(0));
         if (cmd.equals("update")) {
             service.update(user);
         } else if (cmd.equals("add")) {
-            if (user.getUserid() == null)
-                user.setUserid(new User(0));
             service.insert(user);
         }
         return new JsonData(1, service.getNew().toString());

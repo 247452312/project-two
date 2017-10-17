@@ -137,7 +137,13 @@ public class Basic_Controller<T> {
 
     @RequestMapping("selectByAttr")
     public @ResponseBody
-    List<T> selectByAttr(String attrName, Object object) {
-        return getService().getByAttr(new JsonData1(attrName, object));
+    List<T> selectByAttr(String attrName,Object object) {
+        return getService().getByAttr(new JsonData1(attrName,object));
+    }
+
+    @RequestMapping("selectByAttrLS")
+    public @ResponseBody
+    ListAndSearchInfo<T> selectByAttrLS(JsonData1 json) {
+        return new ListAndSearchInfo<T>(null,getService().getByAttr(json));
     }
 }

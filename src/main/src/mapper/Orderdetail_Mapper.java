@@ -60,7 +60,16 @@ public interface Orderdetail_Mapper extends Basic_Mapper<Orderdetail> {
 	@Delete("delete from orderdetail where id = ${id}")
 	public void delete(int id);
 
-	@Update("update orderdetail set amount=#{amount},fexp=#{fexp},point=#{point},price=#{price},count=#{count},productid=#{productid.id},orderid=#{orderid.id},cbprice=#{cbprice}  where id = #{id}")
+	@Update("update orderdetail set " +
+			"amount=#{amount}," +
+			"fexp=#{fexp}," +
+			"point=#{point}," +
+			"price=#{price}," +
+			"count=#{count}," +
+			"productid=#{productid.id}," +
+			"orderid=#{orderid.id}," +
+			"cbprice=#{cbprice}  " +
+			"where id = #{id}")
 	public void update(Orderdetail t);
 
 	@Select("select count(1) from orderdetail #{where}")

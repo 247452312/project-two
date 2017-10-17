@@ -46,14 +46,14 @@
             vertical-align: top;
             resize: none;
             width: 89%;
-            height: 100px;
+            height: 80px;
             box-sizing: content-box;
             margin-top: 7px;
         }
 
         .conditions .con-span {
             text-align: center;
-            width: 80px;
+            width: 7%;
         }
 
         .textBox {
@@ -116,7 +116,7 @@
        value="${param.ordertype==null?
         (requestScope.object.ordertype==null?9:requestScope.object.ordertype)
         :param.ordertype}">
-<input type="hidden" class=" orderid" value="${param.orderid}">
+<input type="hidden" class="orderid" value="${param.orderid}">
 <div class="container">
     <table id="dg" style="width:100%;height:529px" title="" data-options="
             rownumbers:true,
@@ -143,11 +143,11 @@
             <c:if test="${param.ordertype==3||param.ordertype==4||
                             requestScope.object.ordertype==3||
                             requestScope.object.ordertype==4}">
-                <th field="procode" width="12%" editor="text">商品编号</th>
-                <th field="proname" width="12%" editor="text">商品名称</th>
-                <th field="count" width="12%" editor="numberbox">数量</th>
-                <th field="price" width="12%" editor="numberbox">售价</th>
-                <th field="amount" width="12%" editor="numberbox">金额小计</th>
+                <th field="procode" width="12%">商品编号</th>
+                <th field="proname" width="12%">商品名称</th>
+                <th field="count" width="12%">数量</th>
+                <th field="price" width="12%">售价</th>
+                <th field="amount" width="12%">金额小计</th>
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
             <%--销售单--%><%--销售退货单--%>
@@ -156,10 +156,10 @@
                             requestScope.object.ordertype==6}">
                 <th field="procode" width="12%">商品编号</th>
                 <th field="proname" width="12%">商品名称</th>
-                <th field="count" width="12%" editor="numberbox">数量</th>
-                <th field="price" width="12%" editor="numberbox">售价</th>
-                <th field="amount" width="12%" editor="numberbox">金额小计</th>
-                <th field="point" width="12%" editor="numberbox">积分小计</th>
+                <th field="count" width="12%">数量</th>
+                <th field="price" width="12%">售价</th>
+                <th field="amount" width="12%">金额小计</th>
+                <th field="point" width="12%">积分小计</th>
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
             <%--移库单--%><%--库损单--%><%--库溢单--%>
@@ -167,8 +167,8 @@
                             requestScope.object.ordertype==7||
                             requestScope.object.ordertype==8||
                             requestScope.object.ordertype==9}">
-                <th field="procode" width="12%" editor="text">商品编号</th>
-                <th field="proname" width="12%" editor="text">商品名称</th>
+                <th field="procode" width="12%">商品编号</th>
+                <th field="proname" width="12%">商品名称</th>
                 <th field="count" width="12%" editor="numberbox">数量</th>
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
@@ -176,11 +176,11 @@
             <c:if test="${param.ordertype==10||param.ordertype==11||
                         requestScope.object.ordertype==10||
                         requestScope.object.ordertype==11}">
-                <th field="procode" width="12%" editor="text">商品编号</th>
-                <th field="proname" width="12%" editor="text">商品名称</th>
-                <th field="count" width="12%" editor="numberbox">数量</th>
-                <th field="amount" width="12%" editor="numberbox">金额小计</th>
-                <th field="point" width="12%" editor="numberbox">积分小计</th>
+                <th field="procode" width="12%">商品编号</th>
+                <th field="proname" width="12%">商品名称</th>
+                <th field="count" width="12%">数量</th>
+                <th field="amount" width="12%">金额小计</th>
+                <th field="point" width="12%">积分小计</th>
                 <th field="fexp" width="12%" editor="text">明细备注</th>
             </c:if>
         </tr>
@@ -197,9 +197,10 @@
                    type="text" id="name-detail" placeholder="商品名称"
                    style="margin-right: 5px;width: 20%">
             <a onclick="save();" class="easyui-linkbutton float-right"
+               id="save"
                iconCls="icon-save"
                data-options="selected:true">保存</a>
-            <a onclick="add();" class="easyui-linkbutton a-program float-right"
+            <a onclick="prog();" class="easyui-linkbutton a-program float-right"
                iconCls="icon-list" id="program-detail"
                data-options="selected:true">项目</a>
             <div class="float-clear"></div>
@@ -304,8 +305,6 @@
                         <span class="con-span">备注</span>
                         <textarea class="trem-textarea in-line" name="fexp"></textarea>
                     </div>
-
-                    <div class="float-clear"></div>
                 </div>
                 <%-----------------------------------------------------------------------------%>
             </div>
@@ -318,39 +317,59 @@
     var hastable = true;
 
     //后台获得资料，方便以后调用
-    var rows = [];
-    var details = [];
+    var rows = [];//表格总数据
+    var List = [];//总集合
+    var ajaxJson = [];//数据库
+    var details = [];//销售物品
+    var progs = [];//项目赠品
 
     //传送数据获取表格信息
     function tableData(form) {
-        rows = [];
-        var data = [];
-        $.ajax({
-            type: "POST", url: "/Ordermain/selectByAll", dataType: "json", data: data, success: function (json) {
-                for (var i = 0; i < json.list.length; i++) {
-                    var ordermain = json.list[i];
-                    rows.push({
-                        id: ordermain.id,
-                        code: ordermain.ordercode,
-                        type: ordermain.typeString,
-                        date: ordermain.orderdate,
-                        amount: ordermain.amount,
-                        vipamount: ordermain.vipamount,
-                        point: ordermain.point,
-                        client: ordermain.clientid.name,
-                        vip: ordermain.vipid.name,
-                        shop: ordermain.shopid.name,
-                        destshop: ordermain.destshopid.name,
-                        status: ordermain.statusString,
-                        fexp: ordermain.fexp,
-                    });
+        if ($(".orderid").val()) {
+            var data = {
+                "attrName": "orderid",
+                "o": $(".orderid").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Orderdetail/selectByAttrLS",
+                dataType: "json",
+                data: data,
+                async: false,
+                success: function (json) {
+                    ajaxJson = json.list;
                 }
-            }
-        });
+            });
+        }
+        resetDg();
     }
 
     //重新添加表格数据
     function resetDg() {
+        //整合三方数据
+        rows = [];
+        List = ajaxJson.concat(details).concat(progs);
+        var proglen = ajaxJson.length + details.length;
+        //showMsg(JSON.stringify(List))
+        for (var i = 0; i < List.length; i++) {
+            var orderdetail = List[i];
+            rows.push({
+                id: orderdetail.id,
+                proid: orderdetail.productid.id,
+                procode: orderdetail.productid.code,
+                proname: orderdetail.productid.name,
+                count: orderdetail.count,
+                price: orderdetail.price,
+                amount: (i >= proglen) ? 0 : orderdetail.amount,
+                point: (i >= proglen) ? 0 : orderdetail.point,
+                fexp: orderdetail.fexp
+            });
+        }
+        //有项目，不能改人
+        if (progs.length > 0) {
+            $("#tb-vipname").find(".tb-text").attr("disabled", "disabled");
+            $("select[name=shopid]").attr("disabled", "disabled");
+        }
         $(".datagrid-body").find("tbody").remove();
         $('#dg').datagrid({data: rows}).datagrid('clientPaging');
         $('#dg').datagrid('reload');
@@ -391,24 +410,11 @@
             if (hastable) {
                 //填充表格
                 $.ajax({
-                    type: "POST", url: "/Orderdetail/selectByAttr", async: false, dataType: "json", data: {
+                    type: "POST", url: "/Orderdetail/selectByAttrLS", async: false, dataType: "json", data: {
                         "attrName": "orderid",
-                        "object": $(".orderid").val()
+                        "o": $(".orderid").val()
                     }, success: function (json) {
-                        for (var i = 0; i < json.length; i++) {
-                            var orderdetail = json[i];
-                            //details.push(checkdetail);
-                            rows.push({
-                                id: orderdetail.id,
-                                proid: orderdetail.productid.id,
-                                procode: orderdetail.productid.code,
-                                proname: orderdetail.productid.name,
-                                count: orderdetail.count,
-                                price: orderdetail.price,
-                                amount: orderdetail.amount,
-                                fexp: orderdetail.fexp,
-                            });
-                        }
+                        ajaxJson = json.list;
                     }
                 });
             }
@@ -507,6 +513,7 @@
             success: function (pros) {
                 if (pros.length == 0) showMsg("没找到相关商品");
                 else {
+                    //details = [];
                     var pro = pros[0];
                     var urlpart = "";
                     for (var i = 0; i < pros.length; i++) {
@@ -514,22 +521,9 @@
                         urlpart += "proid=" + obj.id + "&proname=" + obj.name + "&";
                     }
                     showPage("增加盘点商品", "/table/Ordermain/addpro.jsp?" + urlpart.substring(0, urlpart.length - 1),
-                        800, 300,
+                        700, 300,
                         function () {
-                            for (var i = 0; i < details.length; i++) {
-                                var detail = details[i];
-                                rows.push({
-                                    proid: detail.productid.id,
-                                    procode: detail.productid.code,
-                                    proname: detail.productid.name,
-                                    count: detail.count,
-                                    price: detail.price,
-                                    amount: detail.amount,
-                                    fexp: detail.fexp,
-                                });
-                            }
                             resetDg();
-                            details = [];
                         }, false, true);
                 }
             }
@@ -550,10 +544,13 @@
         $("[name=clientid]").attr("name", "clientid.id");
         var formDate = $('.form').serializeObject();//主表数据
         var action = "";
-        if ($(".orderid").val()) action = "/Ordermain/update1";
+        var mainId;
+        if ($(".orderid").val()) {
+            action = "/Ordermain/update1";
+            mainId = $(".orderid").val();
+        }
         else action = "/Ordermain/insert1";
         //传主表
-        var mainId;
         $.ajax({
             url: action,
             type: "POST",
@@ -561,26 +558,32 @@
             dataType: "JSON",
             data: formDate,
             success: function (json) {
-                if (json.status == 1) mainId = json.info;
+                if (json.status == 1 && !$(".orderid").val())
+                    mainId = json.info;
                 else showMsg(json.info);
             }
         });
         if (hastable) {
+            //alert(mainId)
             $(".orderid").val(mainId);
             var rows = $('#dg').datagrid("getRows");//获得表格内所有数据
             for (var i = 0; i < rows.length; i++) {
                 var rowData = rows[i];//获取单行数据
                 //alert(rowData.proid);
                 var data = {
+                    id: rowData.id,
                     "orderid.id": mainId,
                     "productid.id": rowData.proid,
-                    "count": rowData.count,
-                    "price": rowData.price,
-                    "amount": rowData.amount,
-                    "fexp": rowData.fexp
+                    count: rowData.count,
+                    price: rowData.price,
+                    amount: rowData.amount,
+                    fexp: rowData.fexp
                 };
                 var action2 = "/Ordermain/insert2";
-                if (rowData.id) action2 = "/Ordermain/update2"
+                if (rowData.id) {
+                    action2 = "/Ordermain/update2"
+                    //if(rowData.amount==0) action2 = "/Ordermain/update3"
+                }
                 $.ajax({
                     url: action2,
                     async: false,
@@ -589,7 +592,8 @@
                     data: data,
                     success: function (jsondls) {
                         if (jsondls.status == 1) {
-                            if (jsondls.info) window.rows[i].id = jsondls.info;//将最新id给相应行
+                            if (jsondls.info)
+                                window.rows[i].id = jsondls.info;//将最新id给相应行
                         }
                         else {
                             showMsg(jsondls.info);
@@ -647,9 +651,27 @@
             $("#order-destshopid").remove();
             $("#order-clientid").remove();
             $("#order-clientlxr").remove();
+            /*$("#order-amount").find("input").removeAttr("disabled");
+            $("#order-point").find("input").removeAttr("disabled");*/
         }
+        //对所有选项进行分组
+        var $spanDiv = $(".search-trem>div");
+        var $spans = $spanDiv.children("span");
+        var divpart;
+        for (var i = 0; i < $spans.length; i++) {
+            var span = $spans.eq(i);
+            //每行五个
+            if (i % 5 == 0) {
+                divpart = $("<div></div>");
+                $spanDiv.append(divpart)
+            }
+            divpart.append(span)
+        }
+        //单独添加注释
+        $spanDiv.append($("#order-fexp"));
     }
 
+    function addTextSelect() {
     function addTextSelect() {
         var optsArray = $(".tb-opts");
         for (var i = 0; i < optsArray.length; i++) {
@@ -658,14 +680,14 @@
             opts.css({
                 "width": tb.innerWidth(),
                 "left": getBodyLeft(tb[0]),
-                "top": getBodyTop(tb[0]) + tb.innerHeight() + tb.siblings(".con-span").height()
+                "top": getBodyTop(tb[0]) + tb.innerHeight()/*+tb.siblings(".con-span").height()*/
             });
             opts.addClass("none");
             tb.find(".tb-text").blur(function () {
                 $(document).on('click', function (e) {
-                    if ($(e.target).parent(".textBox").attr("id") != opts.attr("tbid")) {
+                    if ($(e.target).parent(".textBox").length <= 0
+                        || $(e.target).parent(".textBox").attr("id") != opts.attr("tbid"))
                         opts.addClass("none");
-                    }
                 });
             });
             $("body").append(opts);
@@ -673,11 +695,40 @@
     }
 
     function disOpts(a) {
+        if (a.siblings(".tb-text").attr("disabled") == "disabled") return;
         a.siblings(".tb-text")[0].focus();
         var tbid = a.parent(".textBox").attr("id");
         var opts = $("[tbid=" + tbid + "]");
         if (opts.hasClass("none")) opts.removeClass("none");
         else opts.addClass("none");
+        var tb = $("[id=" + opts.attr("tbid") + "]");
+        opts.css({
+            "width": tb.innerWidth(),
+            "left": getBodyLeft(tb[0]),
+            "top": getBodyTop(tb[0]) + tb.innerHeight()
+        });
+    }
+
+    //打开项目
+    function prog() {
+        var url = "/table/Ordermain/prog.jsp" +
+            "?ordertype=" + $(".ordertype").val() +
+            "&shop=" + $("[name=shopid]").val();
+        var vip = $("[name=vipid]").val();
+        if (vip) url += "&vip=" + vip;
+        else {
+            showMsg("请选择会员");
+            return;
+        }
+        for (var i = 0; i < rows.length; i++) {
+            var rid = rows[i].id;
+            url += "&id=" + rid;
+        }
+        showPage("选择项目",
+            url,
+            800, 400, function () {
+                tableData();
+            }, false, false)
     }
 </script>
 </body>

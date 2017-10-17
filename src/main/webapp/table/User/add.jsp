@@ -147,7 +147,7 @@
             for (var i = 0; i < boxarray.length; i++) {
                 var box = boxarray[i];
                 var label=$("<label></label>").attr("for","boxid"+i);
-                var input=$("<input/>").attr("type","checkbox").attr("id","boxid"+i).attr("name","powerlist");
+                var input=$("<input/>").attr("type","checkbox").attr("id","boxid"+i);
                 if(fright.substring(i,i+1)==1) input.prop("checked","checked");
                 label.append(input);
                 label.append(box);
