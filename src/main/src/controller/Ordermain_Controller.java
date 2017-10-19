@@ -43,7 +43,9 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
     public @ResponseBody
     JsonData insertType2(Orderdetail orderdetail) {
         oservice.insert(orderdetail);
+        Ordermain main = service.getById(orderdetail.getOrderid().getId());
         service.updateAttr(new JsonData1("amount", orderdetail.getOrderid().getId(), orderdetail.getAmount()));
+        service.updateAttr(new JsonData1("vipamount", orderdetail.getOrderid().getId(), orderdetail.getAmount() + orderdetail.getOrderid().getVipamount()));
         return new JsonData(1, "" + service.getNew().getId());
     }
 
@@ -58,6 +60,17 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
     @RequestMapping("update2")
     public @ResponseBody
     JsonData update2(Orderdetail od) {
+        Orderdetail od1 = oservice.getById(od.getId());
+        if (od1.getOrderid().getOrdertype() == 10) {
+            ListAndSearchInfo<Orderdetail> prog = selectProg(11, od1.getOrderid().getVipid().getId(), od1.getOrderid().getShopid().getId());
+            for (Orderdetail orderdetail : prog.list) {
+                if (orderdetail.getProductid().getId() == od.getProductid().getId()) {
+                    od.setCount(od.getCount() - orderdetail.getCount());
+                    orderdetail.getOrderid().setId(0);
+                    oservice.update(orderdetail);
+                }
+            }
+        }
         oservice.update(od);
         service.updateAttr(new JsonData1("amount", od.getOrderid().getId(), od.getAmount()));
         return new JsonData(1);
@@ -92,6 +105,7 @@ public class Ordermain_Controller extends Basic_Controller<Ordermain> {
                         lasi10.list.remove(orderdetail);
                     } else {
                         orderdetail.setCount(orderdetail.getCount() - orderdetail1.getCount());
+                        orderdetail.setAmount(orderdetail.getAmount() - orderdetail1.getAmount());
                     }
                 }
             }

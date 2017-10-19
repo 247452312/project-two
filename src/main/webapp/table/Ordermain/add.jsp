@@ -298,7 +298,7 @@
 
                     <span id='order-money' class="none">
                         <span class='con-span'>现金支付</span>
-                        <input class='trem-input in-line' type='text' name2='money'>
+                        <input class='trem-input in-line' type='number' name2='money'>
                     </span>
 
                     <div id="order-fexp">
@@ -531,17 +531,48 @@
     }
 
     function save() {
-        if (!$("[name=ordercode]").val()
-            || !$("[name=orderdate]").val()
-            || ($("[name=vipid]")[0] && !$("[name=vipid]").val())) {
+        if(!$("[name=ordercode]").val()
+        || !$("[name=orderdate]").val()
+        ||($("#order-vipname")&&!$("#tb-vipname").find(".tb-text").val())){
             showMsg("信息不全！");
             return;
         }
+        //对会员进行确认
+        var hasVip=true;
+        var viptext=$("#tb-vipname").find(".tb-text").val();
+        var vipid=$("#order-vipname").find("[name=vipid]").val();
+        if($("#order-vipname")){
+            $.ajax({
+                url:"/Vip/selectByAttr",
+                data:{"attrName":"name","object":viptext},
+                dataType:"JSON",
+                type:"POST",
+                async:false,
+                success:function (vip) {
+                    if(vip.length<=0){
+                        showMsg("此会员不存在");
+                        hasVip=false;
+                        return;
+                    }else{
+                        $("#order-vipname").find("[name=vipid]").val(vip[0].id);
+                        $("#order-viptel").find("input").val(vip[0].tel);
+                        $("#order-vipamount").find("input").val(vip[0].amount);
+                        $("#order-vippoint").find("input").val(vip[0].point);
+                        $("#order-vipaddr").find("input").val(vip[0].addr);
+                    }
+                }
+            });
+        }
+        if(!hasVip) return;
+
+        $("[name=shopid]").attr("disabled", false);
         $("[name=shopid]").attr("name", "shopid.id");
         $("[name=destshopid]").attr("name", "destshopid.id");
         $("[name=userid]").attr("name", "userid.id");
         $("[name=vipid]").attr("name", "vipid.id");
         $("[name=clientid]").attr("name", "clientid.id");
+        $("[name2=money]").attr("name", "vipamount");
+        $("[name2=money]").val(-$("[name2=money]").val());
         var formDate = $('.form').serializeObject();//主表数据
         var action = "";
         var mainId;
@@ -574,6 +605,7 @@
                     id: rowData.id,
                     "orderid.id": mainId,
                     "productid.id": rowData.proid,
+                    "shopid.id": rowData.shopid,
                     count: rowData.count,
                     price: rowData.price,
                     amount: rowData.amount,
